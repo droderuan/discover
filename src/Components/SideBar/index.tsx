@@ -38,12 +38,13 @@ const SideBar: React.FC = () => {
   return (
     <Box width={{ base: '35px', md: '50px' }}>
       <Flex
-        height="100%"
+        h="min"
         backgroundColor="pink.600"
         paddingX={{ base: 1, md: 2 }}
         position="fixed"
         justify="center"
         paddingTop="4"
+        borderBottomRightRadius="full"
       >
         <Stack spacing={{ base: 4, md: 8 }}>
           <Link to="/accounts/login">
@@ -56,6 +57,7 @@ const SideBar: React.FC = () => {
               onClick={authStore.logout}
             />
           )}
+          <SideBarButton icon={BsFillGridFill} visibility="hidden" />
         </Stack>
       </Flex>
     </Box>

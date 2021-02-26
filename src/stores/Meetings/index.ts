@@ -7,6 +7,7 @@ export interface IMeeting {
   user: {
     name: string;
     occupation: string;
+    profile_url: string;
   };
   platform: {
     name: string;
@@ -27,6 +28,7 @@ export default class Mettings implements IMeeting {
   user = {
     name: '',
     occupation: '',
+    profile_url: '',
   };
 
   platform = {

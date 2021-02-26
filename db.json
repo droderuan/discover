@@ -19,11 +19,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
@@ -48,11 +49,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
@@ -77,11 +79,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
@@ -106,11 +109,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
@@ -135,11 +139,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
@@ -164,11 +169,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
@@ -193,446 +199,12 @@
       ],
       "user": {
         "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
+        "occupation": "Intert at Incentive.me",
+        "profile_url": "https://desafio-tractian.s3.amazonaws.com/09935b39f9-gatinha-linda.jpg"
       },
       "platform": {
         "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
-      },
-      "date": {
-        "full_date": "2021-03-30T19:00:00-03:00"
-      }
-    },
-    {
-      "title": "O dia-a-dia das metodologias ágeis",
-      "description": "Hoje iremos conversar sobre como essa abordagem é feita dentro da rocketseat. Se junte conosco!",
-      "tags": [
-        {
-          "name": "Brazil"
-        },
-        {
-          "name": "Typescript"
-        },
-        {
-          "name": "NodeJs"
-        },
-        {
-          "name": "REST"
-        }
-      ],
-      "user": {
-        "name": "Ruan Ferreira",
-        "occupation": "Intert at Incentive.me"
-      },
-      "platform": {
-        "name": "Twitch",
-        "icon": "algum link"
+        "icon": "https://desafio-tractian.s3.amazonaws.com/TwitchGlitchPurple.png"
       },
       "date": {
         "full_date": "2021-03-30T19:00:00-03:00"
