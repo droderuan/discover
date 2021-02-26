@@ -12,6 +12,7 @@ import {
   Link,
   Center,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -26,6 +27,7 @@ interface FormValuesProps {
 const FormLogin: React.FC = () => {
   const { authStore } = useStore();
   const [isLoading, setisLoading] = useState(false);
+  const toast = useToast();
 
   const formValues = {
     email: '',
@@ -42,9 +44,26 @@ const FormLogin: React.FC = () => {
   const handleSubmit = useCallback(
     ({ email, password }: FormValuesProps) => {
       setisLoading(true);
-      authStore.login({ email, password }).then(() => setisLoading(false));
+      try {
+        authStore.login({ email, password }).finally(() => setisLoading(false));
+        toast({
+          title: 'Success',
+          description: 'Redirecting you to home',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (err) {
+        toast({
+          title: 'Something went wrong',
+          description: 'Please, verify the email and your password',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     },
-    [authStore],
+    [authStore, toast],
   );
 
   return (
@@ -57,7 +76,7 @@ const FormLogin: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {props => (
+        {() => (
           <Form>
             <Stack spacing={4}>
               <FormInput name="email" label="Email" type="email" />

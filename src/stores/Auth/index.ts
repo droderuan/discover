@@ -1,6 +1,6 @@
-import { makeAutoObservable, action } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import RootStore from '../Root';
-import { IUser } from '../User';
+import UserStore, { IUser } from '../User';
 
 import api from '../../services/api';
 
@@ -18,7 +18,7 @@ interface IAuth {
 }
 
 class AuthStore implements IAuth {
-  rootStore: RootStore;
+  userStore: UserStore;
 
   user = null;
 
@@ -28,29 +28,25 @@ class AuthStore implements IAuth {
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this);
-    this.rootStore = rootStore;
+    this.userStore = rootStore.userStore;
   }
 
-  @action login = async (data: ILogin): Promise<void> => {
+  login = async ({ email, password }: ILogin): Promise<void> => {
     const response = await api.get('/users', {
       params: {
-        email: data.email,
-        password: data.password,
+        email,
+        password,
       },
     });
 
-    const { userStore } = this.rootStore;
-    userStore.pullUser(response.data[0]);
+    this.userStore.pullUser(response.data[0]);
 
     this.authenticated = true;
     this.token = response.data[0].token;
-
-    console.log(this.authenticated);
   };
 
-  @action logout = (): void => {
-    const { userStore } = this.rootStore;
-    userStore.clearUser();
+  logout = (): void => {
+    this.userStore.clearUser();
 
     this.authenticated = false;
     this.token = null;

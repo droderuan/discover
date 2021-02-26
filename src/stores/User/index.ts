@@ -1,5 +1,4 @@
-import { action, makeAutoObservable } from 'mobx';
-import RootStore from '../Root';
+import { makeAutoObservable } from 'mobx';
 
 export interface IUser {
   id: string;
@@ -9,8 +8,6 @@ export interface IUser {
 }
 
 export default class UserStore implements IUser {
-  rootStore: RootStore;
-
   id = '';
 
   name = '';
@@ -19,19 +16,18 @@ export default class UserStore implements IUser {
 
   email = '';
 
-  constructor(rootStore: RootStore) {
+  constructor() {
     makeAutoObservable(this);
-    this.rootStore = rootStore;
   }
 
-  @action pullUser = (user: IUser): void => {
+  pullUser = (user: IUser): void => {
     this.id = user.id;
     this.name = user.name;
     this.email = user.email;
     this.occupation = user.occupation;
   };
 
-  @action clearUser = (): void => {
+  clearUser = (): void => {
     this.id = '';
     this.name = '';
     this.email = '';

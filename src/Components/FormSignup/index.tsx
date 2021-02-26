@@ -1,19 +1,11 @@
-import React, { useCallback } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import {
-  Button,
-  Flex,
-  Heading,
-  Stack,
-  Divider,
-  Link,
-  Center,
-  Text,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, Stack, Text, useToast } from '@chakra-ui/react';
 import PasswordRegex from '../../utils/passwordRegex';
 import FormInput from '../FormInput';
+import api from '../../services/api';
 
 interface FormValuesProps {
   name: string;
@@ -24,8 +16,11 @@ interface FormValuesProps {
 }
 
 const FormSignup: React.FC = () => {
+  const [isLoading, setisLoading] = useState(false);
+  const history = useHistory();
+  const toast = useToast();
+
   const formValues = {
-    username: '',
     name: '',
     occupation: '',
     email: '',
@@ -50,9 +45,34 @@ const FormSignup: React.FC = () => {
       .required('Password confirmation is required'),
   });
 
-  const handleSubmit = useCallback((values: FormValuesProps) => {
-    console.log(values);
-  }, []);
+  const handleSubmit = useCallback(
+    (values: FormValuesProps) => {
+      setisLoading(true);
+      const body = { ...values, id: values.name + Date.now() };
+      try {
+        api.post('/users', { ...body }).finally(() => setisLoading(false));
+
+        toast({
+          title: 'Account created',
+          description: 'Now you are part of the family!',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+
+        history.push('/accounts/login');
+      } catch (err) {
+        toast({
+          title: 'Something went wrong',
+          description: 'Please, wait a few seconds and try again',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    },
+    [history, toast],
+  );
 
   return (
     <Flex direction="column" width="100%" maxW="400px">
@@ -64,7 +84,7 @@ const FormSignup: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {props => (
+        {() => (
           <Form>
             <Stack spacing={4}>
               <FormInput
@@ -89,7 +109,12 @@ const FormSignup: React.FC = () => {
                 label="Confirm password"
                 type="password"
               />
-              <Button mt={4} colorScheme="blue" type="submit">
+              <Button
+                mt={4}
+                colorScheme="blue"
+                type="submit"
+                isLoading={isLoading}
+              >
                 Signup
               </Button>
             </Stack>
