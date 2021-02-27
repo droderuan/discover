@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Box, Flex, SimpleGrid, Stack } from '@chakra-ui/react';
-import Api from '../../services/api';
+import { Box, Flex, Stack } from '@chakra-ui/react';
+import Client from '../../client/Client';
 
 import Header from '../../Components/Header';
 import SideBar from '../../Components/SideBar';
@@ -14,8 +14,9 @@ const Result: React.FC = () => {
   const [meetings, setMeetings] = useState([] as IMeeting[]);
 
   useEffect(() => {
-    Api.get('/meetings').then(response => {
-      const responseMeetings = response.data as IMeeting[];
+    const { meetingClient } = Client;
+
+    meetingClient.listAllMeeting().then(responseMeetings => {
       setMeetings(responseMeetings);
     });
   }, [setMeetings]);

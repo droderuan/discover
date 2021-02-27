@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import Api from '../../services/api';
 
 import Header from '../../Components/Header';
 import SideBar from '../../Components/SideBar';
@@ -12,13 +11,6 @@ import PageTitle from '../../Components/PageTitle';
 
 const Profile: React.FC = () => {
   const [meetings, setMeetings] = useState([] as IMeeting[]);
-
-  useEffect(() => {
-    Api.get('/meetings').then(response => {
-      const responseMeetings = response.data as IMeeting[];
-      setMeetings(responseMeetings);
-    });
-  }, [setMeetings]);
 
   return (
     <Flex direction="column" height="100%">

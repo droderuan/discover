@@ -227,6 +227,14 @@
       "email": "ruan@gmail.com",
       "password": "Sirjin123",
       "token": "ahb123mc-asdmno1-asd"
+    },
+    {
+      "name": "Ferreira",
+      "occupation": "Developer",
+      "email": "ruan@ruan.com",
+      "password": "Sirjin123",
+      "confirmPassword": "Sirjin123",
+      "id": "Ferreira1614440199757"
     }
   ]
 }

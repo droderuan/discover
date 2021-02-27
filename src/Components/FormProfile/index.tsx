@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { Button, Flex, Heading, Stack, Text, useToast } from '@chakra-ui/react';
 import PasswordRegex from '../../utils/passwordRegex';
 import FormInput from '../FormInput';
-import api from '../../services/api';
 
 interface FormValuesProps {
   name: string;
@@ -50,8 +49,6 @@ const FormSignup: React.FC = () => {
       setisLoading(true);
       const body = { ...values, id: values.name + Date.now() };
       try {
-        api.post('/users', { ...body }).finally(() => setisLoading(false));
-
         toast({
           title: 'Account created',
           description: 'Now you are part of the family!',

@@ -42,10 +42,12 @@ const FormLogin: React.FC = () => {
   });
 
   const handleSubmit = useCallback(
-    ({ email, password }: FormValuesProps) => {
+    async ({ email, password }: FormValuesProps) => {
       setisLoading(true);
       try {
-        authStore.login({ email, password }).finally(() => setisLoading(false));
+        await authStore
+          .login({ email, password })
+          .finally(() => setisLoading(false));
         toast({
           title: 'Success',
           description: 'Redirecting you to home',
