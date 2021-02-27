@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Box, Flex, SimpleGrid, Stack } from '@chakra-ui/react';
-import Api from '../../services/api';
+import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
+import Client from '../../client/Client';
 
 import Header from '../../Components/Header';
 import SideBar from '../../Components/SideBar';
 
-import MeetingCard from '../../Components/MeetingCard';
+import HomeMeetingCard from '../../Components/HomeMeetingCard';
 
 import { IMeeting } from '../../stores/Meetings';
 
@@ -14,30 +14,26 @@ const Home: React.FC = () => {
   const [meetings, setMeetings] = useState([] as IMeeting[]);
 
   useEffect(() => {
-    Api.get('/meetings').then(response => {
-      const responseMeetings = response.data as IMeeting[];
+    const { meetingClient } = Client;
+
+    meetingClient.listAllMeeting().then(responseMeetings => {
       setMeetings(responseMeetings);
     });
   }, [setMeetings]);
 
   return (
-    <Flex direction="column" height="100%">
+    <Flex direction="column" height="100vh">
       <Header />
       <Flex direction="row" height="100%">
         <Box>
           <SideBar />
         </Box>
-        <Box
-          width="100%"
-          maxW="1024px"
-          marginX={{ base: 4, md: 8, xl: 'auto' }}
-          overflow="auto"
-        >
-          <Stack spacing={4} mt={8}>
+        <Box width="100%" margin={{ base: 4, md: 8 }}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap={4}>
             {meetings.map(meeting => (
-              <MeetingCard meeting={meeting} />
+              <HomeMeetingCard meeting={meeting} />
             ))}
-          </Stack>
+          </SimpleGrid>
         </Box>
       </Flex>
     </Flex>

@@ -1,8 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
-import { Box, Flex, IconButton, ButtonProps, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  IconButton,
+  ButtonProps,
+  Stack,
+  Link,
+  Icon,
+  Tooltip,
+} from '@chakra-ui/react';
 import {
   BsFillPersonFill,
   BsFillGridFill,
@@ -13,19 +22,20 @@ import { useStore } from '../../hooks/Store';
 
 interface SideBarButtonPops extends ButtonProps {
   icon: IconType;
+  ariaLabel: string;
 }
 
 const SideBarButton: React.FC<SideBarButtonPops> = observer(
-  ({ icon: IconChild, ...props }) => {
+  ({ icon: IconChild, ariaLabel, ...props }) => {
     return (
       <Box color="white">
         <IconButton
           {...props}
-          aria-label="Account"
-          colorScheme="blue"
+          aria-label={ariaLabel}
+          colorScheme="gray"
+          variant="ghost"
           size="md"
-          fontSize={{ base: '1.5rem' }}
-          icon={<IconChild />}
+          icon={<Icon as={IconChild} boxSize={8} />}
         />
       </Box>
     );
@@ -36,9 +46,10 @@ const SideBar: React.FC = () => {
   const { authStore } = useStore();
 
   return (
-    <Box width={{ base: '35px', md: '50px' }}>
+    <Box width={{ base: 10, md: 16 }}>
       <Flex
-        h="min"
+        h="min-content"
+        width={{ base: 'min-content', md: 16 }}
         backgroundColor="pink.600"
         paddingX={{ base: 1, md: 2 }}
         position="fixed"
@@ -47,17 +58,41 @@ const SideBar: React.FC = () => {
         borderBottomRightRadius="full"
       >
         <Stack spacing={{ base: 4, md: 8 }}>
-          <Link to="/accounts/login">
-            <SideBarButton icon={BsFillPersonFill} />
-          </Link>
-          <SideBarButton icon={BsFillGridFill} />
+          <Tooltip label="Account">
+            <Link
+              as={RouterLink}
+              to={authStore.authenticated ? '/profile' : '/accounts/login'}
+            >
+              <SideBarButton
+                icon={BsFillPersonFill}
+                ariaLabel="Access account"
+              />
+            </Link>
+          </Tooltip>
+          <Tooltip label="Meetings">
+            <Link as={RouterLink} to="/">
+              <SideBarButton
+                icon={BsFillGridFill}
+                ariaLabel="Access meetings"
+              />
+            </Link>
+          </Tooltip>
           {authStore.authenticated && (
-            <SideBarButton
-              icon={BsBoxArrowInRight}
-              onClick={authStore.logout}
-            />
+            <Tooltip label="Logout">
+              <Box>
+                <SideBarButton
+                  ariaLabel="Logout"
+                  icon={BsBoxArrowInRight}
+                  onClick={authStore.logout}
+                />
+              </Box>
+            </Tooltip>
           )}
-          <SideBarButton icon={BsFillGridFill} visibility="hidden" />
+          <SideBarButton
+            ariaLabel="Hidden"
+            icon={BsFillGridFill}
+            visibility="hidden"
+          />
         </Stack>
       </Flex>
     </Box>

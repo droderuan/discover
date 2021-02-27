@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Button, Flex, Heading, Stack, Text, useToast } from '@chakra-ui/react';
 import PasswordRegex from '../../utils/passwordRegex';
 import FormInput from '../FormInput';
-import Client from '../../client/Client';
+import api from '../../services/api';
 
 interface FormValuesProps {
   name: string;
@@ -48,10 +48,9 @@ const FormSignup: React.FC = () => {
   const handleSubmit = useCallback(
     (values: FormValuesProps) => {
       setisLoading(true);
-      const { userClient } = Client;
       const body = { ...values, id: values.name + Date.now() };
       try {
-        userClient.createUser(body).finally(() => setisLoading(false));
+        api.post('/users', { ...body }).finally(() => setisLoading(false));
 
         toast({
           title: 'Account created',

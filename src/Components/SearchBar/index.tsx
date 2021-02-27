@@ -5,6 +5,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 
@@ -14,9 +15,11 @@ const SearchBar: React.FC = () => {
       <InputGroup>
         <Input bg="white" placeholder="Busque por tecnologias" />
         <InputRightElement>
-          <Button bg="blue.400" borderRightRadius="md">
-            <Search2Icon color="white" />
-          </Button>
+          <Tooltip label="Search">
+            <Button bg="blue.400" borderRightRadius="md">
+              <Search2Icon color="white" />
+            </Button>
+          </Tooltip>
         </InputRightElement>
       </InputGroup>
     </Box>

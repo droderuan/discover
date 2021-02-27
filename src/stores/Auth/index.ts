@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import RootStore from '../Root';
 import UserStore, { IUser } from '../User';
 
-import api from '../../services/api';
+import Client from '../../client/Client';
 
 interface ILogin {
   email: string;
@@ -22,7 +22,7 @@ class AuthStore implements IAuth {
 
   user = null;
 
-  token = null;
+  token: string | null = null;
 
   authenticated = false;
 
@@ -32,17 +32,17 @@ class AuthStore implements IAuth {
   }
 
   login = async ({ email, password }: ILogin): Promise<void> => {
-    const response = await api.get('/users', {
-      params: {
-        email,
-        password,
-      },
-    });
+    const { userClient } = Client;
+    const user = await userClient.verifyUser({ email, password });
 
-    this.userStore.pullUser(response.data[0]);
+    if (user) {
+      this.userStore.pullUser(user);
 
-    this.authenticated = true;
-    this.token = response.data[0].token;
+      this.authenticated = true;
+      this.token = user.token;
+    } else {
+      throw new Error('User was not found');
+    }
   };
 
   logout = (): void => {
