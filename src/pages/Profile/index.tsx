@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import Header from '../../Components/Header';
 import SideBar from '../../Components/SideBar';
 
-import { IMeeting } from '../../stores/Meetings';
 import Section from '../../Components/Section';
 import PageTitle from '../../Components/PageTitle';
 
 const Profile: React.FC = () => {
-  const [meetings, setMeetings] = useState([] as IMeeting[]);
-
   return (
     <Flex direction="column" height="100%">
       <Header />
