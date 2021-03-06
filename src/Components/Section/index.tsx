@@ -8,7 +8,13 @@ interface ISection {
 
 const Section: React.FC<ISection> = ({ title, children }) => {
   return (
-    <Flex direction="column" width="100%">
+    <Flex
+      direction="column"
+      width="100%"
+      bg="gray.50"
+      borderRadius="2xl"
+      padding={2}
+    >
       <Heading as="h3" mb={2} size="md">
         {title}
       </Heading>

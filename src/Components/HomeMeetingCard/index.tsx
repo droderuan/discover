@@ -8,6 +8,8 @@ import {
   Tag,
   TagLabel,
   Text,
+  Avatar,
+  Image,
 } from '@chakra-ui/react';
 
 import { IMeeting } from '../../stores/Meetings';
@@ -19,13 +21,15 @@ interface IMeetingCardProps {
 const MeetingCard: React.FC<IMeetingCardProps> = ({ meeting }) => {
   return (
     <Flex
-      height={{ base: 80, md: 72 }}
+      height={{ base: 80 }}
       direction="column"
       justify="space-between"
       _hover={{ boxShadow: 'lg' }}
       padding={2}
     >
-      <Heading as="h4">{meeting.title}</Heading>
+      <Heading as="h4" size="lg">
+        {meeting.title}
+      </Heading>
       <Text noOfLines={{ base: 3 }}>{meeting.description}</Text>
       <Text fontWeight="bold" textAlign="center">
         {meeting.date.full_date}
@@ -39,15 +43,20 @@ const MeetingCard: React.FC<IMeetingCardProps> = ({ meeting }) => {
           </WrapItem>
         ))}
       </Wrap>
-      <Flex direction="row" justify="space-between">
-        <Flex direction="row">
-          <Box bg="gray.600" width={12} height={12} borderRadius="full" />
+      <Flex direction="row" justify="space-between" align="center">
+        <Flex direction="row" align="center">
+          <Avatar
+            bg="gray.600"
+            name={meeting.user.name}
+            size="lg"
+            src={meeting.user.profile_url}
+          />
           <Box ml={2}>
             <Text>{meeting.user.name}</Text>
             <Text fontSize="md">{meeting.user.occupation}</Text>
           </Box>
         </Flex>
-        <Box bg="gray.600" width={12} height={12} borderRadius="full" />
+        <Image boxSize={{ base: 8, md: 10 }} src={meeting.platform.icon} />
       </Flex>
     </Flex>
   );

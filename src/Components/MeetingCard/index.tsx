@@ -9,6 +9,7 @@ import {
   TagLabel,
   Text,
   Image,
+  Avatar,
 } from '@chakra-ui/react';
 
 import { IMeeting } from '../../stores/Meetings';
@@ -60,12 +61,12 @@ const MeetingCard: React.FC<IMeetingCardProps> = ({ meeting }) => {
         borderRadius="md"
         padding={2}
       >
-        <Image
+        <Avatar
           bg="gray.600"
-          borderRadius="full"
-          mb={4}
-          boxSize={{ base: 16, md: 24 }}
+          name={meeting.user.name}
+          size="xl"
           src={meeting.user.profile_url}
+          mb={4}
         />
         <Box pl={4}>
           <Text fontWeight="bold" textAlign="center">

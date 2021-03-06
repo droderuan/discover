@@ -5,6 +5,7 @@ export interface IUser {
   name: string;
   occupation: string;
   email: string;
+  profile_url: string;
 }
 
 export default class UserStore implements IUser {
@@ -16,6 +17,8 @@ export default class UserStore implements IUser {
 
   email = '';
 
+  profile_url = '';
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -25,6 +28,7 @@ export default class UserStore implements IUser {
     this.name = user.name;
     this.email = user.email;
     this.occupation = user.occupation;
+    this.profile_url = user.profile_url;
   };
 
   clearUser = (): void => {
