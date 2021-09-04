@@ -1,0 +1,87 @@
+{
+  "version": 2,
+  "projects": {
+    "atlas": {
+      "root": "apps/atlas",
+      "sourceRoot": "apps/atlas/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/atlas",
+            "main": "apps/atlas/src/main.ts",
+            "tsConfig": "apps/atlas/tsconfig.app.json",
+            "assets": [
+              "apps/atlas/src/assets",
+              {
+                "glob": "schema.prisma",
+                "input": "libs/models/veritas/src/schema",
+                "output": "."
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/atlas/src/environments/environment.ts",
+                  "with": "apps/atlas/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "atlas:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/atlas/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/atlas"],
+          "options": {
+            "jestConfig": "apps/atlas/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "models-veritas": {
+      "root": "libs/models/veritas",
+      "sourceRoot": "libs/models/veritas/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/models/veritas/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/models/veritas"],
+          "options": {
+            "jestConfig": "libs/models/veritas/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "atlas"
+}

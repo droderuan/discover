@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  discover:
+    container_name: discover
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    # Overrides default command so things don't shut down after the process ends.
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    networks:
+      - internal_discover_network
+    
+  discover_db:
+    image: mysql:8
+    container_name: discover_db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "33006:3306"
+    networks:
+      - internal_discover_network
+    
+  discover_test_db:
+    image: mysql:8
+    container_name: discover_test_db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    networks:
+      - internal_discover_network
+
+networks:
+  internal_discover_network:
+    name: internal_discover_network
+    driver: bridge
