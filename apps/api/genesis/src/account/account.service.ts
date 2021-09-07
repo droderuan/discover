@@ -4,24 +4,24 @@ import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AccountService {
-  constructor(private prisma: VeritasService) {}
+  constructor(private prisma: VeritasService) { }
 
-  async checkUnusedEmail(email: string): Promise<{ message: string }> {
-    const existUser = this.prisma.user.findUnique({
+  async checkUnusedEmail(email: string): Promise<boolean> {
+    const existUser = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
 
     if (existUser) {
-      throw new BadRequestException('E-mail exist');
+      return true;
     }
 
-    return { message: 'not exist' };
+    return false;
   }
 
   async createAccount(data: Prisma.UserCreateInput): Promise<User> {
-    const existUser = this.prisma.user.findUnique({
+    const existUser = await this.prisma.user.findUnique({
       where: {
         email: data.email,
       },
