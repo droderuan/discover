@@ -2,6 +2,16 @@
   "conventionalCommits.scopes": [
     "Design",
     "API",
-    "FILES"
-  ]
+    "Files",
+    "Configuration"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "editor.detectIndentation": false,
+  "typescript.validate.enable": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
