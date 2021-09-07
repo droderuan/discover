@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@discover/models-veritas": ["libs/models/veritas/src/index.ts"]
+      "@discover/models-veritas": ["libs/models/veritas/src/index.ts"],
+      "@discover/shared/back/utils": ["libs/shared/back/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

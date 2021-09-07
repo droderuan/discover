@@ -1,20 +1,20 @@
 {
   "version": 2,
   "projects": {
-    "atlas": {
-      "root": "apps/atlas",
-      "sourceRoot": "apps/atlas/src",
+    "api-atlas": {
+      "root": "apps/api/atlas",
+      "sourceRoot": "apps/api/atlas/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/atlas",
-            "main": "apps/atlas/src/main.ts",
-            "tsConfig": "apps/atlas/tsconfig.app.json",
+            "outputPath": "dist/apps/api/atlas",
+            "main": "apps/api/atlas/src/main.ts",
+            "tsConfig": "apps/api/atlas/tsconfig.app.json",
             "assets": [
-              "apps/atlas/src/assets",
+              "apps/api/atlas/src/assets",
               {
                 "glob": "schema.prisma",
                 "input": "libs/models/veritas/src/schema",
@@ -29,8 +29,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/atlas/src/environments/environment.ts",
-                  "with": "apps/atlas/src/environments/environment.prod.ts"
+                  "replace": "apps/api/atlas/src/environments/environment.ts",
+                  "with": "apps/api/atlas/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -39,20 +39,77 @@
         "serve": {
           "executor": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "atlas:build"
+            "buildTarget": "api-atlas:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/atlas/**/*.ts"]
+            "lintFilePatterns": ["apps/api/atlas/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/atlas"],
+          "outputs": ["coverage/apps/api/atlas"],
           "options": {
-            "jestConfig": "apps/atlas/jest.config.js",
+            "jestConfig": "apps/api/atlas/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-genesis": {
+      "root": "apps/api/genesis",
+      "sourceRoot": "apps/api/genesis/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api/genesis",
+            "main": "apps/api/genesis/src/main.ts",
+            "tsConfig": "apps/api/genesis/tsconfig.app.json",
+            "assets": [
+              "apps/api/genesis/src/assets",
+              {
+                "glob": "schema.prisma",
+                "input": "libs/models/veritas/src/schema",
+                "output": "."
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/genesis/src/environments/environment.ts",
+                  "with": "apps/api/genesis/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-genesis:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/genesis/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api/genesis"],
+          "options": {
+            "jestConfig": "apps/api/genesis/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -78,10 +135,31 @@
           }
         }
       }
+    },
+    "shared-back-utils": {
+      "root": "libs/shared/back/utils",
+      "sourceRoot": "libs/shared/back/utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/back/utils/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/back/utils"],
+          "options": {
+            "jestConfig": "libs/shared/back/utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/nest"
+    "defaultCollection": "@nrwl/workspace"
   },
-  "defaultProject": "atlas"
+  "defaultProject": "api-atlas"
 }

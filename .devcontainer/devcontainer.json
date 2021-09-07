@@ -15,7 +15,9 @@
 	"extensions": [
 		"dbaeumer.vscode-eslint",
 		"prisma.prisma",
-		"vivaxy.vscode-conventional-commits"
+		"vivaxy.vscode-conventional-commits",
+		"esbenp.prettier-vscode",
+		"nrwl.angular-console"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

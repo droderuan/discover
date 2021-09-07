@@ -27,10 +27,16 @@
     ]
   },
   "projects": {
-    "atlas": {
+    "api-atlas": {
+      "tags": []
+    },
+    "api-genesis": {
       "tags": []
     },
     "models-veritas": {
+      "tags": []
+    },
+    "shared-back-utils": {
       "tags": []
     }
   }
