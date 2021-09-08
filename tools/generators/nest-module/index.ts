@@ -5,16 +5,16 @@ export default async function (host: Tree, schema: any) {
   const project = getProjects(host).get(schema.app);
 
   if (!project) {
-    logger.error(`Project ${schema.name} not found`);
+    logger.error(`Project ${schema.app} not found`);
     return;
   }
 
-  logger.log('\x1b[34m', `Generating module`);
-  execSync(`nx g @nrwl/nest:module --p ${schema.app} --name ${schema.module}`);
-  logger.log('\x1b[34m', `Generating service`);
-  execSync(`nx g @nrwl/nest:service --p ${schema.app} --name ${schema.module}`);
-  logger.log('\x1b[34m', `Generating controller`);
+  logger.log('\x1b[34m', `**** Generating module ****`);
+  execSync(`nx g @nrwl/nest:module  --p ${schema.app} --name ${schema.module}`);
+  logger.log('\x1b[34m', `**** Generating service ****`);
+  execSync(`nx g @nrwl/nest:service --p ${schema.app} --name ${schema.module} --flat --directory ${schema.module}/providers`);
+  logger.log('\x1b[34m', `**** Generating controller ****`);
   execSync(
-    `nx g @nrwl/nest:controller --p ${schema.app} --name ${schema.module}`
+    `nx g @nrwl/nest:controller --p ${schema.app} --name ${schema.module} --flat --directory ${schema.module}/controllers`
   );
 }

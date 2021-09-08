@@ -1,14 +1,15 @@
 module.exports = {
-  displayName: 'shared-back-utils',
-  preset: '../../../../jest.preset.js',
+  displayName: 'shared-nest',
+  preset: '../../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
+  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../../coverage/libs/shared/back/utils',
+  coverageDirectory: '../../../coverage/libs/shared/nest',
 };

@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@discover/models-veritas": ["libs/models/veritas/src/index.ts"],
-      "@discover/shared/back/utils": ["libs/shared/back/utils/src/index.ts"]
+      "@discover/shared/nest": ["libs/shared/nest/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

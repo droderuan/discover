@@ -1,10 +1,15 @@
-import { User, Prisma, VeritasService } from '@discover/models-veritas';
+import { VeritasService } from '@discover/models-veritas';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
+import { CreateUserDTO } from './dto/createUser.dto';
+import { HashService } from '@discover/shared/nest';
 
 @Injectable()
 export class AccountService {
-  constructor(private prisma: VeritasService) { }
+  constructor(
+    private prisma: VeritasService,
+    private hashService: HashService
+    ) { }
 
   async checkUnusedEmail(email: string): Promise<boolean> {
     const existUser = await this.prisma.user.findUnique({
@@ -13,14 +18,15 @@ export class AccountService {
       },
     });
 
-    if (existUser) {
-      return true;
-    }
-
-    return false;
+    return existUser ? true : false;
   }
 
-  async createAccount(data: Prisma.UserCreateInput): Promise<User> {
+
+  async createAccount(data: CreateUserDTO ) {
+    if (data.password !== data.password){
+      throw new BadRequestException('Password does not match with password confirmation')
+    }
+    
     const existUser = await this.prisma.user.findUnique({
       where: {
         email: data.email,
@@ -33,14 +39,23 @@ export class AccountService {
 
     const { password } = data;
 
-    const newPassword = String(password).concat('_encrypted');
+    const hashedPassword = await this.hashService.hash(password);;
 
     return this.prisma.user.create({
       data: {
-        ...data,
+        email: data.email,
         id: uuid(),
-        password: newPassword,
+        password: hashedPassword,
+        Profile: {
+          create: {}
+        }
       },
+      select: {
+        Profile: true,
+        email: true,
+        id: true
+      }
     });
   }
+
 }

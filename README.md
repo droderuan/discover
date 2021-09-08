@@ -11,7 +11,7 @@ App architeture: [link to whimsical](https://whimsical.com/discover-structure-Fq
 
 # How to
 
-# Create a model library
+## Create a model library
 
 - Use the nx generator and give the name as : models-<name-of-database>
 
@@ -45,3 +45,17 @@ App architeture: [link to whimsical](https://whimsical.com/discover-structure-Fq
         ]
       },
     ```
+
+## Create a nest module
+
+There is a generator called `nest-module`. To use do:
+`nx workspace-generator nest-module --app <name of the project>`
+
+The command will generate the follow directory:
+
+- /name
+  - /providers
+    - name.service.ts
+  - /controllers
+    - name.controller.ts
+  - name.module.ts

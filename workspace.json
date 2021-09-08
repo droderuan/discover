@@ -136,22 +136,22 @@
         }
       }
     },
-    "shared-back-utils": {
-      "root": "libs/shared/back/utils",
-      "sourceRoot": "libs/shared/back/utils/src",
+    "shared-nest": {
+      "root": "libs/shared/nest",
+      "sourceRoot": "libs/shared/nest/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared/back/utils/**/*.ts"]
+            "lintFilePatterns": ["libs/shared/nest/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/back/utils"],
+          "outputs": ["coverage/libs/shared/nest"],
           "options": {
-            "jestConfig": "libs/shared/back/utils/jest.config.js",
+            "jestConfig": "libs/shared/nest/jest.config.js",
             "passWithNoTests": true
           }
         }

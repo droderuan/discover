@@ -44,15 +44,15 @@ function default_1(host, schema) {
         return __generator(this, function (_a) {
             project = devkit_1.getProjects(host).get(schema.app);
             if (!project) {
-                devkit_1.logger.error("Project " + schema.name + " not found");
+                devkit_1.logger.error("Project " + schema.app + " not found");
                 return [2 /*return*/];
             }
-            devkit_1.logger.log('\x1b[34m', "Generating module");
-            child_process_1.execSync("nx g @nrwl/nest:module --p " + schema.app + " --name " + schema.module);
-            devkit_1.logger.log('\x1b[34m', "Generating service");
-            child_process_1.execSync("nx g @nrwl/nest:service --p " + schema.app + " --name " + schema.module);
-            devkit_1.logger.log('\x1b[34m', "Generating controller");
-            child_process_1.execSync("nx g @nrwl/nest:controller --p " + schema.app + " --name " + schema.module);
+            devkit_1.logger.log('\x1b[34m', "**** Generating module ****");
+            child_process_1.execSync("nx g @nrwl/nest:module  --p " + schema.app + " --name " + schema.module);
+            devkit_1.logger.log('\x1b[34m', "**** Generating service ****");
+            child_process_1.execSync("nx g @nrwl/nest:service --p " + schema.app + " --name " + schema.module + " --flat --directory " + schema.module + "/providers");
+            devkit_1.logger.log('\x1b[34m', "**** Generating controller ****");
+            child_process_1.execSync("nx g @nrwl/nest:controller --p " + schema.app + " --name " + schema.module + " --flat --directory " + schema.module + "/controllers");
             return [2 /*return*/];
         });
     });

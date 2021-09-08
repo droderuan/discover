@@ -2,7 +2,7 @@ import { VeritasModule } from '@discover/models-veritas';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [],
+  imports: [VeritasModule],
   controllers: [],
   providers: [],
 })
