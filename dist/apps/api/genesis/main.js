@@ -427,7 +427,7 @@ bootstrap();
 
 "use strict";
 
-var _a, _b;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
@@ -439,60 +439,62 @@ let ProfileController = class ProfileController {
     constructor(profileService) {
         this.profileService = profileService;
     }
-    getProfile(profileId) {
+    getProfile(request) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.profileService.getUserProfile(profileId);
+            return this.profileService.getUserProfile(request.user.profileId);
         });
     }
-    updateProfile(profileId, profileUpdateData) {
+    updateProfile(request, profileUpdateData) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.profileService.updateUserProfile(profileId, profileUpdateData);
+            return this.profileService.updateUserProfile(request.user.profileId, profileUpdateData);
         });
     }
-    followProfile(params) {
+    followProfile(request, params) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.profileService.followProfile(params.profileId, params.toFollow);
+            return this.profileService.followProfile(request.user.profileId, params.toFollow);
         });
     }
-    unFollowProfile(params) {
+    unFollowProfile(request, params) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.profileService.unfollowProfile(params.profileId, params.toFollow);
+            return this.profileService.unfollowProfile(request.user.profileId, params.toFollow);
         });
     }
 };
 tslib_1.__decorate([
-    common_1.Get('/:profileId'),
-    tslib_1.__param(0, common_1.Param('profileId')),
+    common_1.Get(''),
+    tslib_1.__param(0, common_1.Request()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [String]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _a : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getProfile", null);
 tslib_1.__decorate([
-    common_1.Patch('/:profileId'),
-    tslib_1.__param(0, common_1.Param('profileId')),
+    common_1.Patch(''),
+    tslib_1.__param(0, common_1.Request()),
     tslib_1.__param(1, common_1.Body()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [String, typeof (_a = typeof updateUserProfile_dto_1.UpdateUserProfileDTO !== "undefined" && updateUserProfile_dto_1.UpdateUserProfileDTO) === "function" ? _a : Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _b : Object, typeof (_c = typeof updateUserProfile_dto_1.UpdateUserProfileDTO !== "undefined" && updateUserProfile_dto_1.UpdateUserProfileDTO) === "function" ? _c : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "updateProfile", null);
 tslib_1.__decorate([
-    common_1.Post('/:profileId/follow/:toFollow'),
-    tslib_1.__param(0, common_1.Param()),
+    common_1.Post('/follow/:toFollow'),
+    tslib_1.__param(0, common_1.Request()),
+    tslib_1.__param(1, common_1.Param()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_d = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _d : Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "followProfile", null);
 tslib_1.__decorate([
-    common_1.Post('/:profileId/unfollow/:toFollow'),
-    tslib_1.__param(0, common_1.Param()),
+    common_1.Post('/unfollow/:toFollow'),
+    tslib_1.__param(0, common_1.Request()),
+    tslib_1.__param(1, common_1.Param()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_e = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _e : Object, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "unFollowProfile", null);
 ProfileController = tslib_1.__decorate([
     common_1.Controller('profile'),
     common_1.UseGuards(nest_1.JwtAuthGuard),
-    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof profile_service_1.ProfileService !== "undefined" && profile_service_1.ProfileService) === "function" ? _b : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_f = typeof profile_service_1.ProfileService !== "undefined" && profile_service_1.ProfileService) === "function" ? _f : Object])
 ], ProfileController);
 exports.ProfileController = ProfileController;
 
@@ -39601,6 +39603,20 @@ exports.VeritasService = VeritasService;
 
 /***/ }),
 
+/***/ "./libs/shared/nest/src/auth/CustomInterfaces/RequestWithUser.ts":
+/*!***********************************************************************!*\
+  !*** ./libs/shared/nest/src/auth/CustomInterfaces/RequestWithUser.ts ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+
 /***/ "./libs/shared/nest/src/auth/Guards/jwt-auth.guard.ts":
 /*!************************************************************!*\
   !*** ./libs/shared/nest/src/auth/Guards/jwt-auth.guard.ts ***!
@@ -39884,6 +39900,7 @@ tslib_1.__exportStar(__webpack_require__(/*! ./Strategies/local.strategy */ "./l
 tslib_1.__exportStar(__webpack_require__(/*! ./Guards/local-auth.guard */ "./libs/shared/nest/src/auth/Guards/local-auth.guard.ts"), exports);
 tslib_1.__exportStar(__webpack_require__(/*! ./Guards/jwt-auth.guard */ "./libs/shared/nest/src/auth/Guards/jwt-auth.guard.ts"), exports);
 tslib_1.__exportStar(__webpack_require__(/*! ./constants */ "./libs/shared/nest/src/auth/constants.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./CustomInterfaces/RequestWithUser */ "./libs/shared/nest/src/auth/CustomInterfaces/RequestWithUser.ts"), exports);
 
 
 /***/ }),

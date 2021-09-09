@@ -1,5 +1,5 @@
-import { JwtAuthGuard } from '@discover/shared/nest';
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard, RequestWithUser } from '@discover/shared/nest';
+import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { UpdateUserProfileDTO } from '../dto/updateUserProfile.dto';
 import { ProfileService } from '../services/profile.service';
 
@@ -8,30 +8,34 @@ import { ProfileService } from '../services/profile.service';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Get('/:profileId')
-  async getProfile(@Param('profileId') profileId: string ) {
-    return this.profileService.getUserProfile(profileId);
+  @Get('')
+  async getProfile(
+    @Request() request: RequestWithUser
+    ) {
+    return this.profileService.getUserProfile(request.user.profileId);
   }
 
-  @Patch('/:profileId')
+  @Patch('')
   async updateProfile(
-    @Param('profileId') profileId: string,
+    @Request() request: RequestWithUser,
     @Body() profileUpdateData: UpdateUserProfileDTO
     ) {
-    return this.profileService.updateUserProfile(profileId, profileUpdateData);
+    return this.profileService.updateUserProfile(request.user.profileId, profileUpdateData);
   }
 
-  @Post('/:profileId/follow/:toFollow')
+  @Post('/follow/:toFollow')
   async followProfile(
+    @Request() request: RequestWithUser,
     @Param() params: {profileId: string, toFollow: string},
     ) {
-    return this.profileService.followProfile(params.profileId, params.toFollow);
+    return this.profileService.followProfile(request.user.profileId, params.toFollow);
   }
 
-  @Post('/:profileId/unfollow/:toFollow')
+  @Post('/unfollow/:toFollow')
   async unFollowProfile(
+    @Request() request: RequestWithUser,
     @Param() params: {profileId: string, toFollow: string},
     ) {
-    return this.profileService.unfollowProfile(params.profileId, params.toFollow);
+    return this.profileService.unfollowProfile(request.user.profileId, params.toFollow);
   }
 }
