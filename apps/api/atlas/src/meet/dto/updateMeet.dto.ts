@@ -52,8 +52,10 @@ export class UpdateMeetDTO
   @IsOptional()
   categoryId: number;
 
+  @IsNumber({}, { each: true })
+  platformIds: number[];
+
   @ValidateNested()
   @Type(() => CreateTagDTO)
-  @IsOptional()
-  tags: CreateTagDTO[];
+  tagNames: CreateTagDTO[];
 }

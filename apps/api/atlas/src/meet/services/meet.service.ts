@@ -1,14 +1,19 @@
 import { Prisma, VeritasService } from '@discover/models-veritas';
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PlatformService } from '../../platform/providers/platform.service';
 import { TagService } from '../../tag/providers/tag.service';
 import { CreateMeetDTO } from '../dto/createMeet.dto';
 import { UpdateMeetDTO } from '../dto/updateMeet.dto';
 
 @Injectable()
 export class MeetService {
-  constructor(private prisma: VeritasService, private tagService: TagService) {}
+  constructor(
+    private prisma: VeritasService,
+    private tagService: TagService,
+    private platformService: PlatformService
+  ) {}
 
-  private meetSelect = {
+  private meetSelect: Prisma.MeetSelect = {
     id: true,
     title: true,
     description: true,
@@ -18,19 +23,28 @@ export class MeetService {
     endAt: true,
     recurrent: true,
     enabled: true,
-    MeetTag: {
+    tags: {
       select: {
         typedName: true,
-        Tag: {
+        tag: {
           select: {
             name: true,
           },
         },
       },
     },
-    Category: {
+    category: {
       select: {
         name: true,
+      },
+    },
+    platforms: {
+      select: {
+        platform: {
+          select: {
+            name: true,
+          },
+        },
       },
     },
   };
@@ -47,17 +61,17 @@ export class MeetService {
         endAt: true,
         recurrent: true,
         enabled: true,
-        MeetTag: {
+        tags: {
           select: {
             typedName: true,
-            Tag: {
+            tag: {
               select: {
                 name: true,
               },
             },
           },
         },
-        Category: {
+        category: {
           select: {
             name: true,
           },
@@ -69,40 +83,27 @@ export class MeetService {
   async findOne(meetId: number) {
     return this.prisma.meet.findUnique({
       where: { id: meetId },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        followCount: true,
-        bannerUrl: true,
-        startAt: true,
-        endAt: true,
-        recurrent: true,
-        enabled: true,
-        MeetTag: {
-          select: {
-            typedName: true,
-            Tag: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-        Category: {
-          select: {
-            name: true,
-          },
-        },
-      },
+      select: this.meetSelect,
     });
   }
 
   async create(profileId: number, meet: CreateMeetDTO) {
-    const { tags } = meet;
+    const { tagNames } = meet;
+    const platformIds = meet.platformIds;
+    const meetInfo = { ...meet };
+
+    delete meetInfo.tagNames;
+    delete meetInfo.categoryId;
+    delete meetInfo.platformIds;
+
+    const existPlatform = await this.platformService.exist(platformIds);
+
+    if (!existPlatform) {
+      throw new BadRequestException('Some platform does not exist');
+    }
 
     const tagsToSave = await Promise.all(
-      tags.map(async (tag) => {
+      tagNames.map(async (tag) => {
         const savedTag = await this.tagService.findOne(tag.name);
 
         return {
@@ -112,27 +113,27 @@ export class MeetService {
       })
     );
 
-    const meetInfo = { ...meet };
-
-    delete meetInfo.tags;
-    delete meetInfo.categoryId;
-
     const meetToCreate: Prisma.MeetCreateInput = {
       ...meetInfo,
       startAt: new Date(meetInfo.startAt),
-      Category: {
+      category: {
         connect: {
           id: meetInfo.categoryId || 1,
         },
       },
-      MeetTag: {
+      tags: {
         createMany: {
           data: tagsToSave,
         },
       },
-      Profile: {
+      profile: {
         connect: {
           id: Number(profileId),
+        },
+      },
+      platforms: {
+        createMany: {
+          data: platformIds.map((id) => ({ platformId: id })),
         },
       },
     };
@@ -144,21 +145,29 @@ export class MeetService {
   }
 
   async update(profileId: number, meet: UpdateMeetDTO) {
-    const { tags } = meet;
     const meetInfo = { ...meet };
+    const { tagNames } = meet;
+    const platformIds = meet.platformIds;
     const meetId = meetInfo.id;
 
-    delete meetInfo.tags;
+    const existPlatform = await this.platformService.exist(platformIds);
+
+    if (!existPlatform) {
+      throw new BadRequestException('Some platform does not exist');
+    }
+
+    delete meetInfo.tagNames;
     delete meetInfo.categoryId;
     delete meetInfo.id;
+    delete meetInfo.platformIds;
 
     const meetToUpdate = await this.prisma.meet.findFirst({
       where: { id: meet.id, profileId: profileId },
       include: {
-        Category: true,
-        MeetTag: {
+        category: true,
+        tags: {
           select: {
-            Tag: true,
+            tag: true,
             typedName: true,
           },
         },
@@ -174,13 +183,13 @@ export class MeetService {
     }
 
     const tagsToSave = await Promise.all(
-      tags.map(async (tag) => {
+      tagNames.map(async (tag) => {
         const savedTag = await this.tagService.findOne(tag.name);
 
         return {
           create: {
             typedName: savedTag.typedName,
-            Tag: {
+            tag: {
               connect: {
                 id: savedTag.tag.id,
               },
@@ -199,13 +208,18 @@ export class MeetService {
     const updatedMeet: Prisma.MeetUpdateInput = {
       ...meetInfo,
       startAt: new Date(meetInfo.startAt),
-      Category: {
+      category: {
         connect: {
           id: meetInfo.categoryId || 1,
         },
       },
-      ...(tags.length > 0 && {
-        MeetTag: {
+      platforms: {
+        createMany: {
+          data: platformIds.map((id) => ({ platformId: id })),
+        },
+      },
+      ...(tagNames.length > 0 && {
+        tags: {
           connectOrCreate: tagsToSave,
         },
       }),

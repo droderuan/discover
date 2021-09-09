@@ -45,7 +45,10 @@ export class CreateMeetDTO
   @IsNumber()
   categoryId: number;
 
+  @IsNumber({}, { each: true })
+  platformIds: number[];
+
   @ValidateNested()
   @Type(() => CreateTagDTO)
-  tags: CreateTagDTO[];
+  tagNames: CreateTagDTO[];
 }
