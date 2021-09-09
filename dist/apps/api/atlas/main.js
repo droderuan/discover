@@ -163,7 +163,7 @@ bootstrap();
 
 "use strict";
 
-var _a, _b, _c;
+var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MeetController = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
@@ -171,23 +171,42 @@ const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const meet_service_1 = __webpack_require__(/*! ../services/meet.service */ "./apps/api/atlas/src/meet/services/meet.service.ts");
 const nest_1 = __webpack_require__(/*! @discover/shared/nest */ "./libs/shared/nest/src/index.ts");
 const createMeet_dto_1 = __webpack_require__(/*! ../dto/createMeet.dto */ "./apps/api/atlas/src/meet/dto/createMeet.dto.ts");
+const updateMeet_dto_1 = __webpack_require__(/*! ../dto/updateMeet.dto */ "./apps/api/atlas/src/meet/dto/updateMeet.dto.ts");
 let MeetController = class MeetController {
     constructor(meetService) {
         this.meetService = meetService;
     }
+    getAllMeet() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meets = yield this.meetService.findAll();
+            return meets;
+        });
+    }
     getOneMeet(params) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const meet = yield this.meetService.listOneMeet(Number(params.id));
+            const meet = yield this.meetService.findOne(Number(params.id));
             return meet;
         });
     }
     createMeet(request, body) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const meet = yield this.meetService.createMeet(request.user.profileId, body);
+            const meet = yield this.meetService.create(request.user.profileId, body);
+            return meet;
+        });
+    }
+    update(request, body) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meet = yield this.meetService.update(request.user.profileId, body);
             return meet;
         });
     }
 };
+tslib_1.__decorate([
+    common_1.Get(''),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], MeetController.prototype, "getAllMeet", null);
 tslib_1.__decorate([
     common_1.Get('/:id'),
     tslib_1.__param(0, common_1.Param()),
@@ -204,9 +223,18 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _a : Object, typeof (_b = typeof createMeet_dto_1.CreateMeetDTO !== "undefined" && createMeet_dto_1.CreateMeetDTO) === "function" ? _b : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeetController.prototype, "createMeet", null);
+tslib_1.__decorate([
+    common_1.UseGuards(nest_1.JwtAuthGuard),
+    common_1.Put('/'),
+    tslib_1.__param(0, common_1.Request()),
+    tslib_1.__param(1, common_1.Body()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _c : Object, typeof (_d = typeof updateMeet_dto_1.UpdateMeetDTO !== "undefined" && updateMeet_dto_1.UpdateMeetDTO) === "function" ? _d : Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], MeetController.prototype, "update", null);
 MeetController = tslib_1.__decorate([
     common_1.Controller('meet'),
-    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof meet_service_1.MeetService !== "undefined" && meet_service_1.MeetService) === "function" ? _c : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_e = typeof meet_service_1.MeetService !== "undefined" && meet_service_1.MeetService) === "function" ? _e : Object])
 ], MeetController);
 exports.MeetController = MeetController;
 
@@ -281,6 +309,83 @@ exports.CreateMeetDTO = CreateMeetDTO;
 
 /***/ }),
 
+/***/ "./apps/api/atlas/src/meet/dto/updateMeet.dto.ts":
+/*!*******************************************************!*\
+  !*** ./apps/api/atlas/src/meet/dto/updateMeet.dto.ts ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateMeetDTO = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
+const class_transformer_1 = __webpack_require__(/*! class-transformer */ "class-transformer");
+const createTag_dto_1 = __webpack_require__(/*! ../../tag/dto/createTag.dto */ "./apps/api/atlas/src/tag/dto/createTag.dto.ts");
+class UpdateMeetDTO {
+}
+tslib_1.__decorate([
+    class_validator_1.IsNumber(),
+    tslib_1.__metadata("design:type", Number)
+], UpdateMeetDTO.prototype, "id", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", String)
+], UpdateMeetDTO.prototype, "title", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", String)
+], UpdateMeetDTO.prototype, "description", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsDateString(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", String)
+], UpdateMeetDTO.prototype, "startAt", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsDateString(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", String)
+], UpdateMeetDTO.prototype, "endAt", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", Boolean)
+], UpdateMeetDTO.prototype, "recurrent", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", Boolean)
+], UpdateMeetDTO.prototype, "enabled", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsBoolean(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", Boolean)
+], UpdateMeetDTO.prototype, "hasEnded", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", String)
+], UpdateMeetDTO.prototype, "bannerUrl", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", Number)
+], UpdateMeetDTO.prototype, "categoryId", void 0);
+tslib_1.__decorate([
+    class_validator_1.ValidateNested(),
+    class_transformer_1.Type(() => createTag_dto_1.CreateTagDTO),
+    class_validator_1.IsOptional(),
+    tslib_1.__metadata("design:type", Array)
+], UpdateMeetDTO.prototype, "tags", void 0);
+exports.UpdateMeetDTO = UpdateMeetDTO;
+
+
+/***/ }),
+
 /***/ "./apps/api/atlas/src/meet/meet.module.ts":
 /*!************************************************!*\
   !*** ./apps/api/atlas/src/meet/meet.module.ts ***!
@@ -332,8 +437,66 @@ let MeetService = class MeetService {
     constructor(prisma, tagService) {
         this.prisma = prisma;
         this.tagService = tagService;
+        this.meetSelect = {
+            id: true,
+            title: true,
+            description: true,
+            followCount: true,
+            bannerUrl: true,
+            startAt: true,
+            endAt: true,
+            recurrent: true,
+            enabled: true,
+            MeetTag: {
+                select: {
+                    typedName: true,
+                    Tag: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
+            },
+            Category: {
+                select: {
+                    name: true,
+                },
+            },
+        };
     }
-    listOneMeet(meetId) {
+    findAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.prisma.meet.findMany({
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    followCount: true,
+                    bannerUrl: true,
+                    startAt: true,
+                    endAt: true,
+                    recurrent: true,
+                    enabled: true,
+                    MeetTag: {
+                        select: {
+                            typedName: true,
+                            Tag: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                        },
+                    },
+                    Category: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
+            });
+        });
+    }
+    findOne(meetId) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             return this.prisma.meet.findUnique({
                 where: { id: meetId },
@@ -352,28 +515,28 @@ let MeetService = class MeetService {
                             typedName: true,
                             Tag: {
                                 select: {
-                                    name: true
-                                }
-                            }
-                        }
+                                    name: true,
+                                },
+                            },
+                        },
                     },
                     Category: {
                         select: {
-                            name: true
-                        }
-                    }
-                }
+                            name: true,
+                        },
+                    },
+                },
             });
         });
     }
-    createMeet(profileId, meet) {
+    create(profileId, meet) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const { tags } = meet;
             const tagsToSave = yield Promise.all(tags.map((tag) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                const savedTag = yield this.tagService.create(tag.name);
+                const savedTag = yield this.tagService.findOne(tag.name);
                 return {
-                    typedName: savedTag.name,
-                    tagId: savedTag.tag.id
+                    typedName: savedTag.typedName,
+                    tagId: savedTag.tag.id,
                 };
             })));
             const meetInfo = Object.assign({}, meet);
@@ -381,45 +544,81 @@ let MeetService = class MeetService {
             delete meetInfo.categoryId;
             const meetToCreate = Object.assign(Object.assign({}, meetInfo), { startAt: new Date(meetInfo.startAt), Category: {
                     connect: {
-                        id: meetInfo.categoryId || 1
-                    }
+                        id: meetInfo.categoryId || 1,
+                    },
                 }, MeetTag: {
                     createMany: {
-                        data: tagsToSave
-                    }
+                        data: tagsToSave,
+                    },
                 }, Profile: {
                     connect: {
-                        id: Number(profileId)
-                    }
+                        id: Number(profileId),
+                    },
                 } });
             return yield this.prisma.meet.create({
                 data: meetToCreate,
-                select: {
-                    id: true,
-                    title: true,
-                    description: true,
-                    followCount: true,
-                    bannerUrl: true,
-                    startAt: true,
-                    endAt: true,
-                    recurrent: true,
-                    enabled: true,
+                select: this.meetSelect,
+            });
+        });
+    }
+    update(profileId, meet) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const { tags } = meet;
+            const meetInfo = Object.assign({}, meet);
+            const meetId = meetInfo.id;
+            delete meetInfo.tags;
+            delete meetInfo.categoryId;
+            delete meetInfo.id;
+            const meetToUpdate = yield this.prisma.meet.findFirst({
+                where: { id: meet.id, profileId: profileId },
+                include: {
+                    Category: true,
                     MeetTag: {
                         select: {
+                            Tag: true,
                             typedName: true,
-                            Tag: {
-                                select: {
-                                    name: true
-                                }
-                            }
-                        }
+                        },
                     },
-                    Category: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
+                },
+            });
+            yield this.prisma.meetTag.deleteMany({
+                where: {},
+            });
+            if (!meetToUpdate) {
+                throw new common_1.BadRequestException('Meet does not exist');
+            }
+            const tagsToSave = yield Promise.all(tags.map((tag) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+                const savedTag = yield this.tagService.findOne(tag.name);
+                return {
+                    create: {
+                        typedName: savedTag.typedName,
+                        Tag: {
+                            connect: {
+                                id: savedTag.tag.id,
+                            },
+                        },
+                    },
+                    where: {
+                        meetId_tagId: {
+                            meetId: meetId,
+                            tagId: savedTag.tag.id,
+                        },
+                    },
+                };
+            })));
+            const updatedMeet = Object.assign(Object.assign(Object.assign({}, meetInfo), { startAt: new Date(meetInfo.startAt), Category: {
+                    connect: {
+                        id: meetInfo.categoryId || 1,
+                    },
+                } }), (tags.length > 0 && {
+                MeetTag: {
+                    connectOrCreate: tagsToSave,
+                },
+            }));
+            return yield this.prisma.meet.update({
+                where: { id: meetId },
+                data: updatedMeet,
+                select: this.meetSelect,
             });
         });
     }
@@ -500,11 +699,56 @@ let TagService = class TagService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    treatedName(name) {
+        return name.replace(' ', '-').toLocaleLowerCase();
+    }
+    findOne(typedName) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const treatedName = this.treatedName(typedName);
+            let tag = yield this.prisma.tag.findUnique({
+                where: { name: treatedName },
+            });
+            if (!tag) {
+                tag = yield this.create(treatedName);
+            }
+            return { typedName, tag };
+        });
+    }
     create(name) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const treatedName = name.replace(' ', '-').toLocaleLowerCase();
-            const tag = yield this.prisma.tag.create({ data: { name: treatedName } });
-            return { name, tag };
+            const tag = yield this.prisma.tag.create({ data: { name: name } });
+            return tag;
+        });
+    }
+    getTagDiff(meetId, tagsToUse, meetTags) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const treatedTagsName = tagsToUse.map(({ name }) => ({
+                name: this.treatedName(name),
+            }));
+            const tagDiffToSave = treatedTagsName.filter(({ name }) => !meetTags.some(({ Tag }) => name === Tag.name));
+            const tagDiffToDelete = meetTags.filter(({ Tag }) => !treatedTagsName.some(({ name }) => name === Tag.name));
+            const tagsToDelete = tagDiffToDelete.reduce((list, tag) => ({
+                ids: [...list.ids, tag.Tag.id],
+                typedNames: [...list.typedNames, tag.typedName],
+            }), { ids: [], typedNames: [] });
+            if (tagsToDelete.typedNames.length > 0) {
+                yield this.prisma.meetTag.deleteMany({
+                    where: {
+                        AND: {
+                            meetId,
+                            Tag: {
+                                id: {
+                                    in: tagsToDelete.ids,
+                                },
+                            },
+                            typedName: {
+                                in: tagsToDelete.typedNames,
+                            },
+                        },
+                    },
+                });
+            }
+            return tagDiffToSave;
         });
     }
 };
@@ -540,7 +784,7 @@ TagModule = tslib_1.__decorate([
         imports: [models_veritas_1.VeritasModule],
         providers: [tag_service_1.TagService],
         controllers: [tag_controller_1.TagController],
-        exports: [tag_service_1.TagService]
+        exports: [tag_service_1.TagService],
     })
 ], TagModule);
 exports.TagModule = TagModule;
