@@ -1,3 +1,8 @@
 {
-  "conventionalCommits.scopes": ["Design", "API", "Files"]
+  "conventionalCommits.scopes": [
+    "Design",
+    "API",
+    "Files",
+    "Code quality"
+  ]
 }

@@ -11,7 +11,9 @@ datasource db {
 model Category {
   id              Int               @id @default(autoincrement())
   name            String            @db.VarChar(128)
+  enabled         Boolean           @default(true)
   createdAt       DateTime          @default(now()) @db.DateTime(0)
+  updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?         @db.DateTime(0)
   CategoryProfile CategoryProfile[]
   Meet            Meet[]
@@ -20,127 +22,134 @@ model Category {
 model CategoryProfile {
   categoryId Int
   profileId  Int
-  Category   Category @relation(fields: [categoryId], references: [id])
-  Profile    Profile  @relation(fields: [profileId], references: [id])
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "CategoryProfile_ibfk_1")
+  Profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade, map: "CategoryProfile_ibfk_2")
 
   @@id([categoryId, profileId])
-  @@index([categoryId], name: "fk_CategoryProfile_Category1_idx")
-  @@index([profileId], name: "fk_CategoryProfile_Profile1_idx")
+  @@index([categoryId], map: "fk_CategoryProfile_Category1_idx")
+  @@index([profileId], map: "fk_CategoryProfile_Profile1_idx")
 }
 
 model Follow {
-  profileId                               Int
-  followProfileId                         Int
-  createdAt                               DateTime @default(now()) @db.DateTime(0)
-  Profile_Follow_followProfileIdToProfile Profile  @relation("Follow_followProfileIdToProfile", fields: [followProfileId], references: [id])
-  Profile_Follow_profileIdToProfile       Profile  @relation("Follow_profileIdToProfile", fields: [profileId], references: [id])
+  profileId       Int
+  followProfileId Int
+  createdAt       DateTime  @default(now()) @db.DateTime(0)
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime? @db.DateTime(0)
+  userProfile     Profile   @relation("Follow_profileIdToProfile", fields: [profileId], references: [id], onDelete: Cascade, map: "Follow_ibfk_2")
+  followProfile   Profile   @relation("Follow_followProfileIdToProfile", fields: [followProfileId], references: [id], onDelete: Cascade, map: "Follow_ibfk_1")
 
   @@id([profileId, followProfileId])
-  @@index([profileId], name: "fk_ProfileProfile_Profile1_idx")
-  @@index([followProfileId], name: "fk_ProfileProfile_Profile2_idx")
+  @@index([profileId], map: "fk_ProfileProfile_Profile1_idx")
+  @@index([followProfileId], map: "fk_ProfileProfile_Profile2_idx")
 }
 
 model Meet {
-  id           Int            @unique @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   profileId    Int
   title        String         @db.VarChar(128)
   description  String         @db.VarChar(512)
   startAt      DateTime       @db.DateTime(0)
   endAt        DateTime?      @db.DateTime(0)
-  recurrent    Int            @default(0) @db.TinyInt
-  enabled      Int?           @default(0) @db.TinyInt
-  hasEnded     Int            @default(0) @db.TinyInt
+  recurrent    Boolean        @default(false)
+  enabled      Boolean?       @default(true)
+  hasEnded     Boolean?       @default(false)
   followCount  Int            @default(0)
   bannerUrl    String?        @db.VarChar(4096)
   createdAt    DateTime       @default(now()) @db.DateTime(0)
-  updatedAt    DateTime?      @db.DateTime(0)
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?      @db.DateTime(0)
   categoryId   Int
-  Category     Category       @relation(fields: [categoryId], references: [id])
-  Profile      Profile        @relation(fields: [profileId], references: [id])
+  Category     Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "Meet_ibfk_1")
+  Profile      Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade, map: "Meet_ibfk_2")
   MeetPlatform MeetPlatform[]
   MeetTag      MeetTag[]
   Subscription Subscription[]
 
-  @@id([id, categoryId])
-  @@index([categoryId], name: "fk_Meet_Category1_idx")
-  @@index([profileId], name: "fk_Meet_Profile1_idx")
+  @@index([categoryId], map: "fk_Meet_Category1_idx")
+  @@index([profileId], map: "fk_Meet_Profile1_idx")
 }
 
 model MeetPlatform {
   meetId     Int
   platformId Int
-  Meet       Meet     @relation(fields: [meetId], references: [id])
-  Platform   Platform @relation(fields: [platformId], references: [id])
+  Meet       Meet     @relation(fields: [meetId], references: [id], onDelete: Cascade, map: "MeetPlatform_ibfk_1")
+  Platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade, map: "MeetPlatform_ibfk_2")
 
   @@id([meetId, platformId])
-  @@index([meetId], name: "fk_MeetPlatform_Meet1_idx")
-  @@index([platformId], name: "fk_MeetPlatform_Platform1_idx")
+  @@index([meetId], map: "fk_MeetPlatform_Meet1_idx")
+  @@index([platformId], map: "fk_MeetPlatform_Platform1_idx")
 }
 
 model MeetTag {
-  meetId Int
-  tagId  Int
-  Meet   Meet @relation(fields: [meetId], references: [id])
-  Tag    Tag  @relation(fields: [tagId], references: [id])
+  meetId    Int
+  tagId     Int
+  typedName String   @db.VarChar(128)
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @updatedAt
+  Meet      Meet     @relation(fields: [meetId], references: [id], onDelete: Cascade, map: "MeetTag_ibfk_1")
+  Tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade, map: "MeetTag_ibfk_2")
 
   @@id([meetId, tagId])
-  @@index([meetId], name: "fk_MeetTag_Meet1_idx")
-  @@index([tagId], name: "fk_MeetTag_Tag1_idx")
+  @@index([meetId], map: "fk_MeetTag_Meet1_idx")
+  @@index([tagId], map: "fk_MeetTag_Tag1_idx")
 }
 
 model Platform {
-  id           Int            @id @unique @default(autoincrement())
+  id           Int            @id @unique(map: "Platform.id_unique") @default(autoincrement())
   name         String         @db.VarChar(128)
   platformLink String         @db.VarChar(128)
   icon         String?        @db.VarChar(128)
   MeetPlatform MeetPlatform[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?      @db.DateTime(0)
 }
 
 model Profile {
-  id                                     Int               @default(autoincrement())
-  name                                   String            @db.VarChar(64)
-  secondName                             String?           @db.VarChar(64)
-  description                            String?           @db.VarChar(512)
-  profileImage                           String?           @db.VarChar(128)
-  createdAt                              DateTime?         @default(now()) @db.DateTime(0)
-  updatedAt                              DateTime?         @db.DateTime(0)
-  userId                                 String            @db.VarChar(36)
-  User                                   User              @relation(fields: [userId], references: [id])
-  CategoryProfile                        CategoryProfile[]
-  Follow_Follow_followProfileIdToProfile Follow[]          @relation("Follow_followProfileIdToProfile")
-  Follow_Follow_profileIdToProfile       Follow[]          @relation("Follow_profileIdToProfile")
-  Meet                                   Meet[]
-  Subscription                           Subscription[]
+  id              Int               @id @default(autoincrement())
+  name            String?           @db.VarChar(64)
+  secondName      String?           @db.VarChar(64)
+  description     String?           @db.VarChar(512)
+  profileImage    String?           @db.VarChar(128)
+  createdAt       DateTime?         @default(now()) @db.DateTime(0)
+  updatedAt       DateTime          @updatedAt
+  deletedAt       DateTime?         @db.DateTime(0)
+  userId          String            @db.VarChar(36)
+  User            User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_Profile_User1")
+  CategoryProfile CategoryProfile[]
+  followProfile   Follow[]          @relation("Follow_followProfileIdToProfile")
+  Meet            Meet[]
+  Subscription    Subscription[]
 
-  @@id([id, userId])
-  @@index([userId], name: "fk_Profile_User1_idx")
+  Follow Follow[] @relation("Follow_profileIdToProfile")
+  @@index([userId], map: "fk_Profile_User1_idx")
 }
 
 model Subscription {
   profileId Int
   meetId    Int
-  Meet      Meet    @relation(fields: [meetId], references: [id])
-  Profile   Profile @relation(fields: [profileId], references: [id])
+  Meet      Meet    @relation(fields: [meetId], references: [id], onDelete: Cascade, map: "Subscription_ibfk_1")
+  Profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade, map: "Subscription_ibfk_2")
 
   @@id([profileId, meetId])
-  @@index([meetId], name: "fk_ProfileMeet_Meet1_idx")
-  @@index([profileId], name: "fk_ProfileMeet_Profile1_idx")
+  @@index([meetId], map: "fk_ProfileMeet_Meet1_idx")
+  @@index([profileId], map: "fk_ProfileMeet_Profile1_idx")
 }
 
 model Tag {
-  id        Int       @id @unique @default(autoincrement())
-  name      String    @db.VarChar(128)
-  icon      String?   @db.VarChar(512)
+  id        Int       @id @unique(map: "Tag.id_unique") @default(autoincrement())
+  name      String    @unique @db.VarChar(128)
   createdAt DateTime  @default(now()) @db.DateTime(0)
-  updatedAt DateTime? @db.DateTime(0)
+  updatedAt DateTime  @updatedAt
   MeetTag   MeetTag[]
 }
 
 model User {
-  id        String    @id @unique @db.VarChar(36)
-  email     String    @unique @db.VarChar(128)
+  id        String    @id @unique(map: "id_UNIQUE") @db.VarChar(36)
+  email     String    @unique(map: "User.email_unique") @db.VarChar(128)
   password  String    @db.VarChar(128)
   createdAt DateTime  @default(now()) @db.DateTime(0)
-  updatedAt DateTime? @db.DateTime(0)
+  updatedAt DateTime  @updatedAt
   Profile   Profile[]
 }

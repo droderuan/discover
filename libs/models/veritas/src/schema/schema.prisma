@@ -11,6 +11,7 @@ datasource db {
 model Category {
   id              Int               @id @default(autoincrement())
   name            String            @db.VarChar(128)
+  enabled         Boolean           @default(true)
   createdAt       DateTime          @default(now()) @db.DateTime(0)
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?         @db.DateTime(0)
@@ -44,15 +45,15 @@ model Follow {
 }
 
 model Meet {
-  id           Int            @unique(map: "Meet.id_unique") @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   profileId    Int
   title        String         @db.VarChar(128)
   description  String         @db.VarChar(512)
   startAt      DateTime       @db.DateTime(0)
   endAt        DateTime?      @db.DateTime(0)
-  recurrent    Int            @default(0) @db.TinyInt
-  enabled      Int?           @default(0) @db.TinyInt
-  hasEnded     Int            @default(0) @db.TinyInt
+  recurrent    Boolean        @default(false)
+  enabled      Boolean?       @default(true)
+  hasEnded     Boolean?       @default(false)
   followCount  Int            @default(0)
   bannerUrl    String?        @db.VarChar(4096)
   createdAt    DateTime       @default(now()) @db.DateTime(0)
@@ -65,7 +66,6 @@ model Meet {
   MeetTag      MeetTag[]
   Subscription Subscription[]
 
-  @@id([id, categoryId])
   @@index([categoryId], map: "fk_Meet_Category1_idx")
   @@index([profileId], map: "fk_Meet_Profile1_idx")
 }
@@ -82,10 +82,13 @@ model MeetPlatform {
 }
 
 model MeetTag {
-  meetId Int
-  tagId  Int
-  Meet   Meet @relation(fields: [meetId], references: [id], onDelete: Cascade, map: "MeetTag_ibfk_1")
-  Tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade, map: "MeetTag_ibfk_2")
+  meetId    Int
+  tagId     Int
+  typedName String   @db.VarChar(128)
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @updatedAt
+  Meet      Meet     @relation(fields: [meetId], references: [id], onDelete: Cascade, map: "MeetTag_ibfk_1")
+  Tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade, map: "MeetTag_ibfk_2")
 
   @@id([meetId, tagId])
   @@index([meetId], map: "fk_MeetTag_Meet1_idx")
@@ -104,7 +107,7 @@ model Platform {
 }
 
 model Profile {
-  id              Int               @default(autoincrement())
+  id              Int               @id @default(autoincrement())
   name            String?           @db.VarChar(64)
   secondName      String?           @db.VarChar(64)
   description     String?           @db.VarChar(512)
@@ -113,14 +116,13 @@ model Profile {
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?         @db.DateTime(0)
   userId          String            @db.VarChar(36)
-  User            User              @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Profile_User1")
+  User            User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_Profile_User1")
   CategoryProfile CategoryProfile[]
   followProfile   Follow[]          @relation("Follow_followProfileIdToProfile")
   Meet            Meet[]
   Subscription    Subscription[]
 
   Follow Follow[] @relation("Follow_profileIdToProfile")
-  @@id([id, userId])
   @@index([userId], map: "fk_Profile_User1_idx")
 }
 
@@ -137,8 +139,7 @@ model Subscription {
 
 model Tag {
   id        Int       @id @unique(map: "Tag.id_unique") @default(autoincrement())
-  name      String    @db.VarChar(128)
-  icon      String?   @db.VarChar(512)
+  name      String    @unique @db.VarChar(128)
   createdAt DateTime  @default(now()) @db.DateTime(0)
   updatedAt DateTime  @updatedAt
   MeetTag   MeetTag[]
