@@ -86,10 +86,40 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./apps/api/genesis/src/account/account.controller.ts":
-/*!************************************************************!*\
-  !*** ./apps/api/genesis/src/account/account.controller.ts ***!
-  \************************************************************/
+/***/ "./apps/api/genesis/src/account/account.module.ts":
+/*!********************************************************!*\
+  !*** ./apps/api/genesis/src/account/account.module.ts ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AccountModule = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const account_controller_1 = __webpack_require__(/*! ./controllers/account.controller */ "./apps/api/genesis/src/account/controllers/account.controller.ts");
+const account_service_1 = __webpack_require__(/*! ./providers/account.service */ "./apps/api/genesis/src/account/providers/account.service.ts");
+const nest_1 = __webpack_require__(/*! @discover/shared/nest */ "./libs/shared/nest/src/index.ts");
+let AccountModule = class AccountModule {
+};
+AccountModule = tslib_1.__decorate([
+    common_1.Module({
+        imports: [nest_1.HashModule],
+        controllers: [account_controller_1.AccountController],
+        providers: [account_service_1.AccountService],
+    })
+], AccountModule);
+exports.AccountModule = AccountModule;
+
+
+/***/ }),
+
+/***/ "./apps/api/genesis/src/account/controllers/account.controller.ts":
+/*!************************************************************************!*\
+  !*** ./apps/api/genesis/src/account/controllers/account.controller.ts ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -101,8 +131,8 @@ exports.AccountController = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const models_veritas_1 = __webpack_require__(/*! @discover/models-veritas */ "./libs/models/veritas/src/index.ts");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const account_service_1 = __webpack_require__(/*! ./account.service */ "./apps/api/genesis/src/account/account.service.ts");
-const createUser_dto_1 = __webpack_require__(/*! ./dto/createUser.dto */ "./apps/api/genesis/src/account/dto/createUser.dto.ts");
+const account_service_1 = __webpack_require__(/*! ../providers/account.service */ "./apps/api/genesis/src/account/providers/account.service.ts");
+const createUser_dto_1 = __webpack_require__(/*! ../dto/createUser.dto */ "./apps/api/genesis/src/account/dto/createUser.dto.ts");
 let AccountController = class AccountController {
     constructor(accountService) {
         this.accountService = accountService;
@@ -142,40 +172,42 @@ exports.AccountController = AccountController;
 
 /***/ }),
 
-/***/ "./apps/api/genesis/src/account/account.module.ts":
-/*!********************************************************!*\
-  !*** ./apps/api/genesis/src/account/account.module.ts ***!
-  \********************************************************/
+/***/ "./apps/api/genesis/src/account/dto/createUser.dto.ts":
+/*!************************************************************!*\
+  !*** ./apps/api/genesis/src/account/dto/createUser.dto.ts ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AccountModule = void 0;
+exports.CreateUserDTO = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const account_controller_1 = __webpack_require__(/*! ./account.controller */ "./apps/api/genesis/src/account/account.controller.ts");
-const account_service_1 = __webpack_require__(/*! ./account.service */ "./apps/api/genesis/src/account/account.service.ts");
-const nest_1 = __webpack_require__(/*! @discover/shared/nest */ "./libs/shared/nest/src/index.ts");
-let AccountModule = class AccountModule {
-};
-AccountModule = tslib_1.__decorate([
-    common_1.Module({
-        imports: [nest_1.HashModule],
-        controllers: [account_controller_1.AccountController],
-        providers: [account_service_1.AccountService],
-    })
-], AccountModule);
-exports.AccountModule = AccountModule;
+const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
+class CreateUserDTO {
+}
+tslib_1.__decorate([
+    class_validator_1.IsEmail(),
+    tslib_1.__metadata("design:type", String)
+], CreateUserDTO.prototype, "email", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsString(),
+    tslib_1.__metadata("design:type", String)
+], CreateUserDTO.prototype, "password", void 0);
+tslib_1.__decorate([
+    class_validator_1.IsString(),
+    tslib_1.__metadata("design:type", String)
+], CreateUserDTO.prototype, "confirmPassword", void 0);
+exports.CreateUserDTO = CreateUserDTO;
 
 
 /***/ }),
 
-/***/ "./apps/api/genesis/src/account/account.service.ts":
-/*!*********************************************************!*\
-  !*** ./apps/api/genesis/src/account/account.service.ts ***!
-  \*********************************************************/
+/***/ "./apps/api/genesis/src/account/providers/account.service.ts":
+/*!*******************************************************************!*\
+  !*** ./apps/api/genesis/src/account/providers/account.service.ts ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -243,38 +275,6 @@ AccountService = tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof models_veritas_1.VeritasService !== "undefined" && models_veritas_1.VeritasService) === "function" ? _a : Object, typeof (_b = typeof nest_1.HashService !== "undefined" && nest_1.HashService) === "function" ? _b : Object])
 ], AccountService);
 exports.AccountService = AccountService;
-
-
-/***/ }),
-
-/***/ "./apps/api/genesis/src/account/dto/createUser.dto.ts":
-/*!************************************************************!*\
-  !*** ./apps/api/genesis/src/account/dto/createUser.dto.ts ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserDTO = void 0;
-const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
-class CreateUserDTO {
-}
-tslib_1.__decorate([
-    class_validator_1.IsEmail(),
-    tslib_1.__metadata("design:type", String)
-], CreateUserDTO.prototype, "email", void 0);
-tslib_1.__decorate([
-    class_validator_1.IsString(),
-    tslib_1.__metadata("design:type", String)
-], CreateUserDTO.prototype, "password", void 0);
-tslib_1.__decorate([
-    class_validator_1.IsString(),
-    tslib_1.__metadata("design:type", String)
-], CreateUserDTO.prototype, "confirmPassword", void 0);
-exports.CreateUserDTO = CreateUserDTO;
 
 
 /***/ }),
@@ -461,7 +461,6 @@ let ProfileController = class ProfileController {
     }
 };
 tslib_1.__decorate([
-    common_1.UseGuards(nest_1.JwtAuthGuard),
     common_1.Get('/:profileId'),
     tslib_1.__param(0, common_1.Param('profileId')),
     tslib_1.__metadata("design:type", Function),
@@ -469,7 +468,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getProfile", null);
 tslib_1.__decorate([
-    common_1.UseGuards(nest_1.JwtAuthGuard),
     common_1.Patch('/:profileId'),
     tslib_1.__param(0, common_1.Param('profileId')),
     tslib_1.__param(1, common_1.Body()),
@@ -478,7 +476,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "updateProfile", null);
 tslib_1.__decorate([
-    common_1.UseGuards(nest_1.JwtAuthGuard),
     common_1.Post('/:profileId/follow/:toFollow'),
     tslib_1.__param(0, common_1.Param()),
     tslib_1.__metadata("design:type", Function),
@@ -486,7 +483,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], ProfileController.prototype, "followProfile", null);
 tslib_1.__decorate([
-    common_1.UseGuards(nest_1.JwtAuthGuard),
     common_1.Post('/:profileId/unfollow/:toFollow'),
     tslib_1.__param(0, common_1.Param()),
     tslib_1.__metadata("design:type", Function),
@@ -495,6 +491,7 @@ tslib_1.__decorate([
 ], ProfileController.prototype, "unFollowProfile", null);
 ProfileController = tslib_1.__decorate([
     common_1.Controller('profile'),
+    common_1.UseGuards(nest_1.JwtAuthGuard),
     tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof profile_service_1.ProfileService !== "undefined" && profile_service_1.ProfileService) === "function" ? _b : Object])
 ], ProfileController);
 exports.ProfileController = ProfileController;
@@ -39613,15 +39610,33 @@ exports.VeritasService = VeritasService;
 
 "use strict";
 
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtAuthGuard = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
 const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
+const constants_1 = __webpack_require__(/*! ../constants */ "./libs/shared/nest/src/auth/constants.ts");
 let JwtAuthGuard = class JwtAuthGuard extends passport_1.AuthGuard('jwt') {
+    constructor(reflector) {
+        super();
+        this.reflector = reflector;
+    }
+    canActivate(context) {
+        const isPublic = this.reflector.getAllAndOverride(constants_1.IS_PUBLIC_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        if (isPublic) {
+            return true;
+        }
+        return super.canActivate(context);
+    }
 };
 JwtAuthGuard = tslib_1.__decorate([
-    common_1.Injectable()
+    common_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof core_1.Reflector !== "undefined" && core_1.Reflector) === "function" ? _a : Object])
 ], JwtAuthGuard);
 exports.JwtAuthGuard = JwtAuthGuard;
 
@@ -39832,6 +39847,47 @@ exports.AuthModule = AuthModule;
 
 /***/ }),
 
+/***/ "./libs/shared/nest/src/auth/constants.ts":
+/*!************************************************!*\
+  !*** ./libs/shared/nest/src/auth/constants.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Public = exports.IS_PUBLIC_KEY = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+exports.IS_PUBLIC_KEY = 'isPublic';
+const Public = () => common_1.SetMetadata(exports.IS_PUBLIC_KEY, true);
+exports.Public = Public;
+
+
+/***/ }),
+
+/***/ "./libs/shared/nest/src/auth/index.ts":
+/*!********************************************!*\
+  !*** ./libs/shared/nest/src/auth/index.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+tslib_1.__exportStar(__webpack_require__(/*! ./auth.module */ "./libs/shared/nest/src/auth/auth.module.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./Providers/auth.service */ "./libs/shared/nest/src/auth/Providers/auth.service.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./Strategies/jwt.strategy */ "./libs/shared/nest/src/auth/Strategies/jwt.strategy.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./Strategies/local.strategy */ "./libs/shared/nest/src/auth/Strategies/local.strategy.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./Guards/local-auth.guard */ "./libs/shared/nest/src/auth/Guards/local-auth.guard.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./Guards/jwt-auth.guard */ "./libs/shared/nest/src/auth/Guards/jwt-auth.guard.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./constants */ "./libs/shared/nest/src/auth/constants.ts"), exports);
+
+
+/***/ }),
+
 /***/ "./libs/shared/nest/src/hash/hash.module.ts":
 /*!**************************************************!*\
   !*** ./libs/shared/nest/src/hash/hash.module.ts ***!
@@ -39855,6 +39911,23 @@ HashModule = tslib_1.__decorate([
     })
 ], HashModule);
 exports.HashModule = HashModule;
+
+
+/***/ }),
+
+/***/ "./libs/shared/nest/src/hash/index.ts":
+/*!********************************************!*\
+  !*** ./libs/shared/nest/src/hash/index.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+tslib_1.__exportStar(__webpack_require__(/*! ./hash.module */ "./libs/shared/nest/src/hash/hash.module.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./providers/hash.service */ "./libs/shared/nest/src/hash/providers/hash.service.ts"), exports);
 
 
 /***/ }),
@@ -39904,14 +39977,8 @@ exports.HashService = HashService;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
-tslib_1.__exportStar(__webpack_require__(/*! ./hash/hash.module */ "./libs/shared/nest/src/hash/hash.module.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./hash/providers/hash.service */ "./libs/shared/nest/src/hash/providers/hash.service.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./auth/auth.module */ "./libs/shared/nest/src/auth/auth.module.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./auth/Providers/auth.service */ "./libs/shared/nest/src/auth/Providers/auth.service.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./auth/Strategies/jwt.strategy */ "./libs/shared/nest/src/auth/Strategies/jwt.strategy.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./auth/Strategies/local.strategy */ "./libs/shared/nest/src/auth/Strategies/local.strategy.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./auth/Guards/local-auth.guard */ "./libs/shared/nest/src/auth/Guards/local-auth.guard.ts"), exports);
-tslib_1.__exportStar(__webpack_require__(/*! ./auth/Guards/jwt-auth.guard */ "./libs/shared/nest/src/auth/Guards/jwt-auth.guard.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./hash */ "./libs/shared/nest/src/hash/index.ts"), exports);
+tslib_1.__exportStar(__webpack_require__(/*! ./auth */ "./libs/shared/nest/src/auth/index.ts"), exports);
 
 
 /***/ }),

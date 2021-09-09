@@ -59,3 +59,13 @@ The command will generate the follow directory:
   - /controllers
     - name.controller.ts
   - name.module.ts
+
+# Issues
+
+## Permission issues with docker
+
+I got permission issues with docker while trying to run scripts or packages commands
+I could solve by the following:
+
+- sudo chown -R $USER /workspace
+- sudo chown -R $USER /root/.cache

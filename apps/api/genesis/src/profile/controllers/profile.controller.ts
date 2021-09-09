@@ -4,16 +4,15 @@ import { UpdateUserProfileDTO } from '../dto/updateUserProfile.dto';
 import { ProfileService } from '../services/profile.service';
 
 @Controller('profile')
+@UseGuards(JwtAuthGuard)
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('/:profileId')
   async getProfile(@Param('profileId') profileId: string ) {
     return this.profileService.getUserProfile(profileId);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch('/:profileId')
   async updateProfile(
     @Param('profileId') profileId: string,
@@ -22,7 +21,6 @@ export class ProfileController {
     return this.profileService.updateUserProfile(profileId, profileUpdateData);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/:profileId/follow/:toFollow')
   async followProfile(
     @Param() params: {profileId: string, toFollow: string},
@@ -30,7 +28,6 @@ export class ProfileController {
     return this.profileService.followProfile(params.profileId, params.toFollow);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/:profileId/unfollow/:toFollow')
   async unFollowProfile(
     @Param() params: {profileId: string, toFollow: string},

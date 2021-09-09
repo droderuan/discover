@@ -1,7 +1,7 @@
 import { VeritasService } from '@discover/models-veritas';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
-import { CreateUserDTO } from './dto/createUser.dto';
+import { CreateUserDTO } from '../dto/createUser.dto';
 import { HashService } from '@discover/shared/nest';
 
 @Injectable()
@@ -20,7 +20,6 @@ export class AccountService {
 
     return existUser ? true : false;
   }
-
 
   async createAccount(data: CreateUserDTO ) {
     if (data.password !== data.password){
