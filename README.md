@@ -20,11 +20,13 @@ App architeture: [link to whimsical](https://whimsical.com/discover-structure-Fq
 - Add 3 scripts inside package.json to:
 
   - Will update the prisma.schema with the database schema.
-    - prisma-update-`<database-name>`: npx prisma db pull --schema=./libs/models/`<database-name>`/src/schema/schema.prisma,
+    - `<database-name>`-update: npx prisma db pull --schema=./libs/models/`<database-name>`/src/schema/schema.prisma,
   - Will generate the prisma cliente.
-    - prisma-generate-`<database-name>`: prisma generate --schema=./libs/models/`<database-name>`/src/schema/schema.prisma,
+    - `<database-name>`-generate: prisma generate --schema=./libs/models/`<database-name>`/src/schema/schema.prisma,
   - Will create the migration
-    - prisma-migrate-`<database-name>`: prisma migrate dev --create-only --schema=./libs/models/`<database-name>`/src/schema/schema.prisma
+    - `<database-name>`-migrate: prisma migrate dev --create-only --schema=./libs/models/`<database-name>`/src/schema/schema.prisma
+  - Will run the prisma studio
+    - `<database-name>`-studio: prisma studio --create-only --schema=./libs/models/`<database-name>`/src/schema/schema.prisma
 
 - Then create a nest service which will be used on the API'S and provides the connection
 

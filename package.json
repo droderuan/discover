@@ -24,10 +24,10 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "veritas-studio": "npx prisma studio --schema=./libs/models/veritas/src/schema/schema.prisma",
-    "prisma-update-veritas": "npx prisma db pull --schema=./libs/models/veritas/src/schema/schema.prisma",
-    "prisma-generate-veritas": "prisma generate --schema=./libs/models/veritas/src/schema/schema.prisma",
-    "prisma-migrate-veritas": "prisma migrate dev --schema=./libs/models/veritas/src/schema/schema.prisma"
+    "veritas-update": "npx prisma db pull --schema=./libs/models/veritas/src/schema/schema.prisma",
+    "veritas-generate": "prisma generate --schema=./libs/models/veritas/src/schema/schema.prisma",
+    "veritas-migrate": "prisma migrate dev --schema=./libs/models/veritas/src/schema/schema.prisma",
+    "veritas-studio": "npx prisma studio --schema=./libs/models/veritas/src/schema/schema.prisma"
   },
   "private": true,
   "dependencies": {

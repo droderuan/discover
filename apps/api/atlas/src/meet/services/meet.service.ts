@@ -23,14 +23,16 @@ export class MeetService {
     endAt: true,
     recurrent: true,
     enabled: true,
+    profile: {
+      select: {
+        id: true,
+        name: true,
+        secondName: true,
+      },
+    },
     tags: {
       select: {
         typedName: true,
-        tag: {
-          select: {
-            name: true,
-          },
-        },
       },
     },
     category: {
@@ -51,29 +53,20 @@ export class MeetService {
 
   async findAll() {
     return this.prisma.meet.findMany({
+      select: this.meetSelect,
+    });
+  }
+
+  async findAllByProfileId(profileId: number) {
+    return this.prisma.profile.findUnique({
+      where: {
+        id: profileId,
+      },
       select: {
-        id: true,
-        title: true,
-        description: true,
-        followCount: true,
-        bannerUrl: true,
-        startAt: true,
-        endAt: true,
-        recurrent: true,
-        enabled: true,
-        tags: {
+        meets: true,
+        subscriptions: {
           select: {
-            typedName: true,
-            tag: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-        category: {
-          select: {
-            name: true,
+            meet: true,
           },
         },
       },

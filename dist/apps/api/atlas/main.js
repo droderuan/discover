@@ -103,11 +103,18 @@ const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const tag_module_1 = __webpack_require__(/*! ../tag/tag.module */ "./apps/api/atlas/src/tag/tag.module.ts");
 const meet_module_1 = __webpack_require__(/*! ../meet/meet.module */ "./apps/api/atlas/src/meet/meet.module.ts");
 const platform_module_1 = __webpack_require__(/*! ../platform/platform.module */ "./apps/api/atlas/src/platform/platform.module.ts");
+const subscription_module_1 = __webpack_require__(/*! ../subscription/subscription.module */ "./apps/api/atlas/src/subscription/subscription.module.ts");
 let AppModule = class AppModule {
 };
 AppModule = tslib_1.__decorate([
     common_1.Module({
-        imports: [models_veritas_1.VeritasModule, tag_module_1.TagModule, meet_module_1.MeetModule, platform_module_1.PlatformModule],
+        imports: [
+            models_veritas_1.VeritasModule,
+            tag_module_1.TagModule,
+            meet_module_1.MeetModule,
+            platform_module_1.PlatformModule,
+            subscription_module_1.SubscriptionModule,
+        ],
         controllers: [],
         providers: [],
     })
@@ -164,7 +171,7 @@ bootstrap();
 
 "use strict";
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MeetController = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
@@ -180,6 +187,12 @@ let MeetController = class MeetController {
     getAllMeet() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const meets = yield this.meetService.findAll();
+            return meets;
+        });
+    }
+    getAllSubscribedMeets(request) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meets = yield this.meetService.findAllByProfileId(request.user.profileId);
             return meets;
         });
     }
@@ -203,12 +216,21 @@ let MeetController = class MeetController {
     }
 };
 tslib_1.__decorate([
+    nest_1.Public(),
     common_1.Get(''),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeetController.prototype, "getAllMeet", null);
 tslib_1.__decorate([
+    common_1.Get('/list/my-meets'),
+    tslib_1.__param(0, common_1.Request()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _a : Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], MeetController.prototype, "getAllSubscribedMeets", null);
+tslib_1.__decorate([
+    nest_1.Public(),
     common_1.Get('/:id'),
     tslib_1.__param(0, common_1.Param()),
     tslib_1.__metadata("design:type", Function),
@@ -216,26 +238,25 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], MeetController.prototype, "getOneMeet", null);
 tslib_1.__decorate([
-    common_1.UseGuards(nest_1.JwtAuthGuard),
     common_1.Post('/'),
     tslib_1.__param(0, common_1.Request()),
     tslib_1.__param(1, common_1.Body()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _a : Object, typeof (_b = typeof createMeet_dto_1.CreateMeetDTO !== "undefined" && createMeet_dto_1.CreateMeetDTO) === "function" ? _b : Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _b : Object, typeof (_c = typeof createMeet_dto_1.CreateMeetDTO !== "undefined" && createMeet_dto_1.CreateMeetDTO) === "function" ? _c : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeetController.prototype, "createMeet", null);
 tslib_1.__decorate([
-    common_1.UseGuards(nest_1.JwtAuthGuard),
     common_1.Put('/'),
     tslib_1.__param(0, common_1.Request()),
     tslib_1.__param(1, common_1.Body()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _c : Object, typeof (_d = typeof updateMeet_dto_1.UpdateMeetDTO !== "undefined" && updateMeet_dto_1.UpdateMeetDTO) === "function" ? _d : Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_d = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _d : Object, typeof (_e = typeof updateMeet_dto_1.UpdateMeetDTO !== "undefined" && updateMeet_dto_1.UpdateMeetDTO) === "function" ? _e : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], MeetController.prototype, "update", null);
 MeetController = tslib_1.__decorate([
     common_1.Controller('meet'),
-    tslib_1.__metadata("design:paramtypes", [typeof (_e = typeof meet_service_1.MeetService !== "undefined" && meet_service_1.MeetService) === "function" ? _e : Object])
+    common_1.UseGuards(nest_1.JwtAuthGuard),
+    tslib_1.__metadata("design:paramtypes", [typeof (_f = typeof meet_service_1.MeetService !== "undefined" && meet_service_1.MeetService) === "function" ? _f : Object])
 ], MeetController);
 exports.MeetController = MeetController;
 
@@ -458,14 +479,16 @@ let MeetService = class MeetService {
             endAt: true,
             recurrent: true,
             enabled: true,
+            profile: {
+                select: {
+                    id: true,
+                    name: true,
+                    secondName: true,
+                },
+            },
             tags: {
                 select: {
                     typedName: true,
-                    tag: {
-                        select: {
-                            name: true,
-                        },
-                    },
                 },
             },
             category: {
@@ -487,29 +510,21 @@ let MeetService = class MeetService {
     findAll() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             return this.prisma.meet.findMany({
+                select: this.meetSelect,
+            });
+        });
+    }
+    findAllByProfileId(profileId) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.prisma.profile.findUnique({
+                where: {
+                    id: profileId,
+                },
                 select: {
-                    id: true,
-                    title: true,
-                    description: true,
-                    followCount: true,
-                    bannerUrl: true,
-                    startAt: true,
-                    endAt: true,
-                    recurrent: true,
-                    enabled: true,
-                    tags: {
+                    meets: true,
+                    subscriptions: {
                         select: {
-                            typedName: true,
-                            tag: {
-                                select: {
-                                    name: true,
-                                },
-                            },
-                        },
-                    },
-                    category: {
-                        select: {
-                            name: true,
+                            meet: true,
                         },
                     },
                 },
@@ -744,6 +759,196 @@ PlatformService = tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof models_veritas_1.VeritasService !== "undefined" && models_veritas_1.VeritasService) === "function" ? _a : Object])
 ], PlatformService);
 exports.PlatformService = PlatformService;
+
+
+/***/ }),
+
+/***/ "./apps/api/atlas/src/subscription/controllers/subscription.controller.ts":
+/*!********************************************************************************!*\
+  !*** ./apps/api/atlas/src/subscription/controllers/subscription.controller.ts ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a, _b, _c;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubscriptionController = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const subscription_service_1 = __webpack_require__(/*! ../providers/subscription.service */ "./apps/api/atlas/src/subscription/providers/subscription.service.ts");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const nest_1 = __webpack_require__(/*! @discover/shared/nest */ "./libs/shared/nest/src/index.ts");
+let SubscriptionController = class SubscriptionController {
+    constructor(subscriptionService) {
+        this.subscriptionService = subscriptionService;
+    }
+    subscribe(request, params) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meet = yield this.subscriptionService.subscribe(request.user.profileId, Number(params.meetId));
+            return meet;
+        });
+    }
+    unSubscribe(request, params) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meet = yield this.subscriptionService.unSubscribe(request.user.profileId, Number(params.meetId));
+            return meet;
+        });
+    }
+};
+tslib_1.__decorate([
+    common_1.Post('/:meetId'),
+    tslib_1.__param(0, common_1.Request()),
+    tslib_1.__param(1, common_1.Param()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _a : Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], SubscriptionController.prototype, "subscribe", null);
+tslib_1.__decorate([
+    common_1.Delete('/:meetId'),
+    tslib_1.__param(0, common_1.Request()),
+    tslib_1.__param(1, common_1.Param()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof nest_1.RequestWithUser !== "undefined" && nest_1.RequestWithUser) === "function" ? _b : Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], SubscriptionController.prototype, "unSubscribe", null);
+SubscriptionController = tslib_1.__decorate([
+    common_1.Controller('subscription'),
+    common_1.UseGuards(nest_1.JwtAuthGuard),
+    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof subscription_service_1.SubscriptionService !== "undefined" && subscription_service_1.SubscriptionService) === "function" ? _c : Object])
+], SubscriptionController);
+exports.SubscriptionController = SubscriptionController;
+
+
+/***/ }),
+
+/***/ "./apps/api/atlas/src/subscription/providers/subscription.service.ts":
+/*!***************************************************************************!*\
+  !*** ./apps/api/atlas/src/subscription/providers/subscription.service.ts ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubscriptionService = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const models_veritas_1 = __webpack_require__(/*! @discover/models-veritas */ "./libs/models/veritas/src/index.ts");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let SubscriptionService = class SubscriptionService {
+    constructor(prisma) {
+        this.prisma = prisma;
+    }
+    subscribe(profileId, meetId) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meet = yield this.prisma.meet.findFirst({
+                where: {
+                    id: meetId,
+                    profileId: {
+                        not: profileId,
+                    },
+                    subscriptions: {
+                        none: {
+                            profileId,
+                        },
+                    },
+                },
+            });
+            if (!meet) {
+                throw new common_1.BadRequestException('Meet does not exist or the profile is already subscribed or you are trying to subscribe to your own meet');
+            }
+            yield this.prisma.meet.update({
+                where: {
+                    id: meetId,
+                },
+                data: {
+                    subscriptions: {
+                        create: {
+                            profileId,
+                        },
+                    },
+                    followCount: {
+                        increment: 1,
+                    },
+                },
+            });
+        });
+    }
+    unSubscribe(profileId, meetId) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const meet = yield this.prisma.meet.findFirst({
+                where: {
+                    id: meetId,
+                    profileId: {
+                        not: profileId,
+                    },
+                    subscriptions: {
+                        some: {
+                            profileId,
+                        },
+                    },
+                },
+            });
+            if (!meet) {
+                throw new common_1.BadRequestException('Meet does not exist or the profile is already subscribed or you are trying to unSubscribe to your own meet');
+            }
+            yield this.prisma.meet.update({
+                where: {
+                    id: meetId,
+                },
+                data: {
+                    subscriptions: {
+                        delete: {
+                            profileId_meetId: {
+                                meetId,
+                                profileId,
+                            },
+                        },
+                    },
+                    followCount: {
+                        increment: 1,
+                    },
+                },
+            });
+        });
+    }
+};
+SubscriptionService = tslib_1.__decorate([
+    common_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof models_veritas_1.VeritasService !== "undefined" && models_veritas_1.VeritasService) === "function" ? _a : Object])
+], SubscriptionService);
+exports.SubscriptionService = SubscriptionService;
+
+
+/***/ }),
+
+/***/ "./apps/api/atlas/src/subscription/subscription.module.ts":
+/*!****************************************************************!*\
+  !*** ./apps/api/atlas/src/subscription/subscription.module.ts ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubscriptionModule = void 0;
+const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const subscription_service_1 = __webpack_require__(/*! ./providers/subscription.service */ "./apps/api/atlas/src/subscription/providers/subscription.service.ts");
+const subscription_controller_1 = __webpack_require__(/*! ./controllers/subscription.controller */ "./apps/api/atlas/src/subscription/controllers/subscription.controller.ts");
+const nest_1 = __webpack_require__(/*! @discover/shared/nest */ "./libs/shared/nest/src/index.ts");
+let SubscriptionModule = class SubscriptionModule {
+};
+SubscriptionModule = tslib_1.__decorate([
+    common_1.Module({
+        providers: [subscription_service_1.SubscriptionService, nest_1.AuthModule],
+        controllers: [subscription_controller_1.SubscriptionController],
+    })
+], SubscriptionModule);
+exports.SubscriptionModule = SubscriptionModule;
 
 
 /***/ }),

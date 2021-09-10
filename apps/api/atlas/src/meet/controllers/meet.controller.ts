@@ -9,27 +9,37 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MeetService } from '../services/meet.service';
-import { JwtAuthGuard, RequestWithUser } from '@discover/shared/nest';
+import { JwtAuthGuard, RequestWithUser, Public } from '@discover/shared/nest';
 import { CreateMeetDTO } from '../dto/createMeet.dto';
 import { UpdateMeetDTO } from '../dto/updateMeet.dto';
 
 @Controller('meet')
+@UseGuards(JwtAuthGuard)
 export class MeetController {
   constructor(private readonly meetService: MeetService) {}
 
+  @Public()
   @Get('')
   async getAllMeet() {
     const meets = await this.meetService.findAll();
     return meets;
   }
 
+  @Get('/list/my-meets')
+  async getAllSubscribedMeets(@Request() request: RequestWithUser) {
+    const meets = await this.meetService.findAllByProfileId(
+      request.user.profileId
+    );
+    return meets;
+  }
+
+  @Public()
   @Get('/:id')
   async getOneMeet(@Param() params: { id: string }) {
     const meet = await this.meetService.findOne(Number(params.id));
     return meet;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createMeet(
     @Request() request: RequestWithUser,
@@ -39,7 +49,6 @@ export class MeetController {
     return meet;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put('/')
   async update(
     @Request() request: RequestWithUser,
