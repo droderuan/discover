@@ -2,4 +2,9 @@ node_modules
 # Keep environment variables out of version control
 .env
 
+# removing the output that is generated
+/dist
+/tmp
+/out-tsc
+
 libs/models/*/src/lib/prisma/*

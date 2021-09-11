@@ -38,6 +38,13 @@
     },
     "shared-nest": {
       "tags": []
+    },
+    "ui-ara": {
+      "tags": []
+    },
+    "ui/ara-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ui-ara"]
     }
   }
 }

@@ -156,10 +156,101 @@
           }
         }
       }
+    },
+    "ui-ara": {
+      "root": "apps/ui/ara",
+      "sourceRoot": "apps/ui/ara",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/ui/ara",
+            "outputPath": "dist/apps/ui/ara"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "ui-ara:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "ui-ara:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "ui-ara:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ui/ara"],
+          "options": {
+            "jestConfig": "apps/ui/ara/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ui/ara/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "ui/ara-e2e": {
+      "root": "apps/ui/ara-e2e",
+      "sourceRoot": "apps/ui/ara-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ui/ara-e2e/cypress.json",
+            "devServerTarget": "ui-ara:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ui-ara:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ui/ara-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/next"
   },
-  "defaultProject": "api-atlas"
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "ui-ara"
 }
