@@ -1,9 +1,9 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@discover/ui-andromeda';
 
 export function Index() {
   return (
     <div>
-      <Button>Teste</Button>
+      <Button />
     </div>
   );
 }

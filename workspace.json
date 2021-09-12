@@ -157,6 +157,59 @@
         }
       }
     },
+    "ui-andromeda": {
+      "root": "libs/ui/andromeda",
+      "sourceRoot": "libs/ui/andromeda/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/ui/andromeda/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/andromeda"],
+          "options": {
+            "jestConfig": "libs/ui/andromeda/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/ui/andromeda/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/components-andromeda",
+            "config": {
+              "configFolder": "libs/ui/andromeda/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
     "ui-ara": {
       "root": "apps/ui/ara",
       "sourceRoot": "apps/ui/ara",
@@ -209,6 +262,28 @@
         }
       }
     },
+    "ui-react-config": {
+      "root": "libs/ui/react/config",
+      "sourceRoot": "libs/ui/react/config/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/ui/react/config/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/react/config"],
+          "options": {
+            "jestConfig": "libs/ui/react/config/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "ui/ara-e2e": {
       "root": "apps/ui/ara-e2e",
       "sourceRoot": "apps/ui/ara-e2e/src",
@@ -237,7 +312,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/next"
+    "defaultCollection": "@nrwl/workspace"
   },
   "generators": {
     "@nrwl/react": {

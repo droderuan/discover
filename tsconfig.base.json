@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@discover/models-veritas": ["libs/models/veritas/src/index.ts"],
-      "@discover/shared/nest": ["libs/shared/nest/src/index.ts"]
+      "@discover/shared/nest": ["libs/shared/nest/src/index.ts"],
+      "@discover/ui-andromeda": ["libs/ui/andromeda/src/index.ts"],
+      "@discover/ui-react-config": ["libs/ui/react/config/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

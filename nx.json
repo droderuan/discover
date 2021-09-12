@@ -14,7 +14,13 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook"
+        ]
       }
     }
   },
@@ -39,7 +45,13 @@
     "shared-nest": {
       "tags": []
     },
+    "ui-andromeda": {
+      "tags": []
+    },
     "ui-ara": {
+      "tags": []
+    },
+    "ui-react-config": {
       "tags": []
     },
     "ui/ara-e2e": {

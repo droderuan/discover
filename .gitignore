@@ -7,4 +7,5 @@ node_modules
 /tmp
 /out-tsc
 
+# Removing the generated prisma client
 libs/models/*/src/lib/prisma/*
