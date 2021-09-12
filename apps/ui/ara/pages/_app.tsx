@@ -1,3 +1,4 @@
+import { AndromedaContextProvider } from '@discover/ui-andromeda';
 import { DefaultAppConfig } from '@discover/ui-react-config';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -13,9 +14,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <DefaultAppConfig>
-        <main>
-          <Component {...pageProps} />
-        </main>
+        <AndromedaContextProvider>
+          <main>
+            <Component {...pageProps} />
+          </main>
+        </AndromedaContextProvider>
       </DefaultAppConfig>
     </>
   );
