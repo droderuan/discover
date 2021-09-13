@@ -17,11 +17,13 @@ const Template: Story<AppDrawerProps> = (args) => (
         {
           icon: HomeIcon,
           label: 'home',
+          path: '/',
           focused: true,
         },
         {
           icon: AddToQueueIcon,
           label: 'meet',
+          path: '/',
         },
       ]}
     />

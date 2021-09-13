@@ -7,3 +7,7 @@ export const decorators = [
     </DefaultAppConfig>
   )
 ]
+
+export const parameters = {
+  layout: 'fullscreen',
+};

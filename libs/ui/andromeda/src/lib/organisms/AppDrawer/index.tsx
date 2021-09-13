@@ -2,12 +2,18 @@ import { Drawer, DrawerProps, makeStyles, Box } from '@material-ui/core';
 import IconButton, { IconButtonProps } from '../../atoms/IconButton';
 import clsx from 'clsx';
 import { useAppDrawer } from './context';
+import Link from 'next/link';
+
+export interface ItemProps extends IconButtonProps {
+  path: string;
+}
 
 export interface AppDrawerProps extends DrawerProps {
-  items: IconButtonProps[];
+  items: ItemProps[];
 }
 
 const drawerWidth = 240;
+const drawerMinWidth = 72;
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -33,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     overflowX: 'hidden',
     width: theme.spacing(7) + 1,
-    minWidth: 72,
+    minWidth: drawerMinWidth,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
@@ -41,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 56,
+    marginTop: 64,
+    width: drawerMinWidth,
   },
 }));
 
@@ -66,7 +73,9 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ items, ...props }) => {
     >
       <div className={classes.buttonContainer}>
         {items.map((item) => (
-          <IconButton onClick={toggleAppDrawer} horizontal={open} {...item} />
+          <Link href={item.path} key={item.label}>
+            <IconButton onClick={toggleAppDrawer} horizontal={open} {...item} />
+          </Link>
         ))}
       </div>
     </Drawer>

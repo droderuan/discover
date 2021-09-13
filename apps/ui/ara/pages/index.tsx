@@ -1,10 +1,10 @@
-import { Button } from '@discover/ui-andromeda';
+import { CoreTemplate, Content } from '@discover/ui-andromeda';
 
 export function Index() {
   return (
-    <div>
-      <Button />
-    </div>
+    <CoreTemplate>
+      <Content>A HOME DO PAI COMO VAI</Content>
+    </CoreTemplate>
   );
 }
 
