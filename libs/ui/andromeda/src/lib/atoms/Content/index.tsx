@@ -2,7 +2,9 @@ import { Box, BoxProps, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: '16px 24px',
+    padding: '16px 24px 0px',
+    width: '100%',
+    flex: 1,
   },
 }));
 

@@ -32,7 +32,7 @@ const CoreTemplate: React.FC = ({ children }) => {
             ]}
           />
         </aside>
-        <main>
+        <main style={{ flex: '1' }}>
           <WhiteBoard>{children}</WhiteBoard>
         </main>
       </div>

@@ -19,11 +19,14 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   hidePlatformName: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
   },
   hideRightMenu: {
+    [theme.breakpoints.down('sm')]: {
+      visibility: 'hidden',
+    },
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
@@ -66,8 +69,14 @@ const Headerbar: React.FC = () => {
       color="default"
     >
       <Toolbar style={{ padding: '0 24px' }}>
-        <Grid container direction="row" alignItems="center">
-          <Grid item xs={2} md={1}>
+        <Grid spacing={1} container direction="row" alignItems="center">
+          <Grid
+            item
+            xs={2}
+            sm={4}
+            md={3}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
             <IconButton
               onClick={toggleAppDrawer}
               style={{ paddingLeft: 0, paddingRight: 0 }}
@@ -75,14 +84,16 @@ const Headerbar: React.FC = () => {
             >
               <MenuIcon />
             </IconButton>
-          </Grid>
 
-          <Grid item md={3} className={classes.hidePlatformName}>
-            <Typography variant="h1" style={{ fontSize: 32, fontWeight: 500 }}>
+            <Typography
+              variant="h1"
+              style={{ marginLeft: 24, fontSize: 32, fontWeight: 500 }}
+              className={classes.hidePlatformName}
+            >
               Discover
             </Typography>
           </Grid>
-          <Grid item xs={10} sm={7} md={4}>
+          <Grid item xs={10} sm={7} md={5}>
             <div className={classes.searchInput}>
               <InputBase
                 placeholder="Search…"
@@ -101,7 +112,7 @@ const Headerbar: React.FC = () => {
               </Button>
             </div>
           </Grid>
-          <Grid item sm={3} md={4} className={classes.hideRightMenu}>
+          <Grid item sm={1} md={4} className={classes.hideRightMenu}>
             <div className={classes.rightMenu}>
               <Button variant="contained" color="primary">
                 Create meet

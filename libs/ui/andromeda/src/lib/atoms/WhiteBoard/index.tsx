@@ -3,6 +3,9 @@ import { Box, BoxProps, makeStyles, Toolbar } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   container: {
     height: `100vh`,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 
