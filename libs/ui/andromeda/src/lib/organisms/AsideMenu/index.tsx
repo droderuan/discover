@@ -1,14 +1,14 @@
 import { Drawer, DrawerProps, makeStyles, Box } from '@material-ui/core';
 import IconButton, { IconButtonProps } from '../../atoms/IconButton';
 import clsx from 'clsx';
-import { useAppDrawer } from './context';
+import { useAsideMenu } from './context';
 import Link from 'next/link';
 
 export interface ItemProps extends IconButtonProps {
   path: string;
 }
 
-export interface AppDrawerProps extends DrawerProps {
+export interface AsideMenuProps extends DrawerProps {
   items: ItemProps[];
 }
 
@@ -52,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AppDrawer: React.FC<AppDrawerProps> = ({ items, ...props }) => {
+const AsideMenu: React.FC<AsideMenuProps> = ({ items, ...props }) => {
   const classes = useStyles();
-  const { open, toggleAppDrawer } = useAppDrawer();
+  const { open, toggleAsideMenu } = useAsideMenu();
 
   return (
     <Drawer
@@ -74,7 +74,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ items, ...props }) => {
       <div className={classes.buttonContainer}>
         {items.map((item) => (
           <Link href={item.path} key={item.label}>
-            <IconButton onClick={toggleAppDrawer} horizontal={open} {...item} />
+            <IconButton onClick={toggleAsideMenu} horizontal={open} {...item} />
           </Link>
         ))}
       </div>
@@ -82,4 +82,4 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ items, ...props }) => {
   );
 };
 
-export default AppDrawer;
+export default AsideMenu;

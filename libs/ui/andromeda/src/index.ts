@@ -1,5 +1,5 @@
 // Hooks to manipulate components
-export * from './lib/organisms/AppDrawer/context';
+export * from './lib/organisms/AsideMenu/context';
 
 // The provider of Hooks to manipulate components
 export { default as AndromedaContextProvider } from './lib/Hooks';
@@ -8,5 +8,10 @@ export { default as AndromedaContextProvider } from './lib/Hooks';
 export { default as IconButton } from './lib/atoms/IconButton';
 export { default as Content } from './lib/atoms/Content';
 
+// Molecules
+export { default as FormInput } from './lib/molecules/FormInput';
+export * from './lib/molecules/FormInput';
+
 // Module templates
 export { default as CoreTemplate } from './lib/templates/Core';
+export { default as LoginTemplate } from './lib/templates/Login';

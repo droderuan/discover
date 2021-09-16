@@ -1,12 +1,12 @@
 import CoreTemplate from '.';
-import { AppDrawerProvider } from '../../organisms/AppDrawer/context';
+import { AsideMenuProvider } from '../../organisms/AsideMenu/context';
 
 export default {
   title: 'Components/Templates/CoreTemplate',
   component: CoreTemplate,
 };
 export const Primary = () => (
-  <AppDrawerProvider>
+  <AsideMenuProvider>
     <CoreTemplate />
-  </AppDrawerProvider>
+  </AsideMenuProvider>
 );

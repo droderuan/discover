@@ -2,7 +2,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import AddToQueueIcon from '@material-ui/icons/AddToQueue';
 
 import Headerbar from '../../organisms/Header';
-import AppDrawer from '../../organisms/AppDrawer';
+import AsideMenu from '../../organisms/AsideMenu';
 import WhiteBoard from '../../atoms/WhiteBoard';
 
 const CoreTemplate: React.FC = ({ children }) => {
@@ -11,7 +11,7 @@ const CoreTemplate: React.FC = ({ children }) => {
       <Headerbar />
       <div style={{ display: 'flex' }}>
         <aside>
-          <AppDrawer
+          <AsideMenu
             items={[
               {
                 icon: HomeIcon,

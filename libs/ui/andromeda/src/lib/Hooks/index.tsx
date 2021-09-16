@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { AppDrawerProvider } from '../organisms/AppDrawer/context';
+import { AsideMenuProvider } from '../organisms/AsideMenu/context';
 
 const AndromedaContextProvider: React.FC = ({ children }) => {
-  return <AppDrawerProvider>{children}</AppDrawerProvider>;
+  return <AsideMenuProvider>{children}</AsideMenuProvider>;
 };
 
 export default AndromedaContextProvider;

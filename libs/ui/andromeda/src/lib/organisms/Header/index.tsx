@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { useAppDrawer } from '../AppDrawer/context';
+import { useAsideMenu } from '../AsideMenu/context';
 
 const useStyles = makeStyles((theme) => ({
   appBarContainer: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Headerbar: React.FC = () => {
   const classes = useStyles();
-  const { toggleAppDrawer } = useAppDrawer();
+  const { toggleAsideMenu } = useAsideMenu();
   return (
     <AppBar
       position="fixed"
@@ -78,7 +78,7 @@ const Headerbar: React.FC = () => {
             style={{ display: 'flex', alignItems: 'center' }}
           >
             <IconButton
-              onClick={toggleAppDrawer}
+              onClick={toggleAsideMenu}
               style={{ paddingLeft: 0, paddingRight: 0 }}
               color="primary"
             >
