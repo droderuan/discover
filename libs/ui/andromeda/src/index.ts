@@ -11,6 +11,7 @@ export { default as Content } from './lib/atoms/Content';
 // Molecules
 export { default as FormInput } from './lib/molecules/FormInput';
 export * from './lib/molecules/FormInput';
+export { default as PasswordCompliance } from './lib/molecules/PasswordCompliance';
 
 // Module templates
 export { default as CoreTemplate } from './lib/templates/Core';

@@ -1,12 +1,13 @@
 import {
   FormControl,
+  FormControlProps,
   FormHelperText,
   InputLabel,
   makeStyles,
   OutlinedInput,
   OutlinedInputProps,
 } from '@material-ui/core';
-import { Controller, Control } from 'react-hook-form';
+import { Controller, Control, UseFormClearErrors } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   inputWrapper: {
@@ -19,10 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface FormInputProps extends OutlinedInputProps {
+export interface FormInputProps extends Omit<OutlinedInputProps, 'style'> {
   label: string;
   helperText?: string;
   errorText?: string;
+  style?: FormControlProps['style'];
+  clearErrors: UseFormClearErrors<any>;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -31,16 +34,19 @@ const FormInput: React.FC<FormInputProps> = ({
   errorText,
   error,
   innerRef,
+  style,
+  name,
+  clearErrors,
   ...props
 }) => {
   const classes = useStyles();
-
   return (
     <FormControl
       variant="outlined"
       className={classes.inputWrapper}
       error={!!error}
       fullWidth
+      style={style}
     >
       <InputLabel htmlFor={`${label} label`}>{label}</InputLabel>
       <OutlinedInput
@@ -48,9 +54,10 @@ const FormInput: React.FC<FormInputProps> = ({
         ref={innerRef}
         aria-describedby={label || 'input text'}
         label={label}
+        onFocus={() => clearErrors(name)}
         {...props}
       />
-      {helperText && (
+      {helperText && !errorText && (
         <FormHelperText id={`${helperText} text`}>{helperText}</FormHelperText>
       )}
       {!!errorText && (
@@ -71,7 +78,6 @@ export interface FormInputControl extends FormInputProps {
   control: Control;
   label: string;
   helperText?: string;
-  errorText?: string;
   defaultValue?: string;
 }
 
@@ -83,8 +89,8 @@ export const FormInputControl: React.FC<FormInputControl> = ({
   control,
   label,
   helperText,
-  errorText,
   defaultValue,
+  onChange: propOnChange,
   ...props
 }) => {
   return (
@@ -92,13 +98,19 @@ export const FormInputControl: React.FC<FormInputControl> = ({
       name={name}
       control={control}
       defaultValue={defaultValue || ''}
-      render={({ field: { onChange, value } }) => (
+      render={({ fieldState: { error }, field: { onChange, value } }) => (
         <FormInput
           label={label}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e);
+            if (propOnChange) {
+              propOnChange(e);
+            }
+          }}
           value={value}
+          error={error}
           helperText={helperText}
-          errorText={errorText}
+          errorText={error && error.message}
           {...props}
         />
       )}

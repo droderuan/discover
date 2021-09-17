@@ -6,7 +6,7 @@ import { UpdateUserProfileDTO } from '../dto/updateUserProfile.dto';
 export class ProfileService {
   constructor(private prisma: VeritasService) {}
 
-  async getUserProfile(profileId: string) {
+  async getUserProfile(profileId: number) {
     if (!profileId) {
       throw new BadRequestException('Profile id can not be empty');
     }
@@ -41,7 +41,7 @@ export class ProfileService {
     });
   }
 
-  async updateUserProfile(profileId: string, data: UpdateUserProfileDTO) {
+  async updateUserProfile(profileId: number, data: UpdateUserProfileDTO) {
     const userProfile = await this.prisma.profile.findFirst({
       where: {
         id: Number(profileId),
@@ -63,7 +63,7 @@ export class ProfileService {
     });
   }
 
-  async followProfile(userProfileId: string, profileToFollowId: string) {
+  async followProfile(userProfileId: number, profileToFollowId: number) {
     if (userProfileId === profileToFollowId) {
       throw new BadRequestException('Can not follow yourself');
     }
@@ -95,7 +95,7 @@ export class ProfileService {
     });
   }
 
-  async unfollowProfile(userProfileId: string, profileToFollowId: string) {
+  async unfollowProfile(userProfileId: number, profileToFollowId: number) {
     if (userProfileId === profileToFollowId) {
       throw new BadRequestException('Can not unFollow yourself');
     }

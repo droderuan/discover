@@ -1,11 +1,13 @@
+import Link from 'next/link';
+import * as yup from 'yup';
+import clsx from 'clsx';
+import { useForm } from 'react-hook-form';
 import { FormInputControl, FormInput } from '@discover/ui-andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
-import clsx from 'clsx';
-import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { FaTwitch } from 'react-icons/fa';
-import Link from 'next/link';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,9 +34,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const validationSchema = yup.object().shape({
+  email: yup.string().email('Provide a valide e-mail').required(),
+  password: yup.string().required('A password is required'),
+});
+
 export function Login() {
   const classes = useStyles();
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, control, clearErrors } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
   const onSubmit = (data: any) => console.log(data);
   const send = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,18 +56,24 @@ export function Login() {
           variant="h1"
           style={{ fontSize: 32, textAlign: 'center', marginBottom: 55 }}
         >
-          Sign in on <br />{' '}
+          Sign in on <br />
           <b style={{ fontSize: 48, textAlign: 'center', marginBottom: 55 }}>
             Discover
           </b>
         </Typography>
         <form onSubmit={send} className={classes.formContainer}>
-          <FormInputControl control={control} name="email" label="E-mail" />
+          <FormInputControl
+            control={control}
+            name="email"
+            label="E-mail"
+            clearErrors={clearErrors}
+          />
           <FormInputControl
             type="password"
             control={control}
             name="password"
             label="Password"
+            clearErrors={clearErrors}
           />
 
           <Button type="submit" color="primary" variant="contained">

@@ -312,7 +312,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/react"
   },
   "generators": {
     "@nrwl/react": {

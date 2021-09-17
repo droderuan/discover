@@ -31,6 +31,7 @@
   },
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^2.8.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@nestjs/common": "^7.0.0",
@@ -59,9 +60,11 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "rxjs": "~6.6.3",
+    "swr": "^1.0.1",
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
-    "yarn": "^1.22.11"
+    "yarn": "^1.22.11",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",

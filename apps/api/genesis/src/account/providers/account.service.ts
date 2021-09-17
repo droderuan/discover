@@ -9,7 +9,7 @@ export class AccountService {
   constructor(
     private prisma: VeritasService,
     private hashService: HashService
-    ) { }
+  ) {}
 
   async checkUnusedEmail(email: string): Promise<boolean> {
     const existUser = await this.prisma.user.findUnique({
@@ -21,11 +21,13 @@ export class AccountService {
     return existUser ? true : false;
   }
 
-  async createAccount(data: CreateUserDTO ) {
-    if (data.password !== data.password){
-      throw new BadRequestException('Password does not match with password confirmation')
+  async createAccount(data: CreateUserDTO) {
+    if (data.password !== data.password) {
+      throw new BadRequestException(
+        'Password does not match with password confirmation'
+      );
     }
-    
+
     const existUser = await this.prisma.user.findUnique({
       where: {
         email: data.email,
@@ -38,23 +40,22 @@ export class AccountService {
 
     const { password } = data;
 
-    const hashedPassword = await this.hashService.hash(password);;
+    const hashedPassword = await this.hashService.hash(password);
 
     return this.prisma.user.create({
       data: {
         email: data.email,
         id: uuid(),
         password: hashedPassword,
-        Profile: {
-          create: {}
-        }
+        profile: {
+          create: {},
+        },
       },
       select: {
-        Profile: true,
+        profile: true,
         email: true,
-        id: true
-      }
+        id: true,
+      },
     });
   }
-
 }

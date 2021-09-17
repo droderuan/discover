@@ -1,14 +1,19 @@
-import { FormInputControl, FormInput } from '@discover/ui-andromeda';
+import { useCallback, useState } from 'react';
+import swr from 'swr';
+import { useForm } from 'react-hook-form';
+import Link from 'next/link';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormInputControl, PasswordCompliance } from '@discover/ui-andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
-import { useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import Link from 'next/link';
+import genesis from '../../../utils/genesisApi';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: '-20%',
-    minWidth: 253,
+    minWidth: 300,
     width: '30%',
   },
   formContainer: {
@@ -31,14 +36,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const validationSchema = yup.object().shape({
+  email: yup.string().email('Provide a valide e-mail').required(),
+  password: yup.string().min(8).required('A password is required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Password confirmation does not match'),
+});
+
 export function Login() {
   const classes = useStyles();
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, clearErrors } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const [password, SetPassword] = useState('');
+
   const onSubmit = (data: any) => console.log(data);
   const send = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(onSubmit)();
   };
+
+  const verifyEmail: FC = async (email: string) => {
+    const { data } = swr(
+      `${genesis.api_url}/api/account/check-email/${email}`,
+      genesis.fetcher
+    );
+    console.log(data);
+  };
+
   return (
     <>
       <div className={classes.container}>
@@ -69,20 +96,34 @@ export function Login() {
           </b>
         </Typography>
         <form onSubmit={send} className={classes.formContainer}>
-          <FormInputControl control={control} name="email" label="E-mail" />
           <FormInputControl
+            clearErrors={clearErrors}
+            control={control}
+            name="email"
+            label="E-mail"
+            onBlur={(e) => verifyEmail(e.currentTarget.value)}
+          />
+          <FormInputControl
+            clearErrors={clearErrors}
             type="password"
             control={control}
             name="password"
             label="Password"
+            onChange={(e) => SetPassword(e.currentTarget.value)}
+            style={{ marginBottom: 8 }}
+            helperText="Provide a strong password"
+          />
+          <PasswordCompliance
+            password={password}
+            onComplianceChange={(value) => console.log(value)}
           />
           <FormInputControl
+            clearErrors={clearErrors}
             type="password"
             control={control}
             name="confirmPassword"
             label="Confirm password"
           />
-
           <Button type="submit" color="primary" variant="contained">
             Create Account
           </Button>

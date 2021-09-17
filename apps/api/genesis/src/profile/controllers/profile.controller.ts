@@ -1,5 +1,14 @@
 import { JwtAuthGuard, RequestWithUser } from '@discover/shared/nest';
-import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UpdateUserProfileDTO } from '../dto/updateUserProfile.dto';
 import { ProfileService } from '../services/profile.service';
 
@@ -9,9 +18,7 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @Get('')
-  async getProfile(
-    @Request() request: RequestWithUser
-    ) {
+  async getProfile(@Request() request: RequestWithUser) {
     return this.profileService.getUserProfile(request.user.profileId);
   }
 
@@ -19,23 +26,32 @@ export class ProfileController {
   async updateProfile(
     @Request() request: RequestWithUser,
     @Body() profileUpdateData: UpdateUserProfileDTO
-    ) {
-    return this.profileService.updateUserProfile(request.user.profileId, profileUpdateData);
+  ) {
+    return this.profileService.updateUserProfile(
+      request.user.profileId,
+      profileUpdateData
+    );
   }
 
   @Post('/follow/:toFollow')
   async followProfile(
     @Request() request: RequestWithUser,
-    @Param() params: {profileId: string, toFollow: string},
-    ) {
-    return this.profileService.followProfile(request.user.profileId, params.toFollow);
+    @Param() params: { profileId: string; toFollow: string }
+  ) {
+    return this.profileService.followProfile(
+      request.user.profileId,
+      Number(params.toFollow)
+    );
   }
 
   @Post('/unfollow/:toFollow')
   async unFollowProfile(
     @Request() request: RequestWithUser,
-    @Param() params: {profileId: string, toFollow: string},
-    ) {
-    return this.profileService.unfollowProfile(request.user.profileId, params.toFollow);
+    @Param() params: { profileId: string; toFollow: string }
+  ) {
+    return this.profileService.unfollowProfile(
+      request.user.profileId,
+      Number(params.toFollow)
+    );
   }
 }
