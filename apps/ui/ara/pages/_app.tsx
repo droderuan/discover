@@ -9,6 +9,7 @@ import { AppProps } from 'next/app';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { useEffect } from 'react';
+import HookProvider from '../hooks';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
@@ -30,23 +31,25 @@ function CustomApp({ Component, pageProps }: AppProps) {
       </Head>
       <DefaultAppConfig>
         <AndromedaContextProvider>
-          {pathname.startsWith('/account') ? (
-            <LoginTemplate
-              rightText={
-                <Typography variant="h1">
-                  Join <br />
-                  the best <br />
-                  community
-                </Typography>
-              }
-            >
-              <Component {...pageProps} />
-            </LoginTemplate>
-          ) : (
-            <CoreTemplate>
-              <Component {...pageProps} />
-            </CoreTemplate>
-          )}
+          <HookProvider>
+            {pathname.startsWith('/account') ? (
+              <LoginTemplate
+                rightText={
+                  <Typography variant="h1">
+                    Join <br />
+                    the best <br />
+                    community
+                  </Typography>
+                }
+              >
+                <Component {...pageProps} />
+              </LoginTemplate>
+            ) : (
+              <CoreTemplate>
+                <Component {...pageProps} />
+              </CoreTemplate>
+            )}
+          </HookProvider>
         </AndromedaContextProvider>
       </DefaultAppConfig>
     </>

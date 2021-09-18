@@ -11,10 +11,12 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const whitelist = ['http://localhost:4200'];
+  const whitelist = ['*', 'http://localhost:4200'];
   app.enableCors({
     origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
+      if (whitelist.includes('*')) {
+        callback(null, true);
+      } else if (whitelist.indexOf(origin) !== -1) {
         console.log('allowed cors for:', origin);
         callback(null, true);
       } else {

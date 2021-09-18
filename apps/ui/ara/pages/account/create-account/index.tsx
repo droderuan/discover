@@ -9,6 +9,14 @@ import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { api } from '../../../utils/genesisApi';
+import { useToast } from '../../../hooks/toast';
+import { useRouter } from 'next/dist/client/router';
+
+interface createAccountForm {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
 export function Login() {
   const classes = useStyles();
+  const { addToast } = useToast();
+  const router = useRouter();
 
   const [password, SetPassword] = useState('');
   const [passwordCompliance, SetPasswordCompliance] = useState(false);
@@ -74,14 +84,30 @@ export function Login() {
     });
   }, [emailAlreadyUsed, passwordCompliance]);
 
-  const { handleSubmit, control, clearErrors, setError } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+  const { handleSubmit, control, clearErrors, setError } =
+    useForm<createAccountForm>({
+      resolver: yupResolver(validationSchema),
+    });
 
-  const onSubmit = (data: any) => console.log(data);
-  const send = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateAccount = async (data: createAccountForm) => {
+    try {
+      await api.post(`/account`, data);
+      addToast({
+        type: 'success',
+        message: 'Created account with success. Proceed with login.',
+      });
+      router.push('/account/login');
+    } catch (err) {
+      addToast({
+        type: 'error',
+        message: 'Something went wrong. Please wait a while and try again.',
+      });
+    }
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSubmit(onSubmit)();
+    handleSubmit(handleCreateAccount)();
   };
 
   const verifyEmail = async (email: string) => {
@@ -122,12 +148,12 @@ export function Login() {
           variant="h1"
           style={{ fontSize: 32, textAlign: 'center', marginBottom: 55 }}
         >
-          Create your account in <br />
+          Create your account on <br />
           <b style={{ fontSize: 48, textAlign: 'center', marginBottom: 55 }}>
             Discover
           </b>
         </Typography>
-        <form onSubmit={send} className={classes.formContainer}>
+        <form onSubmit={onSubmit} className={classes.formContainer}>
           <FormInputControl
             clearErrors={clearErrors}
             control={control}
