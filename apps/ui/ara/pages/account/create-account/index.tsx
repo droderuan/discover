@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import swr from 'swr';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import { FormInputControl, PasswordCompliance } from '@discover/ui-andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import genesis from '../../../utils/genesisApi';
+import { api } from '../../../utils/genesisApi';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,21 +36,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const validationSchema = yup.object().shape({
-  email: yup.string().email('Provide a valide e-mail').required(),
-  password: yup.string().min(8).required('A password is required'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Password confirmation does not match'),
-});
-
 export function Login() {
   const classes = useStyles();
-  const { handleSubmit, control, clearErrors } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
 
   const [password, SetPassword] = useState('');
+  const [passwordCompliance, SetPasswordCompliance] = useState(false);
+  const [emailAlreadyUsed, SetEmailAlreadyUsed] = useState(false);
+
+  const validationSchema = useMemo(() => {
+    return yup.object().shape({
+      email: yup.lazy(() => {
+        if (emailAlreadyUsed) {
+          return yup
+            .string()
+            .required()
+            .test('already_exist', 'This e-mail already has an account', () => {
+              return !emailAlreadyUsed;
+            });
+        }
+        return yup.string().email('Provide a valide e-mail').required();
+      }),
+      password: yup
+        .string()
+        .min(8)
+        .required('A password is required')
+        .test(
+          'passwor_compliance',
+          'Please, complete the requirements below',
+          () => passwordCompliance
+        ),
+      confirmPassword: yup
+        .string()
+        .oneOf(
+          [yup.ref('password'), null],
+          'Password confirmation does not match'
+        ),
+    });
+  }, [emailAlreadyUsed, passwordCompliance]);
+
+  const { handleSubmit, control, clearErrors, setError } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const onSubmit = (data: any) => console.log(data);
   const send = (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,12 +84,18 @@ export function Login() {
     handleSubmit(onSubmit)();
   };
 
-  const verifyEmail: FC = async (email: string) => {
-    const { data } = swr(
-      `${genesis.api_url}/api/account/check-email/${email}`,
-      genesis.fetcher
-    );
-    console.log(data);
+  const verifyEmail = async (email: string) => {
+    try {
+      const { data } = await api.get<{ exist: boolean }>(
+        `/account/check-email/${email}`
+      );
+      if (data.exist) {
+        setError('email', { message: 'This e-mail already has an account' });
+      }
+      SetEmailAlreadyUsed(data.exist);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -115,7 +147,7 @@ export function Login() {
           />
           <PasswordCompliance
             password={password}
-            onComplianceChange={(value) => console.log(value)}
+            onComplianceChange={(value) => SetPasswordCompliance(value)}
           />
           <FormInputControl
             clearErrors={clearErrors}

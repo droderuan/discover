@@ -230,6 +230,7 @@
           "executor": "@nrwl/next:server",
           "options": {
             "buildTarget": "ui-ara:build",
+            "proxyConfig": "proxy.conf.json",
             "dev": true
           },
           "configurations": {
@@ -317,7 +318,16 @@
   "generators": {
     "@nrwl/react": {
       "application": {
+        "style": "none",
+        "linter": "eslint",
         "babel": true
+      },
+      "component": {
+        "style": "none"
+      },
+      "library": {
+        "style": "none",
+        "linter": "eslint"
       }
     },
     "@nrwl/next": {

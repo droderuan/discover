@@ -25,6 +25,7 @@ export interface FormInputProps extends Omit<OutlinedInputProps, 'style'> {
   helperText?: string;
   errorText?: string;
   style?: FormControlProps['style'];
+  name: string;
   clearErrors: UseFormClearErrors<any>;
 }
 
@@ -107,6 +108,7 @@ export const FormInputControl: React.FC<FormInputControl> = ({
               propOnChange(e);
             }
           }}
+          name={name}
           value={value}
           error={error}
           helperText={helperText}
