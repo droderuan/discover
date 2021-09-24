@@ -1,8 +1,9 @@
+import { signIn } from 'next-auth/client';
 import Link from 'next/link';
 import * as yup from 'yup';
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
-import { FormInputControl, FormInput } from '@discover/ui-andromeda';
+import { FormInputControl } from '@discover/ui-andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import { FcGoogle } from 'react-icons/fc';
@@ -34,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface loginForm {
+  email: string;
+  password: string;
+}
+
 const validationSchema = yup.object().shape({
   email: yup.string().email('Provide a valide e-mail').required(),
   password: yup.string().required('A password is required'),
@@ -44,7 +50,19 @@ export function Login() {
   const { handleSubmit, control, clearErrors } = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: loginForm) => {
+    try {
+      console.log('foi');
+      signIn('domain-auth', {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+        callbackUrl: `/`,
+      });
+    } catch (err) {
+      alert('err');
+    }
+  };
   const send = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(onSubmit)();

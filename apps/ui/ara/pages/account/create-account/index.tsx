@@ -84,10 +84,9 @@ export function Login() {
     });
   }, [emailAlreadyUsed, passwordCompliance]);
 
-  const { handleSubmit, control, clearErrors, setError } =
-    useForm<createAccountForm>({
-      resolver: yupResolver(validationSchema),
-    });
+  const { handleSubmit, control, clearErrors, setError } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const handleCreateAccount = async (data: createAccountForm) => {
     try {
