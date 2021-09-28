@@ -1,24 +1,24 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { AuthService, CredentialsStrategy } from '@discover/shared/nest';
+import { AuthService, CredentialsAuthGuard } from '@discover/api-nest';
 import { User } from '@discover/models-veritas';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(CredentialsStrategy)
+  @UseGuards(CredentialsAuthGuard)
   @Post('/credentials')
   async byCredentials(@Request() req) {
     return this.authService.getJWT(req.user as User);
   }
 
-  @UseGuards(CredentialsStrategy)
+  @UseGuards(CredentialsAuthGuard)
   @Post('/google')
   async byGoogle(@Request() req) {
     return this.authService.getJWT(req.user as User);
   }
 
-  @UseGuards(CredentialsStrategy)
+  @UseGuards(CredentialsAuthGuard)
   @Post('/facebook')
   async byFacebook(@Request() req) {
     return this.authService.getJWT(req.user as User);

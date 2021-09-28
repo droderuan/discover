@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SubscriptionService } from './providers/subscription.service';
 import { SubscriptionController } from './controllers/subscription.controller';
-import { AuthModule } from '@discover/shared/nest';
+import { AuthModule } from '@discover/api-nest';
 
 @Module({
   providers: [SubscriptionService, AuthModule],

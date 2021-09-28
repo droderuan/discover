@@ -1,6 +1,15 @@
-import { CoreTemplate, Content } from '@discover/ui-andromeda';
+import { Content } from '@discover/ui-andromeda';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 export function Index() {
+  const session = useSession();
+
+  useEffect(() => {
+    if (session) {
+      console.log(session);
+    }
+  }, [session]);
   return (
     <Content>
       <div
@@ -22,6 +31,7 @@ export function Index() {
         >
           1
         </div>
+        {session && <h1>Olá</h1>}
         <div style={{ background: '#aa9090', height: 80, width: 80 }}>2</div>
         <div style={{ background: '#ff3590', height: 80, width: 80 }}>3</div>
         <div style={{ background: '#ff1290', height: 80, width: 80 }}>4</div>

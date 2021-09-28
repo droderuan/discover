@@ -8,16 +8,13 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Get('/check-email/:email')
-  async checkIfEmailAlreadyExist(
-    @Param() params: Prisma.UserWhereUniqueInput
-  ) {
+  async checkIfEmailAlreadyExist(@Param() params: Prisma.UserWhereUniqueInput) {
     const exist = await this.accountService.checkUnusedEmail(params.email);
     return { exist };
   }
-  
+
   @Post('/')
-  async createUser(@Body() accountData: CreateUserDTO ) {
+  async createUser(@Body() accountData: CreateUserDTO) {
     return this.accountService.createAccount(accountData);
   }
-
 }

@@ -115,6 +115,27 @@
         }
       }
     },
+    "api-nest": {
+      "root": "libs/api/nest",
+      "sourceRoot": "libs/api/nest/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/nest/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/nest"],
+          "options": {
+            "jestConfig": "libs/api/nest/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "models-veritas": {
       "root": "libs/models/veritas",
       "sourceRoot": "libs/models/veritas/src",
@@ -131,27 +152,6 @@
           "outputs": ["coverage/libs/models/veritas"],
           "options": {
             "jestConfig": "libs/models/veritas/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "shared-nest": {
-      "root": "libs/shared/nest",
-      "sourceRoot": "libs/shared/nest/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/nest/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/nest"],
-          "options": {
-            "jestConfig": "libs/shared/nest/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -263,23 +263,45 @@
         }
       }
     },
-    "ui-react-config": {
-      "root": "libs/ui/react/config",
-      "sourceRoot": "libs/ui/react/config/src",
+    "ui-next-auth": {
+      "root": "libs/ui/next/auth",
+      "sourceRoot": "libs/ui/next/auth/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/ui/react/config/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["libs/ui/next/auth/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ui/react/config"],
+          "outputs": ["coverage/libs/ui/next/auth"],
           "options": {
-            "jestConfig": "libs/ui/react/config/jest.config.js",
+            "jestConfig": "libs/ui/next/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-next-config": {
+      "root": "libs/ui/next/config",
+      "sourceRoot": "libs/ui/next/config/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/ui/next/config/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/next/config"],
+          "options": {
+            "jestConfig": "libs/ui/next/config/jest.config.js",
             "passWithNoTests": true
           }
         }

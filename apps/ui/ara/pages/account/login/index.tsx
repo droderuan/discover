@@ -52,9 +52,8 @@ export function Login() {
   });
   const onSubmit = (data: loginForm) => {
     try {
-      console.log('foi');
-      signIn('domain-auth', {
-        redirect: false,
+      signIn('credentials', {
+        redirect: true,
         email: data.email,
         password: data.password,
         callbackUrl: `/`,

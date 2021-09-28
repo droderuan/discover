@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MeetService } from '../services/meet.service';
-import { JwtAuthGuard, RequestWithUser, Public } from '@discover/shared/nest';
+import { JwtAuthGuard, RequestWithUser, Public } from '@discover/api-nest';
 import { CreateMeetDTO } from '../dto/createMeet.dto';
 import { UpdateMeetDTO } from '../dto/updateMeet.dto';
 

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "prepare": "husky install .config/husky",
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build",
@@ -28,6 +29,12 @@
     "veritas-generate": "prisma generate --schema=./libs/models/veritas/src/schema/schema.prisma",
     "veritas-migrate": "prisma migrate dev --schema=./libs/models/veritas/src/schema/schema.prisma",
     "veritas-studio": "npx prisma studio --schema=./libs/models/veritas/src/schema/schema.prisma"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "nx affected:lint"
+    }
   },
   "private": true,
   "dependencies": {
@@ -114,6 +121,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "7.23.1",
     "eslint-plugin-react-hooks": "4.2.0",
+    "husky": "^7.0.2",
     "jest": "27.0.3",
     "prettier": "^2.3.1",
     "prisma": "^3.0.1",

@@ -7,6 +7,7 @@ import {
   Box,
 } from '@material-ui/core';
 import clsx from 'clsx';
+import { forwardRef } from 'react';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -39,40 +40,36 @@ export interface IconButtonProps extends ButtonProps {
   horizontal?: boolean;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({
-  label,
-  focused,
-  horizontal = false,
-  icon: Icon,
-  ...props
-}) => {
-  const classes = useStyles();
-  return (
-    <ButtonBase
-      className={clsx(classes.button, {
-        [classes.unFocused]: focused !== null && !focused,
-        [classes.horizontal]: horizontal && label,
-      })}
-      {...props}
-    >
-      <Box
-        className={clsx({
-          [classes.iconWrapperHorizontal]: horizontal && label,
+const IconButton: React.FC<IconButtonProps> = forwardRef(
+  ({ label, focused, horizontal = false, icon: Icon, ...props }, _) => {
+    const classes = useStyles();
+    return (
+      <ButtonBase
+        className={clsx(classes.button, {
+          [classes.unFocused]: focused !== null && !focused,
+          [classes.horizontal]: horizontal && label,
         })}
+        {...props}
       >
-        <Icon color="inherit" style={{ fontSize: 24 }} />
-      </Box>
-      {label && (
-        <Typography
-          color="inherit"
-          variant="body1"
-          style={{ fontWeight: 'bold', fontSize: 14 }}
+        <Box
+          className={clsx({
+            [classes.iconWrapperHorizontal]: horizontal && label,
+          })}
         >
-          {label}
-        </Typography>
-      )}
-    </ButtonBase>
-  );
-};
+          <Icon color="inherit" style={{ fontSize: 24 }} />
+        </Box>
+        {label && (
+          <Typography
+            color="inherit"
+            variant="body1"
+            style={{ fontWeight: 'bold', fontSize: 14 }}
+          >
+            {label}
+          </Typography>
+        )}
+      </ButtonBase>
+    );
+  }
+);
 
 export default IconButton;

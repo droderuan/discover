@@ -1,13 +1,15 @@
-import { Prisma } from "@discover/models-veritas";
-import { IsString, IsEmail,  } from "class-validator";
+import { Prisma } from '@discover/models-veritas';
+import { IsString, IsEmail } from 'class-validator';
 
-export class CreateUserDTO implements Omit<Prisma.UserUncheckedCreateInput, 'id'> {
+export class CreateUserDTO
+  implements Omit<Prisma.UserUncheckedCreateInput, 'id'>
+{
   @IsEmail()
-  email: string
+  email: string;
 
   @IsString()
-  password: string
+  password: string;
 
   @IsString()
-  confirmPassword: string
+  confirmPassword: string;
 }
