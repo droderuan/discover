@@ -12,8 +12,6 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { useAsideMenu } from '../AsideMenu/context';
-import { signIn } from 'next-auth/react';
-
 const useStyles = makeStyles((theme) => ({
   appBarContainer: {
     left: 0,
@@ -115,11 +113,7 @@ const Headerbar: React.FC = () => {
           </Grid>
           <Grid item sm={1} md={4} className={classes.hideRightMenu}>
             <div className={classes.rightMenu}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => signIn()}
-              >
+              <Button variant="contained" color="primary">
                 Create meet
               </Button>
             </div>

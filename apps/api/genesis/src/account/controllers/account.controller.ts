@@ -15,6 +15,7 @@ export class AccountController {
 
   @Post('/')
   async createUser(@Body() accountData: CreateUserDTO) {
+    console.log('asas');
     return this.accountService.createAccount(accountData);
   }
 }

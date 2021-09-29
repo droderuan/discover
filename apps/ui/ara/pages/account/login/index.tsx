@@ -1,4 +1,3 @@
-import { signIn } from 'next-auth/client';
 import Link from 'next/link';
 import * as yup from 'yup';
 import clsx from 'clsx';
@@ -52,12 +51,7 @@ export function Login() {
   });
   const onSubmit = (data: loginForm) => {
     try {
-      signIn('credentials', {
-        redirect: true,
-        email: data.email,
-        password: data.password,
-        callbackUrl: `/`,
-      });
+      console.log(data);
     } catch (err) {
       alert('err');
     }

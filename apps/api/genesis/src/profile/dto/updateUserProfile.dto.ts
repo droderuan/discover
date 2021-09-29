@@ -1,19 +1,21 @@
-import { Prisma } from "@discover/models-veritas";
-import { IsString, IsOptional } from "class-validator";
+import { Prisma } from '@discover/models-veritas';
+import { IsString, IsOptional } from 'class-validator';
 
-export class UpdateUserProfileDTO implements Prisma.ProfileUncheckedUpdateInput {
+export class UpdateUserProfileDTO
+  implements Prisma.ProfileUncheckedUpdateInput
+{
   @IsString()
-  name?: string
-
-  @IsString()
-  @IsOptional()
-  secondName?: string
+  name?: string;
 
   @IsString()
   @IsOptional()
-  description?: string
+  secondName?: string;
 
   @IsString()
   @IsOptional()
-  profileImage?: string
+  description?: string;
+
+  @IsString()
+  @IsOptional()
+  profileImage?: string;
 }
