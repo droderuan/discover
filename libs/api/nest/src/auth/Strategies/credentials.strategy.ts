@@ -2,7 +2,7 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../Providers/auth.service';
-import { User } from '@discover/models-veritas';
+import { User } from '@discover/models/veritas';
 
 @Injectable()
 export class CredentialsStrategy extends PassportStrategy(

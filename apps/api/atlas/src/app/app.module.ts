@@ -1,4 +1,4 @@
-import { VeritasModule } from '@discover/models-veritas';
+import { VeritasModule } from '@discover/models/veritas';
 import { Module } from '@nestjs/common';
 
 import { TagModule } from '../tag/tag.module';

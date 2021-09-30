@@ -1,6 +1,6 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { AuthService, CredentialsAuthGuard } from '@discover/api-nest';
-import { User } from '@discover/models-veritas';
+import { AuthService, CredentialsAuthGuard } from '@discover/api/nest';
+import { User } from '@discover/models/veritas';
 
 @Controller('auth')
 export class AuthController {

@@ -28,7 +28,32 @@ App architeture: [link to whimsical](https://whimsical.com/discover-structure-Fq
   - Will run the prisma studio
     - `<database-name>`-studio: prisma studio --create-only --schema=./libs/models/`<database-name>`/src/schema/schema.prisma
 
-- Then create a nest service which will be used on the API'S and provides the connection
+- Then create a nest module, which includes the connection service and will be used on the API'S and provides the connection
+
+- To avoid lint errors, exclude the prisma client from eslint
+
+  ```json
+  "ignorePatterns": ["!**/*", "**/prisma"],
+  ```
+
+- Add an asset inside workspace.json for each project that used a prisma service
+
+  - E.g.:
+    ```json
+      "options": {
+        "outputPath": "dist/apps/atlas",
+        "main": "apps/atlas/src/main.ts",
+        "tsConfig": "apps/atlas/tsconfig.app.json",
+        "assets": [
+          "apps/atlas/src/assets",
+          {
+          "glob": "schema.prisma",
+          "input": "libs/models/veritas/src/schema",
+          "output": "."
+          }
+        ]
+      },
+    ```
 
 - Add an asset inside workspace.json for each project that used a prisma service
   - E.g.:

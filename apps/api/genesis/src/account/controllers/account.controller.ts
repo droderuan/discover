@@ -1,4 +1,4 @@
-import { Prisma } from '@discover/models-veritas';
+import { Prisma } from '@discover/models/veritas';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AccountService } from '../providers/account.service';
 import { CreateUserDTO } from '../dto/createUser.dto';

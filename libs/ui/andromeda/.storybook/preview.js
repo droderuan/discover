@@ -1,4 +1,4 @@
-import { DefaultAppConfig } from '@discover/ui-next-config';
+import { DefaultAppConfig } from '@discover/ui-next';
 
 export const decorators = [
   (Story) => (

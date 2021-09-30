@@ -2,18 +2,15 @@ import {
   AndromedaContextProvider,
   CoreTemplate,
   LoginTemplate,
-} from '@discover/ui-andromeda';
-import { DefaultAppConfig } from '@discover/ui-next-config';
+} from '@discover/ui/andromeda';
+import { DefaultAppConfig } from '@discover/ui/next';
 import { Typography } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import HookProvider from '../hooks';
 
-function CustomApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+function CustomApp({ Component, pageProps }) {
   const { pathname } = useRouter();
 
   useEffect(() => {

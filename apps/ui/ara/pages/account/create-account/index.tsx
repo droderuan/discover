@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormInputControl, PasswordCompliance } from '@discover/ui-andromeda';
+import { FormInputControl, PasswordCompliance } from '@discover/ui/andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';

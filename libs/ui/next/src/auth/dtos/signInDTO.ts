@@ -1,6 +1,6 @@
 import { Profile } from '@discover/models/veritas';
 
-export interface UserloginDTO {
+export default interface SignInDTO {
   access_token: string;
-  user: Profile;
+  profile: Profile;
 }

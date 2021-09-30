@@ -7,7 +7,12 @@ import {
   OutlinedInput,
   OutlinedInputProps,
 } from '@material-ui/core';
-import { Controller, Control, UseFormClearErrors } from 'react-hook-form';
+import {
+  Controller,
+  Control,
+  UseFormClearErrors,
+  FieldValues,
+} from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   inputWrapper: {
@@ -26,7 +31,7 @@ export interface FormInputProps extends Omit<OutlinedInputProps, 'style'> {
   errorText?: string;
   style?: FormControlProps['style'];
   name: string;
-  clearErrors: UseFormClearErrors<any>;
+  clearErrors: UseFormClearErrors<FieldValues>;
 }
 
 const FormInput: React.FC<FormInputProps> = ({

@@ -1,4 +1,4 @@
-import { JwtAuthGuard, RequestWithUser } from '@discover/api-nest';
+import { JwtAuthGuard, RequestWithUser } from '@discover/api/nest';
 import {
   Body,
   Controller,

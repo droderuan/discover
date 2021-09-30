@@ -51,10 +51,7 @@
     "ui-ara": {
       "tags": []
     },
-    "ui-next-auth": {
-      "tags": []
-    },
-    "ui-next-config": {
+    "ui-next": {
       "tags": []
     },
     "ui/ara-e2e": {

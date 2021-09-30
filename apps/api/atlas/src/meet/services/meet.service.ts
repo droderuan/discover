@@ -1,4 +1,4 @@
-import { Prisma, VeritasService } from '@discover/models-veritas';
+import { Prisma, VeritasService } from '@discover/models/veritas';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PlatformService } from '../../platform/providers/platform.service';
 import { TagService } from '../../tag/providers/tag.service';

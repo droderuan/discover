@@ -1,4 +1,4 @@
-import { Content } from '@discover/ui-andromeda';
+import { Content } from '@discover/ui/andromeda';
 import { useEffect } from 'react';
 
 export function Index() {

@@ -4,7 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './Providers/auth.service';
 import { JwtStrategy } from './Strategies/jwt.strategy';
 import { CredentialsStrategy } from './Strategies/credentials.strategy';
-import { VeritasModule } from '@discover/models-veritas';
+import { VeritasModule } from '@discover/models/veritas';
 import { HashModule } from '../hash/hash.module';
 
 @Module({

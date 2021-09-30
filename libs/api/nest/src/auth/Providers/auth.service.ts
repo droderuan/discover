@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, VeritasService } from '@discover/models-veritas';
+import { User, VeritasService } from '@discover/models/veritas';
 import { HashService } from '../../hash/providers/hash.service';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AuthService {
     const payload = { sub: userProfile.id };
     return {
       access_token: this.jwtService.sign(payload),
-      user: userProfile,
+      profile: userProfile,
     };
   }
 }

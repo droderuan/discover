@@ -1,4 +1,4 @@
-import { Prisma } from '@discover/models-veritas';
+import { Prisma } from '@discover/models/veritas';
 import { IsString, IsOptional } from 'class-validator';
 
 export class UpdateUserProfileDTO

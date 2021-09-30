@@ -267,45 +267,23 @@
         }
       }
     },
-    "ui-next-auth": {
-      "root": "libs/ui/next/auth",
-      "sourceRoot": "libs/ui/next/auth/src",
+    "ui-next": {
+      "root": "libs/ui/next",
+      "sourceRoot": "libs/ui/next/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/ui/next/auth/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["libs/ui/next/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ui/next/auth"],
+          "outputs": ["coverage/libs/ui/next"],
           "options": {
-            "jestConfig": "libs/ui/next/auth/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "ui-next-config": {
-      "root": "libs/ui/next/config",
-      "sourceRoot": "libs/ui/next/config/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["libs/ui/next/config/**/*.{ts,tsx,js,jsx}"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ui/next/config"],
-          "options": {
-            "jestConfig": "libs/ui/next/config/jest.config.js",
+            "jestConfig": "libs/ui/next/jest.config.js",
             "passWithNoTests": true
           }
         }

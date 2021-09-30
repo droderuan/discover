@@ -1,4 +1,4 @@
-import { VeritasService } from '@discover/models-veritas';
+import { VeritasService } from '@discover/models/veritas';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserProfileDTO } from '../dto/updateUserProfile.dto';
 

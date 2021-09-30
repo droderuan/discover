@@ -19,7 +19,6 @@
       "@discover/models/veritas": ["libs/models/veritas/src/index.ts"],
       "@discover/ui/andromeda": ["libs/ui/andromeda/src/index.ts"],
       "@discover/ui/next": ["libs/ui/next/src/index.ts"],
-      "@discover/ui/next/auth": ["libs/ui/next/auth/src/index.ts"],
       "@discover/ui/next/config": ["libs/ui/next/config/src/index.ts"]
     }
   },

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import * as yup from 'yup';
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
-import { FormInputControl } from '@discover/ui-andromeda';
+import { FormInputControl } from '@discover/ui/andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import { FcGoogle } from 'react-icons/fc';

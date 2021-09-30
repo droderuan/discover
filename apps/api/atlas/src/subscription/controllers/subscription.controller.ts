@@ -7,7 +7,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard, RequestWithUser } from '@discover/api-nest';
+import { JwtAuthGuard, RequestWithUser } from '@discover/api/nest';
 
 @Controller('subscription')
 @UseGuards(JwtAuthGuard)
