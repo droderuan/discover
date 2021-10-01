@@ -11,7 +11,7 @@ export class AuthService {
     private hashService: HashService
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<User | null> {
+  async validateCredentials(email: string, pass: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({ where: { email } });
     const comparedPasswords = await this.hashService.compareHash(
       pass,
@@ -36,7 +36,6 @@ export class AuthService {
     const payload = { sub: userProfile.id };
     return {
       access_token: this.jwtService.sign(payload),
-      profile: userProfile,
     };
   }
 }

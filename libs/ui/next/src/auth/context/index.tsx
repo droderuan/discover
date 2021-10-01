@@ -1,37 +1,87 @@
 import { Profile } from '@discover/models/veritas';
-import { createContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
+import { createApi } from '../../utils';
 import { auth as authenticate, AuthOptions } from '../services/auth.service';
 import { getProfile } from '../services/getProfile.service';
+import { useRouter } from 'next/dist/client/router';
 
-interface SignInParams {
-  authOptions: AuthOptions;
+interface signInOptions {
+  auth: AuthOptions;
+  redirectUrl?: string;
+}
+
+interface AuthContext {
+  signInUrl?: string;
 }
 
 type AuthContextType = {
   profile: Profile | null;
   isAuthenticated: boolean;
-  signIn: (data: SignInParams) => Promise<void>;
+  signIn(options?: signInOptions): Promise<void>;
   syncProfile: () => Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<AuthContext> = ({
+  signInUrl,
+  children,
+}) => {
+  const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
 
   const isAuthenticated = !!profile;
 
-  const signIn = async ({ authOptions }: SignInParams) => {
-    const auth = await authenticate(authOptions);
+  const api = createApi();
 
-    setProfile(auth.profile);
-  };
+  useEffect(() => {
+    const { token } = parseCookies();
+    if (token) {
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+      syncProfile();
+    }
+  }, []);
 
-  const syncProfile = async () => {
-    const profile = await getProfile('token');
+  const redirectToLogin = useCallback(() => {
+    if (!signInUrl) {
+      throw new Error('Missing signInUrl');
+    }
+    router.push(signInUrl);
+  }, []);
+
+  const signIn = useCallback(async (options?: signInOptions): Promise<void> => {
+    if (!options) {
+      redirectToLogin();
+    } else {
+      const token = await authenticate(options.auth);
+      api.defaults.headers['Authorization'] = `Bearer ${token.access_token}`;
+
+      const { data: profile } = await api.get('/genesis/profile');
+
+      setCookie(null, 'token', token.access_token, {
+        maxAge: 60 * 60 * 24 * 14,
+        path: '/',
+      });
+      setProfile(profile);
+
+      if (options.redirectUrl) {
+        router.push(options.redirectUrl);
+      }
+    }
+  }, []);
+
+  const syncProfile = useCallback(async () => {
+    const profile = await getProfile(api);
 
     setProfile(profile);
-  };
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -40,4 +90,14 @@ export const AuthProvider: React.FC = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+
+  return context;
 };

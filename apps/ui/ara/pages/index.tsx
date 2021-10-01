@@ -1,7 +1,9 @@
 import { Content } from '@discover/ui/andromeda';
-import { useEffect } from 'react';
+import { useAuth } from '@discover/ui/next';
 
 export function Index() {
+  const { profile, isAuthenticated, signIn } = useAuth();
+
   return (
     <Content>
       <div
@@ -23,9 +25,8 @@ export function Index() {
         >
           1
         </div>
-        <div style={{ background: '#aa9090', height: 80, width: 80 }}>2</div>
-        <div style={{ background: '#ff3590', height: 80, width: 80 }}>3</div>
-        <div style={{ background: '#ff1290', height: 80, width: 80 }}>4</div>
+        <h1>{isAuthenticated && profile.name}</h1>
+        <button onClick={() => signIn()}>login</button>
       </div>
     </Content>
   );

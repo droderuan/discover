@@ -4,6 +4,7 @@ import {
   LoginTemplate,
 } from '@discover/ui/andromeda';
 import { DefaultAppConfig } from '@discover/ui/next';
+import { AuthProvider } from '@discover/ui/next/auth';
 import { Typography } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
@@ -29,27 +30,29 @@ function CustomApp({ Component, pageProps }) {
         />
       </Head>
       <DefaultAppConfig>
-        <AndromedaContextProvider>
-          <HookProvider>
-            {pathname.startsWith('/account') ? (
-              <LoginTemplate
-                rightText={
-                  <Typography variant="h1">
-                    Join <br />
-                    the best <br />
-                    community
-                  </Typography>
-                }
-              >
-                <Component {...pageProps} />
-              </LoginTemplate>
-            ) : (
-              <CoreTemplate>
-                <Component {...pageProps} />
-              </CoreTemplate>
-            )}
-          </HookProvider>
-        </AndromedaContextProvider>
+        <AuthProvider signInUrl="/account/login">
+          <AndromedaContextProvider>
+            <HookProvider>
+              {pathname.startsWith('/account') ? (
+                <LoginTemplate
+                  rightText={
+                    <Typography variant="h1">
+                      Join <br />
+                      the best <br />
+                      community
+                    </Typography>
+                  }
+                >
+                  <Component {...pageProps} />
+                </LoginTemplate>
+              ) : (
+                <CoreTemplate>
+                  <Component {...pageProps} />
+                </CoreTemplate>
+              )}
+            </HookProvider>
+          </AndromedaContextProvider>
+        </AuthProvider>
       </DefaultAppConfig>
     </>
   );

@@ -6,8 +6,10 @@ import { FormInputControl } from '@discover/ui/andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import { FcGoogle } from 'react-icons/fc';
-import { FaTwitch } from 'react-icons/fa';
+import { FaSignInAlt, FaTwitch } from 'react-icons/fa';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useAuth } from '@discover/ui/next';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,21 +47,32 @@ const validationSchema = yup.object().shape({
 });
 
 export function Login() {
+  const { signIn } = useAuth();
   const classes = useStyles();
   const { handleSubmit, control, clearErrors } = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit = (data: loginForm) => {
+
+  const onSubmit = async (data: loginForm) => {
     try {
-      console.log(data);
+      await signIn({
+        auth: {
+          provider: 'credentials',
+          email: data.email,
+          password: data.password,
+        },
+        redirectUrl: '/',
+      });
     } catch (err) {
       alert('err');
     }
   };
+
   const send = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(onSubmit)();
   };
+
   return (
     <>
       <div className={classes.container}>
