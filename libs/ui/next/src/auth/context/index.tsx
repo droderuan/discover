@@ -25,6 +25,7 @@ type AuthContextType = {
   profile: Profile | null;
   isAuthenticated: boolean;
   signIn(options?: signInOptions): Promise<void>;
+  signOut(): Promise<void>;
   syncProfile: () => Promise<void>;
 };
 
@@ -66,15 +67,22 @@ export const AuthProvider: React.FC<AuthContext> = ({
       const { data: profile } = await api.get('/genesis/profile');
 
       setCookie(null, 'token', token.access_token, {
-        maxAge: 60 * 60 * 24 * 14,
+        maxAge: 60,
         path: '/',
       });
+
       setProfile(profile);
 
       if (options.redirectUrl) {
         router.push(options.redirectUrl);
       }
     }
+  }, []);
+
+  const signOut = useCallback(async () => {
+    delete api.defaults.headers['Authorization'];
+    destroyCookie(null, 'token');
+    setProfile(null);
   }, []);
 
   const syncProfile = useCallback(async () => {
@@ -85,7 +93,7 @@ export const AuthProvider: React.FC<AuthContext> = ({
 
   return (
     <AuthContext.Provider
-      value={{ profile, isAuthenticated, signIn, syncProfile }}
+      value={{ profile, isAuthenticated, signIn, signOut, syncProfile }}
     >
       {children}
     </AuthContext.Provider>

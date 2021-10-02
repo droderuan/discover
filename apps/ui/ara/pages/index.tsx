@@ -2,7 +2,7 @@ import { Content } from '@discover/ui/andromeda';
 import { useAuth } from '@discover/ui/next';
 
 export function Index() {
-  const { profile, isAuthenticated, signIn } = useAuth();
+  const { profile, isAuthenticated, signIn, signOut } = useAuth();
 
   return (
     <Content>
@@ -26,7 +26,11 @@ export function Index() {
           1
         </div>
         <h1>{isAuthenticated && profile.name}</h1>
-        <button onClick={() => signIn()}>login</button>
+        {isAuthenticated ? (
+          <button onClick={() => signOut()}>signOut</button>
+        ) : (
+          <button onClick={() => signIn()}>login</button>
+        )}
       </div>
     </Content>
   );
