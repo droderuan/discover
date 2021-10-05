@@ -6,10 +6,9 @@ import { FormInputControl } from '@discover/ui/andromeda';
 import { Typography, Button, makeStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import { FcGoogle } from 'react-icons/fc';
-import { FaSignInAlt, FaTwitch } from 'react-icons/fa';
+import { FaTwitch } from 'react-icons/fa';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@discover/ui/next';
-import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,7 +60,6 @@ export function Login() {
           email: data.email,
           password: data.password,
         },
-        redirectUrl: '/',
       });
     } catch (err) {
       alert('err');

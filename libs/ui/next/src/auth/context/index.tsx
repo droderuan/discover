@@ -6,15 +6,14 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useRouter } from 'next/dist/client/router';
 import { parseCookies, setCookie, destroyCookie } from 'nookies';
 import { createApi } from '../../utils';
 import { auth as authenticate, AuthOptions } from '../services/auth.service';
 import { getProfile } from '../services/getProfile.service';
-import { useRouter } from 'next/dist/client/router';
 
 interface signInOptions {
   auth: AuthOptions;
-  redirectUrl?: string;
 }
 
 interface AuthContext {
@@ -24,7 +23,7 @@ interface AuthContext {
 type AuthContextType = {
   profile: Profile | null;
   isAuthenticated: boolean;
-  signIn(options?: signInOptions): Promise<void>;
+  signIn(options?: signInOptions | string): Promise<void>;
   signOut(): Promise<void>;
   syncProfile: () => Promise<void>;
 };
@@ -50,34 +49,41 @@ export const AuthProvider: React.FC<AuthContext> = ({
     }
   }, []);
 
-  const redirectToLogin = useCallback(() => {
+  const redirectToLogin = useCallback((redirectUrl = '/') => {
     if (!signInUrl) {
       throw new Error('Missing signInUrl');
     }
-    router.push(signInUrl);
+    router.push({
+      pathname: signInUrl,
+      query: { redirect_url: redirectUrl },
+    });
   }, []);
 
-  const signIn = useCallback(async (options?: signInOptions): Promise<void> => {
-    if (!options) {
-      redirectToLogin();
-    } else {
-      const token = await authenticate(options.auth);
-      api.defaults.headers['Authorization'] = `Bearer ${token.access_token}`;
+  const signIn = useCallback(
+    async (options?: signInOptions | string): Promise<void> => {
+      if (!options || typeof options === 'string') {
+        redirectToLogin(options);
+      } else {
+        const redirectUrl = router.query.redirect_url as string;
+        const token = await authenticate(options.auth);
+        api.defaults.headers['Authorization'] = `Bearer ${token.access_token}`;
 
-      const { data: profile } = await api.get('/genesis/profile');
+        const { data: profile } = await api.get('/genesis/profile');
 
-      setCookie(null, 'token', token.access_token, {
-        maxAge: 60,
-        path: '/',
-      });
+        setCookie(null, 'token', token.access_token, {
+          maxAge: 60 * 60 * 24 * 5,
+          path: '/',
+        });
 
-      setProfile(profile);
+        setProfile(profile);
 
-      if (options.redirectUrl) {
-        router.push(options.redirectUrl);
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        }
       }
-    }
-  }, []);
+    },
+    []
+  );
 
   const signOut = useCallback(async () => {
     delete api.defaults.headers['Authorization'];

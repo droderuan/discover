@@ -9,9 +9,12 @@ import {
   InputBase,
   Toolbar,
 } from '@material-ui/core';
+import { useAuth } from '@discover/ui/next';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { useAsideMenu } from '../AsideMenu/context';
+import { useAsideMenu } from '@discover/ui/andromeda';
+import { useCallback } from 'react';
+import { useRouter } from 'next/dist/client/router';
 const useStyles = makeStyles((theme) => ({
   appBarContainer: {
     left: 0,
@@ -59,8 +62,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Headerbar: React.FC = () => {
+  const { isAuthenticated, signIn } = useAuth();
   const classes = useStyles();
   const { toggleAsideMenu } = useAsideMenu();
+  const router = useRouter();
+
+  const handleCreateMeet = useCallback(() => {
+    if (!isAuthenticated) {
+      return signIn('/meet/create');
+    }
+    router.push('/meet/create');
+  }, []);
+
   return (
     <AppBar
       position="fixed"
@@ -113,7 +126,11 @@ const Headerbar: React.FC = () => {
           </Grid>
           <Grid item sm={1} md={4} className={classes.hideRightMenu}>
             <div className={classes.rightMenu}>
-              <Button variant="contained" color="primary">
+              <Button
+                onClick={handleCreateMeet}
+                variant="contained"
+                color="primary"
+              >
                 Create meet
               </Button>
             </div>

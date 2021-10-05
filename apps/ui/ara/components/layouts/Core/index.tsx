@@ -2,8 +2,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import AddToQueueIcon from '@material-ui/icons/AddToQueue';
 
 import Headerbar from '../../organisms/Header';
-import AsideMenu from '../../organisms/AsideMenu';
-import WhiteBoard from '../../atoms/WhiteBoard';
+import { AsideMenu, WhiteBoard } from '@discover/ui/andromeda';
 
 const CoreTemplate: React.FC = ({ children }) => {
   return (

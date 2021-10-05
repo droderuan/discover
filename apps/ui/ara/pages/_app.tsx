@@ -1,8 +1,6 @@
-import {
-  AndromedaContextProvider,
-  CoreTemplate,
-  LoginTemplate,
-} from '@discover/ui/andromeda';
+import { AndromedaContextProvider } from '@discover/ui/andromeda';
+import CoreTemplate from '../components/layouts/Core';
+import AuthLayout from '../components/layouts/AuthLayout';
 import { DefaultAppConfig } from '@discover/ui/next';
 import { AuthProvider } from '@discover/ui/next/auth';
 import { Typography } from '@material-ui/core';
@@ -34,7 +32,7 @@ function CustomApp({ Component, pageProps }) {
           <AndromedaContextProvider>
             <HookProvider>
               {pathname.startsWith('/account') ? (
-                <LoginTemplate
+                <AuthLayout
                   rightText={
                     <Typography variant="h1">
                       Join <br />
@@ -44,7 +42,7 @@ function CustomApp({ Component, pageProps }) {
                   }
                 >
                   <Component {...pageProps} />
-                </LoginTemplate>
+                </AuthLayout>
               ) : (
                 <CoreTemplate>
                   <Component {...pageProps} />

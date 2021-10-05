@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import { Typography } from '@material-ui/core/styles/createTypography';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +38,7 @@ export interface LogintemplateProps {
   rightText: JSX.Element;
 }
 
-const Headerbar: React.FC<LogintemplateProps> = ({
+const AuthLayout: React.FC<LogintemplateProps> = ({
   rightText: RightText,
   children,
 }) => {
@@ -54,4 +53,4 @@ const Headerbar: React.FC<LogintemplateProps> = ({
   );
 };
 
-export default Headerbar;
+export default AuthLayout;
