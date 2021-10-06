@@ -1,6 +1,7 @@
 import { Content } from '@discover/ui/andromeda';
-import { useAuth } from '@discover/ui/next';
+import { isAuthenticatedServer, useAuth } from '@discover/ui/next';
 import { makeStyles, TextField, Typography } from '@material-ui/core';
+import { GetServerSideProps } from 'next';
 import { useCallback, useState } from 'react';
 
 const useStyle = makeStyles((theme) => ({
@@ -105,3 +106,14 @@ export function Index() {
 }
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { auth, returnValue } = isAuthenticatedServer(ctx);
+  if (!auth) {
+    return returnValue;
+  }
+
+  return {
+    props: {},
+  };
+};

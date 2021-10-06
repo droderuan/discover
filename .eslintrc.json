@@ -23,7 +23,7 @@
       "extends": ["plugin:@nrwl/nx/typescript", "prettier"],
       "parserOptions": { "project": "./tsconfig.*?.json" },
       "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "warn"
       }
     },
     {

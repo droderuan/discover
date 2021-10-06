@@ -9,6 +9,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaTwitch } from 'react-icons/fa';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@discover/ui/next';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,6 +49,8 @@ const validationSchema = yup.object().shape({
 export function Login() {
   const { signIn } = useAuth();
   const classes = useStyles();
+  const router = useRouter();
+
   const { handleSubmit, control, clearErrors } = useForm({
     resolver: yupResolver(validationSchema),
   });

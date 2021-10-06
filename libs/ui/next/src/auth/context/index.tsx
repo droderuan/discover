@@ -11,6 +11,7 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies';
 import { createApi } from '../../utils';
 import { auth as authenticate, AuthOptions } from '../services/auth.service';
 import { getProfile } from '../services/getProfile.service';
+import { GetServerSidePropsContext } from 'next';
 
 interface signInOptions {
   auth: AuthOptions;
@@ -23,6 +24,7 @@ interface AuthContext {
 type AuthContextType = {
   profile: Profile | null;
   isAuthenticated: boolean;
+  hasCookie(ctx: GetServerSidePropsContext): boolean;
   signIn(options?: signInOptions | string): Promise<void>;
   signOut(): Promise<void>;
   syncProfile: () => Promise<void>;
@@ -41,23 +43,24 @@ export const AuthProvider: React.FC<AuthContext> = ({
 
   const api = createApi();
 
-  useEffect(() => {
-    const { token } = parseCookies();
-    if (token) {
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
-      syncProfile();
-    }
+  const hasCookie = useCallback((ctx: GetServerSidePropsContext) => {
+    const { token } = parseCookies(ctx);
+
+    return !!token;
   }, []);
 
-  const redirectToLogin = useCallback((redirectUrl = '/') => {
-    if (!signInUrl) {
-      throw new Error('Missing signInUrl');
-    }
-    router.push({
-      pathname: signInUrl,
-      query: { redirect_url: redirectUrl },
-    });
-  }, []);
+  const redirectToLogin = useCallback(
+    (redirectUrl = '/') => {
+      if (!signInUrl) {
+        throw new Error('Missing signInUrl');
+      }
+      router.push({
+        pathname: signInUrl,
+        query: { redirect_url: redirectUrl },
+      });
+    },
+    [router, signInUrl]
+  );
 
   const signIn = useCallback(
     async (options?: signInOptions | string): Promise<void> => {
@@ -65,6 +68,7 @@ export const AuthProvider: React.FC<AuthContext> = ({
         redirectToLogin(options);
       } else {
         const redirectUrl = router.query.redirect_url as string;
+
         const token = await authenticate(options.auth);
         api.defaults.headers['Authorization'] = `Bearer ${token.access_token}`;
 
@@ -82,24 +86,39 @@ export const AuthProvider: React.FC<AuthContext> = ({
         }
       }
     },
-    []
+    [api, redirectToLogin, router]
   );
 
   const signOut = useCallback(async () => {
     delete api.defaults.headers['Authorization'];
     destroyCookie(null, 'token');
     setProfile(null);
-  }, []);
+  }, [api.defaults.headers]);
 
   const syncProfile = useCallback(async () => {
     const profile = await getProfile(api);
 
     setProfile(profile);
-  }, []);
+  }, [api]);
+
+  useEffect(() => {
+    const { token } = parseCookies();
+    if (token) {
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+      syncProfile();
+    }
+  }, [api.defaults.headers, syncProfile]);
 
   return (
     <AuthContext.Provider
-      value={{ profile, isAuthenticated, signIn, signOut, syncProfile }}
+      value={{
+        profile,
+        isAuthenticated,
+        signIn,
+        signOut,
+        syncProfile,
+        hasCookie,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -68,9 +68,9 @@ const Headerbar: React.FC = () => {
   const router = useRouter();
 
   const handleCreateMeet = useCallback(() => {
-    if (!isAuthenticated) {
-      return signIn('/meet/create');
-    }
+    // if (!isAuthenticated) {
+    //   return signIn('/meet/create');
+    // }
     router.push('/meet/create');
   }, []);
 
