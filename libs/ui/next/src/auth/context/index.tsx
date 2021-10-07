@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { useRouter } from 'next/dist/client/router';
@@ -11,7 +12,6 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies';
 import { createApi } from '../../utils';
 import { auth as authenticate, AuthOptions } from '../services/auth.service';
 import { getProfile } from '../services/getProfile.service';
-import { GetServerSidePropsContext } from 'next';
 
 interface signInOptions {
   auth: AuthOptions;
@@ -23,8 +23,8 @@ interface AuthContext {
 
 type AuthContextType = {
   profile: Profile | null;
+  profileIsLoading: boolean;
   isAuthenticated: boolean;
-  hasCookie(ctx: GetServerSidePropsContext): boolean;
   signIn(options?: signInOptions | string): Promise<void>;
   signOut(): Promise<void>;
   syncProfile: () => Promise<void>;
@@ -38,16 +38,10 @@ export const AuthProvider: React.FC<AuthContext> = ({
 }) => {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
-
+  const [profileIsLoading, setProfileIsLoading] = useState(false);
   const isAuthenticated = !!profile;
 
-  const api = createApi();
-
-  const hasCookie = useCallback((ctx: GetServerSidePropsContext) => {
-    const { token } = parseCookies(ctx);
-
-    return !!token;
-  }, []);
+  const api = useMemo(() => createApi(), []);
 
   const redirectToLogin = useCallback(
     (redirectUrl = '/') => {
@@ -96,8 +90,10 @@ export const AuthProvider: React.FC<AuthContext> = ({
   }, [api.defaults.headers]);
 
   const syncProfile = useCallback(async () => {
+    setProfileIsLoading(true);
     const profile = await getProfile(api);
-
+    console.log('rodou');
+    setProfileIsLoading(false);
     setProfile(profile);
   }, [api]);
 
@@ -113,11 +109,11 @@ export const AuthProvider: React.FC<AuthContext> = ({
     <AuthContext.Provider
       value={{
         profile,
+        profileIsLoading,
         isAuthenticated,
         signIn,
         signOut,
         syncProfile,
-        hasCookie,
       }}
     >
       {children}

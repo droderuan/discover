@@ -54,8 +54,8 @@ export function Index() {
   const { profile, isAuthenticated, signIn, signOut } = useAuth();
   const classes = useStyle();
 
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleChangeTitle = useCallback((value) => {
     setTitle(value);

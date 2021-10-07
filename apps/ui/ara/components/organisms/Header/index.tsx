@@ -15,6 +15,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useAsideMenu } from '@discover/ui/andromeda';
 import { useCallback } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
 const useStyles = makeStyles((theme) => ({
   appBarContainer: {
     left: 0,
@@ -97,13 +98,20 @@ const Headerbar: React.FC = () => {
               <MenuIcon />
             </IconButton>
 
-            <Typography
-              variant="h1"
-              style={{ marginLeft: 24, fontSize: 32, fontWeight: 500 }}
-              className={classes.hidePlatformName}
-            >
-              Discover
-            </Typography>
+            <Link href="/" as="">
+              <Typography
+                variant="h1"
+                style={{
+                  marginLeft: 24,
+                  fontSize: 32,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+                className={classes.hidePlatformName}
+              >
+                Discover
+              </Typography>
+            </Link>
           </Grid>
           <Grid item xs={10} sm={7} md={5}>
             <div className={classes.searchInput}>
