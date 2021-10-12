@@ -1,7 +1,6 @@
 import {
   AppBar,
   Grid,
-  Button,
   Typography,
   IconButton,
   makeStyles,
@@ -12,7 +11,7 @@ import {
 import { useAuth } from '@discover/ui/next';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { useAsideMenu } from '@discover/ui/andromeda';
+import { useAsideMenu, Button } from '@discover/ui/andromeda';
 import { useCallback } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
