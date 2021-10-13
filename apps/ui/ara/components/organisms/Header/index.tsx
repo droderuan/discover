@@ -8,7 +8,6 @@ import {
   InputBase,
   Toolbar,
 } from '@material-ui/core';
-import { useAuth } from '@discover/ui/next';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { useAsideMenu, Button } from '@discover/ui/andromeda';
@@ -45,10 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     width: '100%',
-
     color: 'inherit',
   },
-  inputInput: {
+  input: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     transition: theme.transitions.create('width'),
@@ -62,15 +60,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Headerbar: React.FC = () => {
-  const { isAuthenticated, signIn } = useAuth();
   const classes = useStyles();
   const { toggleAsideMenu } = useAsideMenu();
   const router = useRouter();
 
   const handleCreateMeet = useCallback(() => {
-    // if (!isAuthenticated) {
-    //   return signIn('/meet/create');
-    // }
     router.push('/meet/create');
   }, [router]);
 
@@ -118,7 +112,7 @@ const Headerbar: React.FC = () => {
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput,
+                  input: classes.input,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
               />
