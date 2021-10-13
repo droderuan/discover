@@ -72,7 +72,7 @@ const Headerbar: React.FC = () => {
     //   return signIn('/meet/create');
     // }
     router.push('/meet/create');
-  }, []);
+  }, [router]);
 
   return (
     <AppBar
@@ -97,7 +97,7 @@ const Headerbar: React.FC = () => {
               <MenuIcon />
             </IconButton>
 
-            <Link href="/" as="">
+            <Link href="/" passHref as="">
               <Typography
                 variant="h1"
                 style={{

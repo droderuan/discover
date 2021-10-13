@@ -1,11 +1,22 @@
-import { Content } from '@discover/ui/andromeda';
+import { AlertDialog, Content } from '@discover/ui/andromeda';
 import { useAuth } from '@discover/ui/next';
 
 export function Index() {
-  const { profile, isAuthenticated, profileIsLoading, signIn, signOut } =
-    useAuth();
+  const {
+    profile,
+    isAuthenticated,
+    profileIsLoading,
+    signIn,
+    signOut,
+    serverError,
+  } = useAuth();
   return (
     <Content>
+      <AlertDialog
+        open={serverError}
+        title="Ouch!"
+        message="Looks like we are facing issues. Refresh or try again later."
+      />
       <h1>Home</h1>
       {isAuthenticated ? (
         profileIsLoading ? (

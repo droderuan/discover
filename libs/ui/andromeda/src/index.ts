@@ -11,6 +11,7 @@ export { default as IconButton } from './lib/atoms/IconButton';
 export { default as WhiteBoard } from './lib/atoms/WhiteBoard';
 
 // Molecules
+export { default as AlertDialog } from './lib/molecules/AlertDialog';
 export { default as FormInput } from './lib/molecules/FormInput';
 export * from './lib/molecules/FormInput';
 export { default as PasswordCompliance } from './lib/molecules/PasswordCompliance';

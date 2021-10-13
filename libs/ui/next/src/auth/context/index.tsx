@@ -22,6 +22,7 @@ interface AuthContext {
 }
 
 type AuthContextType = {
+  serverError: boolean;
   profile: Profile | null;
   profileIsLoading: boolean;
   isAuthenticated: boolean;
@@ -37,6 +38,7 @@ export const AuthProvider: React.FC<AuthContext> = ({
   children,
 }) => {
   const router = useRouter();
+  const [serverError, setServerError] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileIsLoading, setProfileIsLoading] = useState(false);
   const isAuthenticated = !!profile;
@@ -75,9 +77,7 @@ export const AuthProvider: React.FC<AuthContext> = ({
 
         setProfile(profile);
 
-        if (redirectUrl) {
-          router.push(redirectUrl);
-        }
+        router.push(redirectUrl || '/');
       }
     },
     [api, redirectToLogin, router]
@@ -90,11 +90,20 @@ export const AuthProvider: React.FC<AuthContext> = ({
   }, [api.defaults.headers]);
 
   const syncProfile = useCallback(async () => {
-    setProfileIsLoading(true);
-    const profile = await getProfile(api);
-    console.log('rodou');
-    setProfileIsLoading(false);
-    setProfile(profile);
+    try {
+      setProfileIsLoading(true);
+
+      const profile = await getProfile(api);
+      setProfileIsLoading(false);
+      setProfile(profile);
+    } catch (err) {
+      const status = err.response.status;
+      if (String(status)[0] === '5') {
+        setServerError(true);
+      }
+    } finally {
+      setProfileIsLoading(false);
+    }
   }, [api]);
 
   useEffect(() => {
@@ -108,6 +117,7 @@ export const AuthProvider: React.FC<AuthContext> = ({
   return (
     <AuthContext.Provider
       value={{
+        serverError,
         profile,
         profileIsLoading,
         isAuthenticated,
