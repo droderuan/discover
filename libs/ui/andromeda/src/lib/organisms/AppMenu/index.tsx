@@ -1,15 +1,25 @@
-import { Drawer, DrawerProps, makeStyles, Box } from '@material-ui/core';
-import IconButton, { IconButtonProps } from '../../atoms/IconButton';
+import {
+  Drawer,
+  DrawerProps,
+  makeStyles,
+  Box,
+  BottomNavigation,
+  BottomNavigationAction,
+} from '@material-ui/core';
 import clsx from 'clsx';
-import { useAsideMenu } from './context';
+import { useAppMenu } from './context';
 import Link from 'next/link';
+import { useDeviceStatus } from '@discover/ui/next';
 
-export interface ItemProps extends IconButtonProps {
+import IconButton, { IconButtonProps } from '../../atoms/IconButton';
+import { useEffect, useState } from 'react';
+
+export interface AsideItemProps extends IconButtonProps {
   path: string;
 }
 
-export interface AsideMenuProps extends DrawerProps {
-  items: ItemProps[];
+export interface AppMenuProps extends DrawerProps {
+  items: AsideItemProps[];
 }
 
 const drawerWidth = 240;
@@ -50,13 +60,30 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 64,
     width: drawerMinWidth,
   },
+  mobileMenuWrapper: {
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    zIndex: theme.zIndex.appBar,
+  },
 }));
 
-const AsideMenu: React.FC<AsideMenuProps> = ({ items, ...props }) => {
+const AppMenu: React.FC<AppMenuProps> = ({ items, ...props }) => {
   const classes = useStyles();
-  const { open, toggleAsideMenu } = useAsideMenu();
+  const { isMobile } = useDeviceStatus();
+  const { open, toggleAppMenu } = useAppMenu();
 
-  return (
+  return isMobile ? (
+    <div className={classes.mobileMenuWrapper}>
+      <BottomNavigation showLabels>
+        {items.map(({ icon: Icon, ...item }) => (
+          <Link href={item.path} key={item.label}>
+            <BottomNavigationAction label={item.label} icon={<Icon />} />
+          </Link>
+        ))}
+      </BottomNavigation>
+    </div>
+  ) : (
     <Drawer
       variant="permanent"
       className={clsx(classes.drawer, {
@@ -74,7 +101,7 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ items, ...props }) => {
       <div className={classes.buttonContainer}>
         {items.map((item) => (
           <Link href={item.path} key={item.label}>
-            <IconButton onClick={toggleAsideMenu} horizontal={open} {...item} />
+            <IconButton onClick={toggleAppMenu} horizontal={open} {...item} />
           </Link>
         ))}
       </div>
@@ -82,4 +109,4 @@ const AsideMenu: React.FC<AsideMenuProps> = ({ items, ...props }) => {
   );
 };
 
-export default AsideMenu;
+export default AppMenu;

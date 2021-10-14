@@ -10,9 +10,6 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  env: {
-   GENESIS_URL: process.env.GENESIS_URL
-  }
 };
 
 module.exports = withNx(nextConfig);

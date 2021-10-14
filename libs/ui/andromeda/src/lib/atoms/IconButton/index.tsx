@@ -36,12 +36,23 @@ const useStyles = makeStyles(() => ({
 export interface IconButtonProps extends ButtonProps {
   label?: string;
   icon: React.ComponentType<SvgIconProps>;
+  iconColor?:
+    | 'inherit'
+    | 'primary'
+    | 'secondary'
+    | 'disabled'
+    | 'action'
+    | 'error'
+    | undefined;
   focused?: boolean;
   horizontal?: boolean;
 }
 
 const IconButton: React.FC<IconButtonProps> = forwardRef(
-  ({ label, focused, horizontal = false, icon: Icon, ...props }, _) => {
+  (
+    { label, focused, horizontal = false, icon: Icon, iconColor, ...props },
+    _
+  ) => {
     const classes = useStyles();
     return (
       <ButtonBase
@@ -56,7 +67,10 @@ const IconButton: React.FC<IconButtonProps> = forwardRef(
             [classes.iconWrapperHorizontal]: horizontal && label,
           })}
         >
-          <Icon color="inherit" style={{ fontSize: 24 }} />
+          <Icon
+            color={iconColor || 'inherit'}
+            style={{ fontSize: props.size === 'large' ? 32 : 24 }}
+          />
         </Box>
         {label && (
           <Typography

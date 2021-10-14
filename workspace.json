@@ -8,7 +8,9 @@
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/api/atlas",
             "main": "apps/api/atlas/src/main.ts",
@@ -45,13 +47,19 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/api/atlas/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/api/atlas/**/*.ts"
+            ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/api/atlas"],
+          "outputs": [
+            "coverage/apps/api/atlas"
+          ],
           "options": {
             "jestConfig": "apps/api/atlas/jest.config.js",
             "passWithNoTests": true
@@ -66,7 +74,9 @@
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/api/genesis",
             "main": "apps/api/genesis/src/main.ts",
@@ -103,13 +113,19 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/api/genesis/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/api/genesis/**/*.ts"
+            ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/api/genesis"],
+          "outputs": [
+            "coverage/apps/api/genesis"
+          ],
           "options": {
             "jestConfig": "apps/api/genesis/jest.config.js",
             "passWithNoTests": true
@@ -125,13 +141,19 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/api/nest/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/api/nest/**/*.ts"
+            ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/api/nest"],
+          "outputs": [
+            "coverage/libs/api/nest"
+          ],
           "options": {
             "jestConfig": "libs/api/nest/jest.config.js",
             "passWithNoTests": true
@@ -147,13 +169,19 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/models/veritas/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/models/veritas/**/*.ts"
+            ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/models/veritas"],
+          "outputs": [
+            "coverage/libs/models/veritas"
+          ],
           "options": {
             "jestConfig": "libs/models/veritas/jest.config.js",
             "passWithNoTests": true
@@ -168,14 +196,20 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["libs/ui/andromeda/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "libs/ui/andromeda/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ui/andromeda"],
+          "outputs": [
+            "coverage/libs/ui/andromeda"
+          ],
           "options": {
             "jestConfig": "libs/ui/andromeda/jest.config.js",
             "passWithNoTests": true
@@ -198,7 +232,9 @@
         },
         "build-storybook": {
           "executor": "@nrwl/storybook:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "uiFramework": "@storybook/react",
             "outputPath": "dist/storybook/components-andromeda",
@@ -221,7 +257,9 @@
       "targets": {
         "build": {
           "executor": "@nrwl/next:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "root": "apps/ui/ara",
             "outputPath": "dist/apps/ui/ara"
@@ -234,6 +272,7 @@
           "executor": "@nrwl/next:server",
           "options": {
             "buildTarget": "ui-ara:build",
+            "hostname": "0.0.0.0",
             "proxyConfig": "proxy.conf.json",
             "dev": true
           },
@@ -252,7 +291,9 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/ui/ara"],
+          "outputs": [
+            "coverage/apps/ui/ara"
+          ],
           "options": {
             "jestConfig": "apps/ui/ara/jest.config.js",
             "passWithNoTests": true
@@ -260,9 +301,13 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["apps/ui/ara/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/ui/ara/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         }
       }
@@ -274,14 +319,20 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["libs/ui/next/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "libs/ui/next/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ui/next"],
+          "outputs": [
+            "coverage/libs/ui/next"
+          ],
           "options": {
             "jestConfig": "libs/ui/next/jest.config.js",
             "passWithNoTests": true
@@ -308,9 +359,13 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["apps/ui/ara-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/ui/ara-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }

@@ -2,7 +2,7 @@ import { Story, Meta } from '@storybook/react';
 import FormInput, { FormInputProps } from '.';
 
 export default {
-  title: 'Components/Organisms/AsideMenu',
+  title: 'Components/Organisms/AppMenu',
   component: FormInput,
 } as Meta;
 

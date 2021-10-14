@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { useAsideMenu, Button } from '@discover/ui/andromeda';
+import { useAppMenu, Button } from '@discover/ui/andromeda';
 import { useCallback } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Headerbar: React.FC = () => {
   const classes = useStyles();
-  const { toggleAsideMenu } = useAsideMenu();
+  const { toggleAppMenu } = useAppMenu();
   const router = useRouter();
 
   const handleCreateMeet = useCallback(() => {
@@ -84,7 +84,7 @@ const Headerbar: React.FC = () => {
             style={{ display: 'flex', alignItems: 'center' }}
           >
             <IconButton
-              onClick={toggleAsideMenu}
+              onClick={toggleAppMenu}
               style={{ paddingLeft: 0, paddingRight: 0 }}
               color="primary"
             >

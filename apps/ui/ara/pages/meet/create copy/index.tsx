@@ -36,7 +36,6 @@ const useStyle = makeStyles((theme) => ({
     border: 'none',
     backgroundColor: 'transparent',
     ...theme.typography.h4,
-    width: '100%',
     transition: 'border-width 600ms',
     '&:focus': {
       borderBottom: `1px solid ${theme.palette.primary.main}`,
@@ -67,6 +66,9 @@ const useStyle = makeStyles((theme) => ({
   },
   scheduleText: {
     marginTop: theme.spacing(1),
+  },
+  profileContent: {
+    marginLeft: 128,
   },
 }));
 
@@ -154,7 +156,7 @@ export function Index() {
                     placeholder="Name of the tag"
                     autoFocus
                     value={newChip}
-                    size={newChip.length < 10 ? 10 : (newChip.length / 10) * 8}
+                    size={newChip.length < 10 ? 10 : newChip.length}
                     onBlur={abortNewChip}
                     onChange={(e) => setNewChip(e.currentTarget.value)}
                   />
@@ -191,6 +193,10 @@ export function Index() {
               Every thursday, at 7pm
             </Typography>
           </div>
+        </div>
+
+        <div className={classes.profileContent}>
+          <Typography>meu perfil</Typography>
         </div>
       </div>
     </Content>

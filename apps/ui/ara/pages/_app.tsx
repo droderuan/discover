@@ -1,15 +1,18 @@
-import { AndromedaContextProvider } from '@discover/ui/andromeda';
-import CoreTemplate from '../components/layouts/Core';
-import AuthLayout from '../components/layouts/AuthLayout';
-import { DefaultAppConfig } from '@discover/ui/next';
-import { AuthProvider } from '@discover/ui/next/auth';
-import { Typography } from '@material-ui/core';
+import { useEffect } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
-import { useEffect } from 'react';
-import HookProvider from '../hooks';
+import { Typography } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
+import AddToQueueIcon from '@material-ui/icons/AddToQueue';
+import { AndromedaContextProvider, CoreLayout } from '@discover/ui/andromeda';
+import { DefaultAppConfig } from '@discover/ui/next';
+import { AuthProvider } from '@discover/ui/next/auth';
 
-function CustomApp({ Component, pageProps }) {
+import AuthLayout from '../components/layouts/AuthLayout';
+import HookProvider from '../hooks';
+import { AppProps } from 'next/app';
+
+function CustomApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
 
   useEffect(() => {
@@ -44,9 +47,28 @@ function CustomApp({ Component, pageProps }) {
                   <Component {...pageProps} />
                 </AuthLayout>
               ) : (
-                <CoreTemplate>
+                <CoreLayout
+                  menuRoutes={[
+                    {
+                      icon: HomeIcon,
+                      label: 'home',
+                      path: '/',
+                      focused: true,
+                    },
+                    {
+                      icon: AddToQueueIcon,
+                      label: 'meet',
+                      path: '/',
+                    },
+                    {
+                      icon: AddToQueueIcon,
+                      label: 'new meet',
+                      path: '/',
+                    },
+                  ]}
+                >
                   <Component {...pageProps} />
-                </CoreTemplate>
+                </CoreLayout>
               )}
             </HookProvider>
           </AndromedaContextProvider>

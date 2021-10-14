@@ -1,5 +1,5 @@
 // Hooks to manipulate components
-export * from './lib/organisms/AsideMenu/context';
+export * from './lib/organisms/AppMenu/context';
 
 // The provider of Hooks to manipulate components
 export { default as AndromedaContextProvider } from './lib/Hooks';
@@ -17,4 +17,7 @@ export * from './lib/molecules/FormInput';
 export { default as PasswordCompliance } from './lib/molecules/PasswordCompliance';
 
 // Organisms
-export { default as AsideMenu } from './lib/organisms/AsideMenu';
+export { default as AppMenu } from './lib/organisms/AppMenu';
+
+// Layouts
+export { default as CoreLayout } from './lib/layouts/Core';
