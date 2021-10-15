@@ -102,12 +102,12 @@ const useStyles = makeStyles((theme) => ({
 const Headerbar: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const { toggleAppMenu } = useAppMenu();
+  const { isMobile } = useDeviceStatus();
   const smallArea = useMediaQuery(theme.breakpoints.down('xs'), {
     noSsr: true,
   });
-  const { isMobile } = useDeviceStatus();
 
-  const { toggleAppMenu } = useAppMenu();
   const router = useRouter();
 
   const handleCreateMeet = useCallback(() => {
@@ -168,7 +168,7 @@ const Headerbar: React.FC = () => {
           </Grid>
           <Grid item xs={3} sm={3} md={3} className={classes.hideRightMenu}>
             <div className={classes.rightMenu}>
-              {smallArea ? (
+              {isMobile || smallArea ? (
                 <IconButton
                   onClick={handleCreateMeet}
                   color="primary"

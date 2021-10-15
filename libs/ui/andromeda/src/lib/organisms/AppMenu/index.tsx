@@ -73,6 +73,8 @@ const AppMenu: React.FC<AppMenuProps> = ({ items, ...props }) => {
   const { isMobile } = useDeviceStatus();
   const { open, toggleAppMenu } = useAppMenu();
 
+  if (isMobile === null) return null;
+
   return isMobile ? (
     <div className={classes.mobileMenuWrapper}>
       <BottomNavigation showLabels>

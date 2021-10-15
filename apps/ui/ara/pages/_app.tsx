@@ -5,7 +5,7 @@ import { Typography } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import AddToQueueIcon from '@material-ui/icons/AddToQueue';
 import { AndromedaContextProvider, CoreLayout } from '@discover/ui/andromeda';
-import { DefaultAppConfig } from '@discover/ui/next';
+import { DefaultAppConfig, useDeviceStatus } from '@discover/ui/next';
 import { AuthProvider } from '@discover/ui/next/auth';
 
 import AuthLayout from '../components/layouts/AuthLayout';
@@ -14,12 +14,15 @@ import { AppProps } from 'next/app';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
+  const { isMobile } = useDeviceStatus();
 
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
 
     jssStyles?.parentElement.removeChild(jssStyles);
   }, []);
+
+  if (isMobile === null) return null;
 
   return (
     <>
