@@ -21,3 +21,4 @@ export { default as AppMenu } from './lib/organisms/AppMenu';
 
 // Layouts
 export { default as CoreLayout } from './lib/layouts/Core';
+export { default as MobileCoreLayout } from './lib/layouts/MobileCore';

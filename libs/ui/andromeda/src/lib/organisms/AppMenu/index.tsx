@@ -9,7 +9,6 @@ import {
 import clsx from 'clsx';
 import { useAppMenu } from './context';
 import Link from 'next/link';
-import { useDeviceStatus } from '@discover/ui/next';
 
 import IconButton, { IconButtonProps } from '../../atoms/IconButton';
 import { useEffect, useState } from 'react';
@@ -70,22 +69,9 @@ const useStyles = makeStyles((theme) => ({
 
 const AppMenu: React.FC<AppMenuProps> = ({ items, ...props }) => {
   const classes = useStyles();
-  const { isMobile } = useDeviceStatus();
   const { open, toggleAppMenu } = useAppMenu();
 
-  if (isMobile === null) return null;
-
-  return isMobile ? (
-    <div className={classes.mobileMenuWrapper}>
-      <BottomNavigation showLabels>
-        {items.map(({ icon: Icon, ...item }) => (
-          <Link href={item.path} key={item.label}>
-            <BottomNavigationAction label={item.label} icon={<Icon />} />
-          </Link>
-        ))}
-      </BottomNavigation>
-    </div>
-  ) : (
+  return (
     <Drawer
       variant="permanent"
       className={clsx(classes.drawer, {
