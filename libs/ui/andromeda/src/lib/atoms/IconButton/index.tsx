@@ -11,9 +11,6 @@ import { forwardRef } from 'react';
 
 const useStyles = makeStyles(() => ({
   button: {
-    width: 72,
-    height: 72,
-    padding: '14px 20px',
     color: '#fff',
     display: 'flex',
     justifyContent: 'center',
@@ -76,7 +73,7 @@ const IconButton: React.FC<IconButtonProps> = forwardRef(
           <Typography
             color="inherit"
             variant="body1"
-            style={{ fontWeight: 'bold', fontSize: 14 }}
+            style={{ fontWeight: 'bold', fontSize: 12 }}
           >
             {label}
           </Typography>

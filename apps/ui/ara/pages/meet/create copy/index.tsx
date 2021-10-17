@@ -5,7 +5,7 @@ import { Chip, makeStyles, TextField, Typography } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import { Content } from '@discover/ui/andromeda';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { isAuthenticatedServer, useAuth } from '@discover/ui/next';
+import {getAuthByContext, useAuth } from '@discover/ui/next';
 
 const useStyle = makeStyles((theme) => ({
   bannerWrapper: {
@@ -35,7 +35,7 @@ const useStyle = makeStyles((theme) => ({
     outline: 'none',
     border: 'none',
     backgroundColor: 'transparent',
-    ...theme.typography.h4,
+    ...theme.typography.h5,
     transition: 'border-width 600ms',
     '&:focus': {
       borderBottom: `1px solid ${theme.palette.primary.main}`,
@@ -206,9 +206,9 @@ export function Index() {
 export default Index;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { auth, returnValue } = isAuthenticatedServer(ctx);
+  const { auth, redirectToLogin } = getAuthByContext(ctx);
   if (!auth) {
-    return returnValue;
+    return redirectToLogin;
   }
 
   return {

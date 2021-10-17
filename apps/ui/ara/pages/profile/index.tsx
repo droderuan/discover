@@ -1,5 +1,5 @@
 import { Content } from '@discover/ui/andromeda';
-import { isAuthenticatedServer } from '@discover/ui/next';
+import {getAuthByContext } from '@discover/ui/next';
 import { GetServerSideProps } from 'next';
 
 export default function Profile() {
@@ -11,9 +11,9 @@ export default function Profile() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { auth, returnValue } = isAuthenticatedServer(ctx);
+  const { auth, redirectToLogin } =getAuthByContext(ctx);
   if (!auth) {
-    return returnValue;
+    return redirectToLogin;
   }
 
   return {

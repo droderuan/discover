@@ -59,12 +59,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 64,
     width: drawerMinWidth,
   },
-  mobileMenuWrapper: {
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    zIndex: theme.zIndex.appBar,
-  },
+  button: {
+    width: 72,
+    height: 72,
+    padding: '14px 20px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  }
 }));
 
 const AppMenu: React.FC<AppMenuProps> = ({ items, ...props }) => {
@@ -88,9 +91,12 @@ const AppMenu: React.FC<AppMenuProps> = ({ items, ...props }) => {
     >
       <div className={classes.buttonContainer}>
         {items.map((item) => (
+          <div className={classes.button}>
+
           <Link href={item.path} key={item.label}>
             <IconButton onClick={toggleAppMenu} horizontal={open} {...item} />
           </Link>
+          </div>
         ))}
       </div>
     </Drawer>

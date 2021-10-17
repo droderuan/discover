@@ -4,6 +4,7 @@ import {
   BottomNavigationProps,
   BottomNavigationAction,
   SvgIconProps,
+  Toolbar,
 } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import { useCallback, useEffect, useState } from 'react';
@@ -50,22 +51,25 @@ const MobileAppMenu: React.FC<MobileAppMenuProps> = ({ items, ...props }) => {
   );
 
   return (
-    <div className={classes.mobileMenuWrapper}>
-      <BottomNavigation
-        showLabels={items.length <= 3}
-        value={currentPath}
-        onChange={(_, newValue) => pushToPath(newValue)}
-      >
-        {items.map(({ icon: Icon, ...item }) => (
-          <BottomNavigationAction
-            key={item.label}
-            value={item.path}
-            label={item.label}
-            icon={<Icon />}
-          />
-        ))}
-      </BottomNavigation>
-    </div>
+    <>
+      <Toolbar />
+      <div className={classes.mobileMenuWrapper}>
+        <BottomNavigation
+          showLabels={items.length <= 4}
+          value={currentPath}
+          onChange={(_, newValue) => pushToPath(newValue)}
+        >
+          {items.map(({ icon: Icon, ...item }) => (
+            <BottomNavigationAction
+              key={item.label}
+              value={item.path}
+              label={item.label}
+              icon={<Icon />}
+            />
+          ))}
+        </BottomNavigation>
+      </div>
+    </>
   );
 };
 

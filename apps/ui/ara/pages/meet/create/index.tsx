@@ -5,7 +5,8 @@ import { Chip, makeStyles, TextField, Typography } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import { Content } from '@discover/ui/andromeda';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { isAuthenticatedServer, useAuth } from '@discover/ui/next';
+import { getAuthByContext, useAuth, useDeviceStatus } from '@discover/ui/next';
+import clsx from 'clsx';
 
 const useStyle = makeStyles((theme) => ({
   bannerWrapper: {
@@ -31,6 +32,9 @@ const useStyle = makeStyles((theme) => ({
       maxWidth: 350,
     },
   },
+  division: {
+    marginTop: theme.spacing(2),
+  },
   inputTitle: {
     outline: 'none',
     border: 'none',
@@ -42,11 +46,14 @@ const useStyle = makeStyles((theme) => ({
       borderBottom: `1px solid ${theme.palette.primary.main}`,
     },
   },
+  mobileInputTitle: {
+    ...theme.typography.h5,
+  },
   chipWrapper: {
     display: 'flex',
     flex: 1,
     flexWrap: 'wrap',
-    margin: `${theme.spacing(1)}px 0px`,
+    marginTop: theme.spacing(1)
   },
   chip: {
     marginBottom: theme.spacing(0.5),
@@ -73,6 +80,7 @@ const useStyle = makeStyles((theme) => ({
 export function Index() {
   const { profile, isAuthenticated, signIn, signOut } = useAuth();
   const classes = useStyle();
+  const { isMobile } = useDeviceStatus();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -126,56 +134,19 @@ export function Index() {
       </div>
       <div className={classes.wrapper}>
         <div className={classes.meetContent}>
-          <div>
+          <div className={classes.division}>
             <input
-              className={classes.inputTitle}
+              className={clsx({
+                [classes.inputTitle]: true,
+                [classes.mobileInputTitle]: isMobile,
+              })}
               value={title}
               placeholder="Meet title"
               type="text"
               onChange={(e) => handleChangeTitle(e.currentTarget.value)}
             />
           </div>
-          <div className={classes.chipWrapper}>
-            {chips.map((chip) => (
-              <Chip
-                className={classes.chip}
-                key={chip}
-                label={chip}
-                color="primary"
-                onDelete={() => removeChip(chip)}
-              />
-            ))}
-            <Chip
-              className={classes.chip}
-              label={
-                addingChip ? (
-                  <input
-                    className={classes.newChipInput}
-                    placeholder="Name of the tag"
-                    autoFocus
-                    value={newChip}
-                    size={newChip.length < 10 ? 10 : (newChip.length / 10) * 8}
-                    onBlur={abortNewChip}
-                    onChange={(e) => setNewChip(e.currentTarget.value)}
-                  />
-                ) : (
-                  'Add a tag'
-                )
-              }
-              variant="outlined"
-              color="primary"
-              onClick={() => setAddingChip(true)}
-              onDelete={(e) => e.preventDefault()}
-              deleteIcon={
-                addingChip ? (
-                  <DoneIcon onMouseDown={(e) => addChip(e)} />
-                ) : (
-                  <AddCircleIcon />
-                )
-              }
-            />
-          </div>
-          <div>
+          <div className={classes.division}>
             <TextField
               className={classes.descriptiontextArea}
               id="outlined-multiline-flexible"
@@ -191,6 +162,57 @@ export function Index() {
               Every thursday, at 7pm
             </Typography>
           </div>
+          <div className={classes.division}>
+            <Typography component="span" variant="h6">
+              Tags
+            </Typography>
+            <Typography variant="subtitle1">
+              Tags will help people to find your meet, so try to add tags which
+              can be related to the meet.
+            </Typography>
+            <div className={classes.chipWrapper}>
+              {chips.map((chip) => (
+                <Chip
+                  className={classes.chip}
+                  key={chip}
+                  label={chip}
+                  color="primary"
+                  onDelete={() => removeChip(chip)}
+                />
+              ))}
+              <Chip
+                className={classes.chip}
+                label={
+                  addingChip ? (
+                    <input
+                      className={classes.newChipInput}
+                      placeholder="Name of the tag"
+                      autoFocus
+                      value={newChip}
+                      size={
+                        newChip.length < 10 ? 10 : (newChip.length / 10) * 8
+                      }
+                      onBlur={abortNewChip}
+                      onChange={(e) => setNewChip(e.currentTarget.value)}
+                    />
+                  ) : (
+                    'Add a tag'
+                  )
+                }
+                variant="outlined"
+                color="primary"
+                onClick={() => setAddingChip(true)}
+                onDelete={(e) => e.preventDefault()}
+                deleteIcon={
+                  addingChip ? (
+                    <DoneIcon onMouseDown={(e) => addChip(e)} />
+                  ) : (
+                    <AddCircleIcon />
+                  )
+                }
+              />
+            </div>
+          </div>
         </div>
       </div>
     </Content>
@@ -200,9 +222,9 @@ export function Index() {
 export default Index;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { auth, returnValue } = isAuthenticatedServer(ctx);
+  const { auth, redirectToLogin } = getAuthByContext(ctx);
   if (!auth) {
-    return returnValue;
+    return redirectToLogin;
   }
 
   return {

@@ -1,11 +1,11 @@
-import { GetServerSidePropsContext, GetStaticPropsResult } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { parseCookies } from 'nookies';
 
-export function isAuthenticatedServer(ctx: GetServerSidePropsContext) {
+export function getAuthByContext(ctx: GetServerSidePropsContext) {
   const { token } = parseCookies(ctx);
   return {
     auth: !!token,
-    returnValue: {
+    redirectToLogin: {
       redirect: {
         destination: `/account/login?redirect_url=${ctx.resolvedUrl}`,
         statusCode: 302 as const,

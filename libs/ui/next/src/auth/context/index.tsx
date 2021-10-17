@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthContext> = ({
   const [profileIsLoading, setProfileIsLoading] = useState(false);
   const isAuthenticated = !!profile;
 
-  const api = useMemo(() => createApi(), []);
+  const [api] = useState(() => createApi());
 
   const redirectToLogin = useCallback(
     (redirectUrl = '/') => {
